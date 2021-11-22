@@ -3,7 +3,7 @@
  * @author samgriffin
  */
 public class Rat {
-    private double speed;
+    protected double speed;
     private int ratID;
 
     public Rat() {
