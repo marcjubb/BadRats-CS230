@@ -1,14 +1,20 @@
 /**
  * Opens the cswebcat site, decrpyts the message out puts the Message of the Day
- * @author Aaron Davies
+ * @author Aaron Davies and Marc Jubb
  */
 
 
 
+import java.io.Console;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.Scanner;
 import java.net.URL;
 
 public class MessageOfDay {
+    public static void main(String[] args) {
+        generateMessage();
+    }
 
     private static String message = null;
 
@@ -35,13 +41,15 @@ public class MessageOfDay {
             String temp = in.next();
             in.close();
 
-            URL urli =
-                    new URL("http://cswebcat.swansea.ac.uk/message?solution=") + text);
+            URL urli = new URL("http://cswebcat.swansea.ac.uk/message?solution=" + solve(temp));
             Scanner inurl = new Scanner(urli.openStream());
             message = "";
             while (inurl.hasNext()){
                 message += inurl.next() + " ";
             }
+            System.out.println(message);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -53,6 +61,7 @@ public class MessageOfDay {
     private static String solve(String text) {
         text = decrypt(text.toUpperCase());
         text = text + "CS-230";
+        text = text.length() + text;
         return  text;
     }
 
@@ -63,9 +72,36 @@ public class MessageOfDay {
      * @return Decrypted text
      */
 
-    private static String decrypt(String text) {
-        char[] alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
+
+
+   // }
+    private static String decrypt(String text){
+        StringBuilder s = new StringBuilder();
+        int len = text.length();
+       for (int n = 0; n < len; n++){
+           s.append(shiftChar(text.charAt(n), n));
+       }
+        return s.toString();
     }
 
+    private static char shiftChar(char charToShift, int shiftN){
+        char temp;
+        if (shiftN % 2 == 1 ){
+            temp = (char)(charToShift + (shiftN+1));
+            if (temp > 'Z') {
+                charToShift = (char) (charToShift - (26 - (shiftN + 1)));
+            }else{
+                return temp;
+            }
+        }else {
+            temp = (char)(charToShift - (shiftN+1));
+            if (temp < 'A') {
+                charToShift = (char) (charToShift + (26 - shiftN - 1));
+            }else{
+                return temp;
+            }
+        }
+        return charToShift;
+    }
 
 }
