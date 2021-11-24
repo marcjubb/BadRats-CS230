@@ -44,8 +44,8 @@ public class Item {
         this.imagePath = itemImage;
     }
 
-    public void setImage(Image image) {
-        this.itemImage = image;
+    public void setImage(Image itemImage) {
+        this.itemImage = itemImage;
     }
 
     public void setItemName(String itemName) {
