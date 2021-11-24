@@ -34,14 +34,13 @@ public class PlayerProfiles {
 
     public static PlayerProfile createProfile(String username){
         if(PlayerProfiles.exists(username)) {
-            //call an exception here
+           throw new UsernameAlreadyExistsException(username);
         } else {
             PlayerProfile p = new PlayerProfile(username);
             PlayerProfiles.profiles.add(p);
             PlayerProfiles.save();
             return p;
         }
-        return null;//TODO add exception
     }
 
 
