@@ -3,14 +3,26 @@ import java.util.HashMap;
 
 public class Level {
     private Integer sizeLevel, levelWidth, levelHeight, maxPopulation, ratPopulationRate, secExpected, time;
+    private boolean completed;
     private HashMap<Integer, Integer> ratsY, ratsX, itemsX, itemsY = new HashMap<Integer, Integer>();
 
-    public Level(){
+    public Level(int width, int height){
+        this.levelWidth = width;
+        this.height = height;
+        generateLevel();
+    }
+    
+    public Level(String path) {
+        loadLevel(path);
+    }
 
- }
- public HashMap<Integer, Integer> getItemsX() {
-     return itemsX;
- }
+    protected void generateLevel(){}
+
+    private void loadLevel(String path){}
+    
+    public HashMap<Integer, Integer> getItemsX() {
+        return itemsX;
+    }
 
     public HashMap<Integer, Integer> getItemsY() {
         return itemsY;
@@ -94,5 +106,9 @@ public class Level {
 
     public void setTime(Integer time) {
         this.time = time;
+    }
+    
+    public boolean isCompleted() {
+        return this.completed;
     }
 }
