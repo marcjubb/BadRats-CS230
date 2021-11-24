@@ -20,6 +20,7 @@ class ItemImage {
     protected static Image Sterilisation;
 
     static{
+
         Bomb4 = new Image("resources/Bomb4.png");
         Bomb3 = new Image("resources/Bomb3.png");
         Bomb2 = new Image("resources/Bomb2.png");
@@ -29,7 +30,7 @@ class ItemImage {
         MaleSexChange = new Image("resources/MaleSexChange.png");
         Poison = new Image("resources/Poison.png");
         NoEntry = new Image("resources/NoEntry.png");
-        Sterilisation = new Image("");
+        Sterilisation = new Image("resources/Sterilisation.png");
     }
     public static Image Bomb4(){
         return Bomb4;
