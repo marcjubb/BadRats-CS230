@@ -32,7 +32,7 @@ public class PlayerProfiles {
     }
 
 
-    public static PlayerProfile createProfile(String username){
+    public static PlayerProfile createProfile(String username) throws UsernameAlreadyExistsException {
         if(PlayerProfiles.exists(username)) {
            throw new UsernameAlreadyExistsException(username);
         } else {
@@ -95,7 +95,7 @@ public class PlayerProfiles {
                 writer.println(p.toString());
             }
         }catch(Exception e){
-            System.out.println("Couldnt save profile at " + profilePath);
+            System.out.println("Couldn't save profile at " + profilePath);
         }
         writer.close();
     }
