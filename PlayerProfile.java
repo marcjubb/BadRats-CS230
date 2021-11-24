@@ -12,6 +12,7 @@ public class PlayerProfile {
      */
     public PlayerProfile(String playerName) {
         setPlayerName(playerName);
+        maxLevelCompleted = 0;
     }
     /**
      * Constructor when importing an existing User
@@ -23,6 +24,10 @@ public class PlayerProfile {
 
     public void incrementLevelCompleted(){
         maxLevelCompleted =+ 1;
+    }
+
+    public boolean equals(PlayerProfile p){
+        return this.getPlayerName().equals(p.getPlayerName());
     }
 
     public void setPlayerName(String playerName) {
