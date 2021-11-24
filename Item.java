@@ -12,12 +12,13 @@ public class Item {
 
     private Image itemImage;
 
-    private boolean isDestroyed = false;
+    private boolean isDestroyed;
 
     public Item(String itemName, String imagePath) {
         this.setItemName(itemName);
         this.setImagePath(imagePath);
         this.setImage(new Image(getClass().getResourceAsStream(imagePath)));
+        this.isDestroyed = false;
     }
 
     public String getImagePath() {
