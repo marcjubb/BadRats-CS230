@@ -5,10 +5,11 @@ public class Level {
     private Integer sizeLevel, levelWidth, levelHeight, maxPopulation, ratPopulationRate, secExpected, time;
     private boolean completed;
     private HashMap<Integer, Integer> ratsY, ratsX, itemsX, itemsY = new HashMap<Integer, Integer>();
+    private String[][] levelLayout; //this will store G,P or T of each coordinate - will be obtained form the file
 
     public Level(int width, int height){
         this.levelWidth = width;
-        this.height = height;
+        this.levelHeight = height;
         generateLevel();
     }
     
@@ -19,7 +20,10 @@ public class Level {
     protected void generateLevel(){}
 
     private void loadLevel(String path){}
-    
+
+    public String[][] getLevelLayout() {
+        return levelLayout;
+    }
     public HashMap<Integer, Integer> getItemsX() {
         return itemsX;
     }
