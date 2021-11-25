@@ -72,7 +72,7 @@ public class PlayableRat extends Rat {
 
     @Override
     public String toString() {
-        String returnString = ticksSinceCreation + sex.toString() + isAdult + isPregnant;
+        String returnString = ticksSinceCreation + ", " + sex.toString() + ", " + isAdult + ", " +isPregnant;
         returnString += super.toString();
         return returnString;
     }
