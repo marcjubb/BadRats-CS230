@@ -6,7 +6,7 @@ import java.util.Random;
  * @author samgriffin and Alex Walker
  */
 
-/*TODO Remove RAT_ID and related references
+/*TODO
  *  create functioning move method, which should update its location*/
 public class Rat extends VisibleObject {
     protected int speed;
@@ -25,7 +25,9 @@ public class Rat extends VisibleObject {
         return speed;
     }
 
+    public void move(){
 
+    }
 
     public String toString() {
         return String.valueOf(speed) + ", " + x + ", " + y;
