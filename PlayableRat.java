@@ -24,7 +24,7 @@ public class PlayableRat extends Rat {
         super.y = y;
         this.isAdult = isAdult;
         this.isPregnant = isPregnant;
-        this.sex = sex;
+        sex = pickSex();
 
     }
 
