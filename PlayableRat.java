@@ -31,4 +31,11 @@ public class PlayableRat extends Rat{
         isAdult = true;
     }
 
+    private void generateRandomX(){
+        //return new Random().nextInt(Level.getLevelHeight());
+    }
+
+    private void generateRandomY(){
+        //return
+    }
 }
