@@ -5,9 +5,10 @@ public class PlayableRat extends Rat {
 
     private Sex sex;
     private boolean isAdult;
-    private boolean isPregnant;
+    private boolean isPregnant; // can't really remember why we need this - actually i twill probs need to have a getter
+    //                             and be called by Level to see if a baby rat needs to be made at that point
 
-    //2 constructors 1 for new babies and the other for existed loaded in rats
+    //3 constructors 1 for new babies at start of game, 1 for new babies after given birth and the other for existed loaded in rats
 
     public PlayableRat() {
         super.speed = 2; //arbitrary  number for now
@@ -15,6 +16,26 @@ public class PlayableRat extends Rat {
         isAdult = false;
         super.x = generateRandomX(); //this is not complete - will need to loop until it finds a tile that is not 'G'
         super.y = generateRandomY();
+    }
+
+
+    public PlayableRat(int x, int y, boolean isAdult, boolean isPregnant){
+        super.x = x;
+        super.y = y;
+        this.isAdult = isAdult;
+        this.isPregnant = isPregnant;
+        this.sex = sex;
+
+    }
+
+
+    public PlayableRat(int x, int y, boolean isAdult, boolean isPregnant, Sex sex){
+        super.x = x;
+        super.y = y;
+        this.isAdult = isAdult;
+        this.isPregnant = isPregnant;
+        this.sex = sex;
+
     }
 
 
