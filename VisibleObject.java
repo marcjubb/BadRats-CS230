@@ -14,6 +14,9 @@ public abstract class VisibleObject {
     public VisibleObject(int x, int y) {
     }
 
+    protected VisibleObject() {
+    }
+
     public void update() {
 
     }
