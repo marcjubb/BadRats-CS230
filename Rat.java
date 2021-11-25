@@ -6,11 +6,11 @@ import java.util.Random;
  * @author samgriffin and Alex Walker
  */
 
-/*TODO
- *  create functioning move method, which should update its location*/
+/*TODO create functioning move method, which should update its location - need to wait to know whether we can make level static*/
 public class Rat extends VisibleObject {
     protected int speed;
 
+    //I think this constructor is redundant but i'm not sure - I'll wait for a second opinion
     public Rat(int x, int y, int speed) {
         super(x, y);
         this.speed = speed;
@@ -30,6 +30,7 @@ public class Rat extends VisibleObject {
     }
 
     public String toString() {
-        return String.valueOf(speed) + ", " + x + ", " + y;
+        String returnString = x + ", " + y;
+       return returnString;
     }
 }
