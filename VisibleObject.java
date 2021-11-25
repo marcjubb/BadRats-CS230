@@ -11,6 +11,9 @@ public abstract class VisibleObject {
     int x = 0;
     int y = 0;
 
+    public VisibleObject(int x, int y) {
+    }
+
     public void update() {
 
     }
