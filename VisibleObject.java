@@ -8,6 +8,7 @@ import javafx.scene.image.Image;
 
 public abstract class VisibleObject {
     Image img = new Image("file:empty.png");
+    boolean destroyed = false;
     int x = 0;
     int y = 0;
 
@@ -20,7 +21,12 @@ public abstract class VisibleObject {
     public void update() {
 
     }
+    
     public void draw(GraphicsContext gc) {
         gc.drawImage(img, x, y);
+    }
+    
+    public boolean isDestroyed() {
+        return destroyed;
     }
 }
