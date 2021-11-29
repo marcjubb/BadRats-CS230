@@ -20,7 +20,7 @@ public class Level extends Application {
 
     // The dimensions of the canvas
     private static final int CANVAS_WIDTH = 600;
-    private static final int CANVAS_HEIGHT = 400;
+    private static final int CANVAS_HEIGHT = 350;
 
     // The width and height (in pixels) of each cell that makes up the game.
     private static final int GRID_CELL_WIDTH = 50;
@@ -28,7 +28,7 @@ public class Level extends Application {
 
     // The width of the grid in number of cells.
     private static final int GRID_WIDTH = 12;
-
+    private static final int GRID_HEIGHT = 7;
     private Canvas canvas;
 
     // Loaded images
@@ -180,11 +180,17 @@ public class Level extends Application {
 
         // Draw row of dirt images
         // We multiply by the cell width and height to turn a coordinate in our grid into a pixel coordinate.
-        // We draw the row at y value 2.
-        for (int x = 0; x < GRID_WIDTH; x++) {
-            gc.drawImage(grass, x * GRID_CELL_WIDTH, 2 * GRID_CELL_HEIGHT);
+        for (int y = 0; y < GRID_HEIGHT; y++){
+            for(int x = 0; x < GRID_WIDTH; x++){
+                if (levelLayout[y][x] == 'G') {
+                    gc.drawImage(grass, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
+                }else if (levelLayout[y][x] == 'T') {
+                    gc.drawImage(tunnel, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
+                }else {
+                    gc.drawImage(path, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
+                }
+            }
         }
-
     }
 
     private Pane buildGUI() {
