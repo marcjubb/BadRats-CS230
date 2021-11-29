@@ -5,6 +5,7 @@
 
 public abstract class Collectable extends Item {
 
+
     public void collect() {
         destroySelf();
     }

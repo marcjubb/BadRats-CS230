@@ -4,21 +4,25 @@ import javafx.scene.image.Image;
  * This Class represents a typical item in the game.
  * @author ryanwake
  */
-public class Item {
+public class Item extends VisibleObject{
 
     private String itemName;
-
     private String imagePath;
-
     private Image itemImage;
-
     private boolean isDestroyed;
 
-    public Item(String itemName, String imagePath) {
+    public Item(int x, int y){
+        super(x, y);
+        isDestroyed = false;
+    }
+
+    public Item(String itemName, String imagePath,int x, int y) {
+        super(x, y);
         this.setItemName(itemName);
         this.setImagePath(imagePath);
         this.setImage(new Image(getClass().getResourceAsStream(imagePath)));
         this.isDestroyed = false;
+
     }
 
     public String getImagePath() {
@@ -55,7 +59,7 @@ public class Item {
 
     @Override
     public String toString(){
-        return this.getItemName() + ", " + this.getImagePath();
+        return this.itemName + ", " + this.imagePath + ", " + x + ", " + y + this.isDestroyed;
     }
 
 }

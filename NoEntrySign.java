@@ -5,7 +5,7 @@ import javafx.scene.canvas.GraphicsContext;
  * @author Michael Pokorski
  */
 
-public class NoEntrySign extends Item{
+public class NoEntrySign extends Item {
     private int durability;
 
     public NoEntrySign(int x, int y) {

@@ -5,7 +5,7 @@ import javafx.scene.canvas.GraphicsContext;
  * @author Michael Pokorski
  */
 
-public class Bomb extends Item{
+public class Bomb extends Item {
     private int timer;
     private int distanceUp;
     private int distanceDown;

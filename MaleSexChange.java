@@ -1,3 +1,4 @@
+package Items;
 /**
  * Changes a rat into a male.
  * @author Michael Pokorski
