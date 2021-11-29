@@ -12,6 +12,9 @@ import javafx.stage.Stage;
 import java.util.HashMap;
 
 public class Level extends Application {
+
+
+
     // The dimensions of the window
     private static final int WINDOW_WIDTH = 800;
     private static final int WINDOW_HEIGHT = 500;
@@ -38,7 +41,8 @@ public class Level extends Application {
     private Integer sizeLevel, levelWidth, levelHeight, maxPopulation, ratPopulationRate, secExpected, time;
     private boolean completed;
     private HashMap<Integer, Integer> ratsY, ratsX, itemsX, itemsY = new HashMap<Integer, Integer>();
-    private String[][] levelLayout; //this will store G,P or T of each coordinate - will be obtained form the file
+    private String[][] levelLayout;
+
 
 //    public Level(int width, int height) {
 //        this.levelWidth = width;
@@ -180,7 +184,7 @@ public class Level extends Application {
         BorderPane root = new BorderPane();
 
         // Create the canvas that we will draw on.
-        // We store this as a gloabl variable so other methods can access it.
+        // We store this as a global variable so other methods can access it.
         canvas = new Canvas(CANVAS_WIDTH, CANVAS_HEIGHT);
         root.setCenter(canvas);
         return root;
