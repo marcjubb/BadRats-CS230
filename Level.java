@@ -1,10 +1,15 @@
 
 import javafx.application.Application;
+import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.*;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -163,6 +168,22 @@ public class Level extends Application {
         return this.completed;
     }
 
+    public void canvasDragDroppedOccured(DragEvent event) {
+        double x = event.getX();
+        double y = event.getY();
+
+        // Print a string showing the location.
+        String s = String.format("You dropped at (%f, %f) relative to the canvas.", x, y);
+        System.out.println(s);
+
+        // Draw an icon at the dropped location.
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+        // Draw the the image so the top-left corner is where we dropped.
+        //gc.drawImage(iconImage, x, y);
+        // Draw the the image so the center is where we dropped.
+        //gc.drawImage(iconImage, x - iconImage.getWidth() / 2.0, y - iconImage.getHeight() / 2.0);
+    }
+
 
     /**
      * Draw the game on the canvas.
@@ -180,13 +201,13 @@ public class Level extends Application {
 
         // Draw row of dirt images
         // We multiply by the cell width and height to turn a coordinate in our grid into a pixel coordinate.
-        for (int y = 0; y < GRID_HEIGHT; y++){
-            for(int x = 0; x < GRID_WIDTH; x++){
+        for (int y = 0; y < GRID_HEIGHT; y++) {
+            for (int x = 0; x < GRID_WIDTH; x++) {
                 if (levelLayout[y][x] == 'G') {
                     gc.drawImage(grass, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
-                }else if (levelLayout[y][x] == 'T') {
+                } else if (levelLayout[y][x] == 'T') {
                     gc.drawImage(tunnel, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
-                }else {
+                } else {
                     gc.drawImage(path, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
                 }
             }
@@ -201,6 +222,64 @@ public class Level extends Application {
         // We store this as a global variable so other methods can access it.
         canvas = new Canvas(CANVAS_WIDTH, CANVAS_HEIGHT);
         root.setCenter(canvas);
+
+        // Create a toolbar with some nice padding and spacing
+        HBox toolbar = new HBox();
+        toolbar.setSpacing(10);
+        toolbar.setPadding(new Insets(10, 10, 10, 10));
+        root.setTop(toolbar);
+
+        // Setup a draggable image.
+        ImageView draggableImage = new ImageView();
+        draggableImage.setImage(new Image("/resources/Bomb.png"));
+        toolbar.getChildren().add(draggableImage);
+
+        // This code setup what happens when the dragging starts on the image.
+        // You probably don't need to change this (unless you wish to do more advanced things).
+        draggableImage.setOnDragDetected(new EventHandler<MouseEvent>() {
+            public void handle(MouseEvent event) {
+                // Mark the drag as started.
+                // We do not use the transfer mode (this can be used to indicate different forms
+                // of drags operations, for example, moving files or copying files).
+                Dragboard db = draggableImage.startDragAndDrop(TransferMode.ANY);
+
+                // We have to put some content in the clipboard of the drag event.
+                // We do not use this, but we could use it to store extra data if we wished.
+                ClipboardContent content = new ClipboardContent();
+                content.putString("Hello");
+                db.setContent(content);
+
+                // Consume the event. This means we mark it as dealt with.
+                event.consume();
+            }
+        });
+
+        // This code allows the canvas to receive a dragged object within its bounds.
+        // You probably don't need to change this (unless you wish to do more advanced things).
+        canvas.setOnDragOver(new EventHandler<DragEvent>() {
+            public void handle(DragEvent event) {
+                // Mark the drag as acceptable if the source was the draggable image.
+                // (for example, we don't want to allow the user to drag things or files into our application)
+                if (event.getGestureSource() == draggableImage) {
+                    // Mark the drag event as acceptable by the canvas.
+                    event.acceptTransferModes(TransferMode.ANY);
+                    // Consume the event. This means we mark it as dealt with.
+                    event.consume();
+                }
+            }
+        });
+
+        // This code allows the canvas to react to a dragged object when it is finally dropped.
+        // You probably don't need to change this (unless you wish to do more advanced things).
+        canvas.setOnDragDropped(new EventHandler<DragEvent>() {
+            public void handle(DragEvent event) {
+                // We call this method which is where the bulk of the behaviour takes place.
+                canvasDragDroppedOccured(event);
+                // Consume the event. This means we mark it as dealt with.
+                event.consume();
+            }
+        });
+
         return root;
     }
 
