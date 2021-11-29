@@ -14,7 +14,6 @@ import java.util.HashMap;
 public class Level extends Application {
 
 
-
     // The dimensions of the window
     private static final int WINDOW_WIDTH = 800;
     private static final int WINDOW_HEIGHT = 500;
@@ -41,7 +40,15 @@ public class Level extends Application {
     private Integer sizeLevel, levelWidth, levelHeight, maxPopulation, ratPopulationRate, secExpected, time;
     private boolean completed;
     private HashMap<Integer, Integer> ratsY, ratsX, itemsX, itemsY = new HashMap<Integer, Integer>();
-    private char[][] levelLayout = {{'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G'}};
+    //this is a hardcoded level layout only here for testing purposes
+    private char[][] levelLayout = {
+            {'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G'},
+            {'G', 'P', 'P', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'G'},
+            {'G', 'P', 'P', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'G'},
+            {'G', 'P', 'P', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'G'},
+            {'G', 'P', 'P', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'G'},
+            {'G', 'P', 'P', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'G'},
+            {'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G'}};
 
 
 //    public Level(int width, int height) {
@@ -179,6 +186,7 @@ public class Level extends Application {
         }
 
     }
+
     private Pane buildGUI() {
         // Create top-level panel that will hold all GUI nodes.
         BorderPane root = new BorderPane();
