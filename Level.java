@@ -41,7 +41,7 @@ public class Level extends Application {
     private Integer sizeLevel, levelWidth, levelHeight, maxPopulation, ratPopulationRate, secExpected, time;
     private boolean completed;
     private HashMap<Integer, Integer> ratsY, ratsX, itemsX, itemsY = new HashMap<Integer, Integer>();
-    private String[][] levelLayout;
+    private char[][] levelLayout = {{'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G'}};
 
 
 //    public Level(int width, int height) {
@@ -60,7 +60,7 @@ public class Level extends Application {
     private void loadLevel(String path) {
     }
 
-    public String[][] getLevelLayout() {
+    public char[][] getLevelLayout() {
         return levelLayout;
     }
 
