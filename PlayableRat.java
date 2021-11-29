@@ -17,8 +17,8 @@ public class PlayableRat extends Rat {
         super.speed = BABY_SPEED; //arbitrary  number for now
         sex = pickSex();
         isAdult = false;
-        super.x = generateRandomX(); //this is not complete - will need to loop until it finds a tile that is not 'G'
-        super.y = generateRandomY();
+        //super.x = generateRandomX(); //this is not complete - will need to loop until it finds a tile that is not 'G'
+        //super.y = generateRandomY();
         ticksSinceCreation = 0;
     }
 
@@ -62,13 +62,13 @@ public class PlayableRat extends Rat {
         isAdult = true;
     }
 
-    private int generateRandomX() {
-        return new Random().nextInt(new Level(5, 5).getLevelWidth()); //not actually a new Level object just not sure how that's gonna work yet
-    }
-
-    private int generateRandomY() {
-        return new Random().nextInt(new Level(5, 5).getLevelHeight()); //not actually a new Level object just not sure how that's gonna work yet
-    }
+//    private int generateRandomX() {
+//        return new Random().nextInt(new Level(5, 5).getLevelWidth()); //not actually a new Level object just not sure how that's gonna work yet
+//    }
+//
+//    private int generateRandomY() {
+//        return new Random().nextInt(new Level(5, 5).getLevelHeight()); //not actually a new Level object just not sure how that's gonna work yet
+//    }
 
     @Override
     public String toString() {
