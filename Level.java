@@ -13,8 +13,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-
-import java.util.HashMap;
+import java.util.ArrayList;
 
 public class Level extends Application {
 
@@ -44,7 +43,7 @@ public class Level extends Application {
 
     private Integer sizeLevel, levelWidth, levelHeight, maxPopulation, ratPopulationRate, secExpected, time;
     private boolean completed;
-    private HashMap<Integer, Integer> ratsY, ratsX, itemsX, itemsY = new HashMap<Integer, Integer>();
+    private ArrayList<VisibleObject> objectsOnBoard = new ArrayList<>(); //the data for this will be got from the file
     //this is a hardcoded level layout only here for testing purposes
     private char[][] levelLayout = {
             {'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G'},
@@ -66,7 +65,7 @@ public class Level extends Application {
 //        loadLevel(path);
 //    }
 
-    protected void generateLevel() {
+    private void generateLevel() {
     }
 
     private void loadLevel(String path) {
@@ -76,21 +75,7 @@ public class Level extends Application {
         return levelLayout;
     }
 
-    public HashMap<Integer, Integer> getItemsX() {
-        return itemsX;
-    }
 
-    public HashMap<Integer, Integer> getItemsY() {
-        return itemsY;
-    }
-
-    public HashMap<Integer, Integer> getRatsX() {
-        return ratsX;
-    }
-
-    public HashMap<Integer, Integer> getRatsY() {
-        return ratsY;
-    }
 
     public Integer getLevelHeight() {
         return levelHeight;
@@ -124,13 +109,8 @@ public class Level extends Application {
         return time;
     }
 
-    public void setItemsX(HashMap<Integer, Integer> itemsX) {
-        this.itemsX = itemsX;
-    }
 
-    public void setItemsY(HashMap<Integer, Integer> itemsY) {
-        this.itemsY = itemsY;
-    }
+
 
     public void setLevelWidth(Integer levelWidth) {
         this.levelWidth = levelWidth;
@@ -144,13 +124,8 @@ public class Level extends Application {
         this.ratPopulationRate = ratPopulationRate;
     }
 
-    public void setRatsX(HashMap<Integer, Integer> ratsX) {
-        this.ratsX = ratsX;
-    }
 
-    public void setRatsY(HashMap<Integer, Integer> ratsY) {
-        this.ratsY = ratsY;
-    }
+
 
     public void setSecExpected(Integer secExpected) {
         this.secExpected = secExpected;
