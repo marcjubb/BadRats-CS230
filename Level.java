@@ -1,10 +1,14 @@
 
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
@@ -13,6 +17,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.util.HashMap;
 
@@ -37,6 +42,7 @@ public class Level extends Application {
     private Canvas canvas;
 
     // Loaded images
+    private Image rat1;
     private Image grass;
     private Image path;
     private Image tunnel;
@@ -48,10 +54,11 @@ public class Level extends Application {
     private Image poison;
     private Image sterilisation;
 
+    private Timeline tickTimeline;
+
 
     private Integer sizeLevel, levelWidth, levelHeight, maxPopulation, ratPopulationRate, secExpected, time;
     private boolean completed;
-    private HashMap<Integer, Integer> ratsY, ratsX, itemsX, itemsY = new HashMap<Integer, Integer>();
     //this is a hardcoded level layout only here for testing purposes
     private char[][] levelLayout = {
             {'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G'},
@@ -61,17 +68,8 @@ public class Level extends Application {
             {'G', 'P', 'P', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'G'},
             {'G', 'P', 'P', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'G'},
             {'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G'}};
+    Rat testRat =  new Rat();
 
-
-//    public Level(int width, int height) {
-//        this.levelWidth = width;
-//        this.levelHeight = height;
-//        generateLevel();
-//    }
-
-//    public Level(String path) {
-//        loadLevel(path);
-//    }
 
     protected void generateLevel() {
     }
@@ -83,21 +81,7 @@ public class Level extends Application {
         return levelLayout;
     }
 
-    public HashMap<Integer, Integer> getItemsX() {
-        return itemsX;
-    }
 
-    public HashMap<Integer, Integer> getItemsY() {
-        return itemsY;
-    }
-
-    public HashMap<Integer, Integer> getRatsX() {
-        return ratsX;
-    }
-
-    public HashMap<Integer, Integer> getRatsY() {
-        return ratsY;
-    }
 
     public Integer getLevelHeight() {
         return levelHeight;
@@ -131,14 +115,6 @@ public class Level extends Application {
         return time;
     }
 
-    public void setItemsX(HashMap<Integer, Integer> itemsX) {
-        this.itemsX = itemsX;
-    }
-
-    public void setItemsY(HashMap<Integer, Integer> itemsY) {
-        this.itemsY = itemsY;
-    }
-
     public void setLevelWidth(Integer levelWidth) {
         this.levelWidth = levelWidth;
     }
@@ -149,14 +125,6 @@ public class Level extends Application {
 
     public void setRatPopulationRate(Integer ratPopulationRate) {
         this.ratPopulationRate = ratPopulationRate;
-    }
-
-    public void setRatsX(HashMap<Integer, Integer> ratsX) {
-        this.ratsX = ratsX;
-    }
-
-    public void setRatsY(HashMap<Integer, Integer> ratsY) {
-        this.ratsY = ratsY;
     }
 
     public void setSecExpected(Integer secExpected) {
@@ -203,6 +171,7 @@ public class Level extends Application {
                 }
             }
         }
+        gc.drawImage(testRat.img, testRat.getX() * GRID_CELL_WIDTH, testRat.getY() * GRID_CELL_HEIGHT);
     }
 
     public void canvasDragDroppedOccured(DragEvent event) {
@@ -212,7 +181,7 @@ public class Level extends Application {
         GraphicsContext gc = canvas.getGraphicsContext2D();
         // Draw the the image so the center is where we dropped.
         if (levelLayout[y][x] == 'P'){
-            System.out.println(x);
+            System.out.println(x * GRID_CELL_WIDTH);
             gc.drawImage(bomb, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
         }
     }
@@ -231,6 +200,29 @@ public class Level extends Application {
         toolbar.setSpacing(10);
         toolbar.setPadding(new Insets(10, 10, 10, 10));
         root.setTop(toolbar);
+
+        // Tick Timeline buttons
+        Button startTickTimelineButton = new Button("Start Ticks");
+        Button stopTickTimelineButton = new Button("StopTicks");
+        // We add both buttons at the same time to the timeline (we could have done this in two steps).
+        toolbar.getChildren().addAll(startTickTimelineButton, stopTickTimelineButton);
+        // Stop button is disabled by default
+        stopTickTimelineButton.setDisable(true);
+
+        // Setup the behaviour of the buttons.
+        startTickTimelineButton.setOnAction(e -> {
+            // Start the tick timeline and enable/disable buttons as appropriate.
+            startTickTimelineButton.setDisable(true);
+            tickTimeline.play();
+            stopTickTimelineButton.setDisable(false);
+        });
+
+        stopTickTimelineButton.setOnAction(e -> {
+            // Stop the tick timeline and enable/disable buttons as appropriate.
+            stopTickTimelineButton.setDisable(true);
+            tickTimeline.stop();
+            startTickTimelineButton.setDisable(false);
+        });
 
 
         // Setup a draggable image.
@@ -289,25 +281,57 @@ public class Level extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+
+        //Testing Tick's
+
+        testRat.setX(0);
+        testRat.setY(0);
+        rat1 = new Image("resources/Images/Rat/Rat1.png");
+        testRat.setImg(rat1);
         grass = new Image("/resources/Images/Tiles/Grass.png");
         path = new Image("/resources/Images/Tiles/Path.png");
         tunnel = new Image("/resources/Images/Tiles/Tunnel.png");
+       /*
         bomb = new Image ("/resources/Images/Items/Bomb.png");
         maleSexChange= new Image("/resources/Images/Items/MaleSexChange.png");
         femaleSexChange =  new Image("/resources/Images/Items/FemaleSexChange.png");
         gas = new Image("/resources/Images/Items/Gas.png");
         noEntry = new Image("/resources/Images/Items/NoEntry.png");
         poison = new Image("/resources/Images/Items/Poison.png");
-        sterilisation = new Image("/resources/Images/Items/Sterilisation.png");
+        sterilisation = new Image("/resources/Images/Items/Sterilisation.png");*/
 
 
         Pane root = buildGUI();
         Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
 
+        // Register a tick method to be called periodically.
+        // Make a new timeline with one keyframe that triggers the tick method every half a second.
+        tickTimeline = new Timeline(new KeyFrame(Duration.millis(500), event -> tick()));
+        // Loop the timeline forever
+        tickTimeline.setCycleCount(Animation.INDEFINITE);
+        // We start the timeline upon a button press.
+
+        // Display the scene on the stage
         drawGame();
         primaryStage.setScene(scene);
         primaryStage.show();
 
+    }
+    /**
+     * This method is called periodically by the tick timeline
+     * and would for, example move, perform logic in the game,
+     * this might cause the bad guys to move (by e.g., looping
+     * over them all and calling their own tick method).
+     */
+    public void tick() {
+        // Here we move the player right one cell and teleport
+        // them back to the left side when they reach the right side.
+       testRat.moveRight();
+        if (testRat.getX() > 11) {
+            testRat.setX(0);
+        }
+        // We then redraw the whole canvas.
+        drawGame();
     }
 
     public static void main(String[] args) {
