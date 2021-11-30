@@ -18,6 +18,9 @@ public class Rat extends VisibleObject {
 
     }
 
+    public String getDirection() {
+        return direction.toString();
+    }
 
     public double getSpeed() {
         return speed;
@@ -42,6 +45,7 @@ public class Rat extends VisibleObject {
                         direction = Direction.SOUTH;
                     }
                 }
+                break;
 
 
             case SOUTH:
@@ -59,6 +63,7 @@ public class Rat extends VisibleObject {
                         direction = Direction.NORTH;
                     }
                 }
+                break;
 
 
             case EAST:
@@ -76,8 +81,10 @@ public class Rat extends VisibleObject {
                         direction = Direction.WEST;
                     }
                 }
+                break;
 
             case WEST:
+                System.out.println("WEST");
                 if (Level.getLevelLayout()[x - 1][y] != 'G') {
                     moveLeft();
                 } else {
@@ -92,6 +99,7 @@ public class Rat extends VisibleObject {
                         direction = Direction.EAST;
                     }
                 }
+                break;
         }
     }
 
@@ -115,9 +123,6 @@ public class Rat extends VisibleObject {
         return Direction.values()[elem];
     }
 
-    public void setDirection(Direction direction) {
-        this.direction = direction;
-    }
 
 
     public String toString() {
