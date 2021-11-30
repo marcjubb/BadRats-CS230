@@ -43,7 +43,10 @@ public class Level extends Application {
     private Canvas canvas;
 
     // Loaded images
-    private static Image rat1;
+    private static Image ratRight;
+    private static Image ratLeft;
+    private static Image ratUp;
+    private static Image ratDown;
     private static Image grass;
     private static Image path;
     private static Image tunnel;
@@ -75,9 +78,16 @@ public class Level extends Application {
             {'G', 'P', 'P', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'G'},
             {'G', 'P', 'P', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'G'},
             {'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G'}};
-    private static Rat testRat =  new Rat();
+    private static PlayableRat testRat =  new PlayableRat();
 
 
+    public static int getGridHeight() {
+        return GRID_HEIGHT;
+    }
+
+    public static int getGridWidth() {
+        return GRID_WIDTH;
+    }
 
     protected void generateLevel() {
     }
@@ -295,8 +305,14 @@ public class Level extends Application {
         testRat.setX(1);
         testRat.setY(1);
 
-        rat1 = new Image("resources/Images/Rat/Rat1.png");
-        testRat.setImg(rat1);
+        ratRight = new Image("resources/Images/Rat/Rat1.png");
+        ratLeft = new Image("resources/Images/Rat/Rat3.png");
+        ratUp = new Image("resources/Images/Rat/RatUp.png");
+        ratDown = new Image("resources/Images/Rat/RatDown.png");
+
+
+
+        testRat.setImg(ratRight);
 
         grass = new Image("/resources/Images/Tiles/Grass.png");
         path = new Image("/resources/Images/Tiles/Path.png");
@@ -340,7 +356,8 @@ public class Level extends Application {
     public void tick() {
         // Here we move the player right one cell and teleport
         // them back to the left side when they reach the right side.
-       testRat.moveRight();
+        testRat.setImageDirection();
+        testRat.move();
         if (testRat.getX() > 11) {
             testRat.setX(0);
         }
@@ -348,6 +365,11 @@ public class Level extends Application {
         drawGame();
     }
 
+    private void changeRatDirection(Rat rat){
+        if (rat.getDirection().equals("NORTH")){
+
+        }
+    }
 
     public void pauseGame() {
         Stage pauseStage = new Stage();
