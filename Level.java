@@ -13,7 +13,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import java.util.ArrayList;
+
+import java.util.HashMap;
 
 public class Level extends Application {
 
@@ -39,11 +40,18 @@ public class Level extends Application {
     private Image grass;
     private Image path;
     private Image tunnel;
+    private Image bomb;
+    private Image maleSexChange;
+    private Image femaleSexChange;
+    private Image gas;
+    private Image noEntry;
+    private Image poison;
+    private Image sterilisation;
 
 
     private Integer sizeLevel, levelWidth, levelHeight, maxPopulation, ratPopulationRate, secExpected, time;
     private boolean completed;
-    private ArrayList<VisibleObject> objectsOnBoard = new ArrayList<>(); //the data for this will be got from the file
+    private HashMap<Integer, Integer> ratsY, ratsX, itemsX, itemsY = new HashMap<Integer, Integer>();
     //this is a hardcoded level layout only here for testing purposes
     private char[][] levelLayout = {
             {'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G'},
@@ -65,7 +73,7 @@ public class Level extends Application {
 //        loadLevel(path);
 //    }
 
-    private void generateLevel() {
+    protected void generateLevel() {
     }
 
     private void loadLevel(String path) {
@@ -75,7 +83,21 @@ public class Level extends Application {
         return levelLayout;
     }
 
+    public HashMap<Integer, Integer> getItemsX() {
+        return itemsX;
+    }
 
+    public HashMap<Integer, Integer> getItemsY() {
+        return itemsY;
+    }
+
+    public HashMap<Integer, Integer> getRatsX() {
+        return ratsX;
+    }
+
+    public HashMap<Integer, Integer> getRatsY() {
+        return ratsY;
+    }
 
     public Integer getLevelHeight() {
         return levelHeight;
@@ -109,8 +131,13 @@ public class Level extends Application {
         return time;
     }
 
+    public void setItemsX(HashMap<Integer, Integer> itemsX) {
+        this.itemsX = itemsX;
+    }
 
-
+    public void setItemsY(HashMap<Integer, Integer> itemsY) {
+        this.itemsY = itemsY;
+    }
 
     public void setLevelWidth(Integer levelWidth) {
         this.levelWidth = levelWidth;
@@ -124,8 +151,13 @@ public class Level extends Application {
         this.ratPopulationRate = ratPopulationRate;
     }
 
+    public void setRatsX(HashMap<Integer, Integer> ratsX) {
+        this.ratsX = ratsX;
+    }
 
-
+    public void setRatsY(HashMap<Integer, Integer> ratsY) {
+        this.ratsY = ratsY;
+    }
 
     public void setSecExpected(Integer secExpected) {
         this.secExpected = secExpected;
@@ -141,22 +173,6 @@ public class Level extends Application {
 
     public boolean isCompleted() {
         return this.completed;
-    }
-
-    public void canvasDragDroppedOccured(DragEvent event) {
-        double x = event.getX();
-        double y = event.getY();
-
-        // Print a string showing the location.
-        String s = String.format("You dropped at (%f, %f) relative to the canvas.", x, y);
-        System.out.println(s);
-
-        // Draw an icon at the dropped location.
-        GraphicsContext gc = canvas.getGraphicsContext2D();
-        // Draw the the image so the top-left corner is where we dropped.
-        //gc.drawImage(iconImage, x, y);
-        // Draw the the image so the center is where we dropped.
-        //gc.drawImage(iconImage, x - iconImage.getWidth() / 2.0, y - iconImage.getHeight() / 2.0);
     }
 
 
@@ -176,18 +192,31 @@ public class Level extends Application {
 
         // Draw row of dirt images
         // We multiply by the cell width and height to turn a coordinate in our grid into a pixel coordinate.
-        for (int y = 0; y < GRID_HEIGHT; y++) {
-            for (int x = 0; x < GRID_WIDTH; x++) {
+        for (int y = 0; y < GRID_HEIGHT; y++){
+            for(int x = 0; x < GRID_WIDTH; x++){
                 if (levelLayout[y][x] == 'G') {
                     gc.drawImage(grass, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
-                } else if (levelLayout[y][x] == 'T') {
+                }else if (levelLayout[y][x] == 'T') {
                     gc.drawImage(tunnel, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
-                } else {
+                }else {
                     gc.drawImage(path, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
                 }
             }
         }
     }
+
+    public void canvasDragDroppedOccured(DragEvent event) {
+        int x = Math.floorDiv((int) event.getX(), 50);
+        int y = Math.floorDiv((int) event.getY(), 50);
+        // Draw an icon at the dropped location.
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+        // Draw the the image so the center is where we dropped.
+        if (levelLayout[y][x] == 'P'){
+            System.out.println(x);
+            gc.drawImage(bomb, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
+        }
+    }
+
 
     private Pane buildGUI() {
         // Create top-level panel that will hold all GUI nodes.
@@ -197,16 +226,16 @@ public class Level extends Application {
         // We store this as a global variable so other methods can access it.
         canvas = new Canvas(CANVAS_WIDTH, CANVAS_HEIGHT);
         root.setCenter(canvas);
-
         // Create a toolbar with some nice padding and spacing
         HBox toolbar = new HBox();
         toolbar.setSpacing(10);
         toolbar.setPadding(new Insets(10, 10, 10, 10));
         root.setTop(toolbar);
 
+
         // Setup a draggable image.
         ImageView draggableImage = new ImageView();
-        draggableImage.setImage(new Image("/resources/Bomb.png"));
+        draggableImage.setImage(bomb);
         toolbar.getChildren().add(draggableImage);
 
         // This code setup what happens when the dragging starts on the image.
@@ -254,7 +283,6 @@ public class Level extends Application {
                 event.consume();
             }
         });
-
         return root;
     }
 
@@ -264,6 +292,14 @@ public class Level extends Application {
         grass = new Image("/resources/Images/Tiles/Grass.png");
         path = new Image("/resources/Images/Tiles/Path.png");
         tunnel = new Image("/resources/Images/Tiles/Tunnel.png");
+        bomb = new Image ("/resources/Images/Items/Bomb.png");
+        maleSexChange= new Image("/resources/Images/Items/MaleSexChange.png");
+        femaleSexChange =  new Image("/resources/Images/Items/FemaleSexChange.png");
+        gas = new Image("/resources/Images/Items/Gas.png");
+        noEntry = new Image("/resources/Images/Items/NoEntry.png");
+        poison = new Image("/resources/Images/Items/Poison.png");
+        sterilisation = new Image("/resources/Images/Items/Sterilisation.png");
+
 
         Pane root = buildGUI();
         Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
