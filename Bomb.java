@@ -50,4 +50,7 @@
 //        //}
 //        //duplicate code for each direction
 //    }
+//    public String toString() {
+//        return super.toString() + ", " + timeLeft + "\n";
+//    }
 //}
