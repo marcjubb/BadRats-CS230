@@ -13,6 +13,7 @@ public class Rat extends VisibleObject {
     protected Direction direction; //this should probably randomly generated in the constructor
     private enum LeftOrRight {LEFT, RIGHT}
 
+ //I Don't think you need an empty
     public Rat() {
 
     }
@@ -112,6 +113,10 @@ public class Rat extends VisibleObject {
     protected Direction generateDirection(){
         int elem = new Random().nextInt(Direction.values().length);
         return Direction.values()[elem];
+    }
+
+    public void setDirection(Direction direction) {
+        this.direction = direction;
     }
 
 
