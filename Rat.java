@@ -6,17 +6,12 @@ import java.util.Random;
  * @author samgriffin and Alex Walker
  */
 
-/*TODO Finish move method*/
+/*TODO Handle for edge cases in move method*/
 public class Rat extends VisibleObject {
     protected int speed;
     protected enum Direction {NORTH, SOUTH, EAST, WEST}
     protected Direction direction; //this should probably randomly generated in the constructor
-
-    //I think this constructor is redundant but i'm not sure - I'll wait for a second opinion
-    public Rat(int x, int y, int speed) {
-        super(x, y);
-        this.speed = speed;
-    }
+    private enum LeftOrRight {LEFT, RIGHT}
 
     public Rat() {
 
@@ -28,14 +23,41 @@ public class Rat extends VisibleObject {
     }
 
     public void move(){
-        //I have not put anything to stop it from going off the side of the game.
+        Direction leftOrRight = Direction.values()[new Random().nextInt(Direction.values().length)];
+        //I have not put anything to stop it from going off the side of the game yet.
         switch (direction) {
             case NORTH:
-                //
+                if (Level.getLevelLayout()[x][y+1] != 'G') {
+                    moveUp();
+                } else {
+                    if (Level.getLevelLayout()[x-1][y] != 'G') {
+                        moveLeft();
+                        direction = Direction.WEST;
+                    } else if (Level.getLevelLayout()[x+1][y] != 'G') {
+                        moveRight();
+                        direction = Direction.EAST;
+                    } else {
+                        moveDown();
+                        direction = Direction.SOUTH;
+                    }
+                }
 
 
             case SOUTH:
-                //
+                if (Level.getLevelLayout()[x][y-1] != 'G') {
+                    moveDown();
+                } else {
+                    if (Level.getLevelLayout()[x+1][y] != 'G') {
+                        moveLeft();
+                        direction = Direction.EAST;
+                    } else if (Level.getLevelLayout()[x-1][y] != 'G') {
+                        moveRight();
+                        direction = Direction.WEST;
+                    } else {
+                        moveUp();
+                        direction = Direction.NORTH;
+                    }
+                }
 
 
             case EAST:
@@ -51,6 +73,22 @@ public class Rat extends VisibleObject {
                     } else {
                         moveLeft();
                         direction = Direction.WEST;
+                    }
+                }
+
+            case WEST:
+                if (Level.getLevelLayout()[x - 1][y] != 'G') {
+                    moveLeft();
+                } else {
+                    if (Level.getLevelLayout()[x][y - 1] != 'G') {
+                        moveDown();
+                        direction = Direction.SOUTH;
+                    } else if (Level.getLevelLayout()[x][y + 1] != 'G') {
+                        moveUp();
+                        direction = Direction.NORTH;
+                    } else {
+                        moveRight();
+                        direction = Direction.EAST;
                     }
                 }
         }
