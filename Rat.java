@@ -9,8 +9,8 @@ import java.util.Random;
 /*TODO create functioning move method, which should update its location - need to wait to know whether we can make level static*/
 public class Rat extends VisibleObject {
     protected int speed;
-    private enum Direction {NORTH, SOUTH, EAST, WEST}
-    private Direction direction = Direction.EAST; //this should probably randomly generated in the constructor
+    protected enum Direction {NORTH, SOUTH, EAST, WEST}
+    protected Direction direction; //this should probably randomly generated in the constructor
 
     //I think this constructor is redundant but i'm not sure - I'll wait for a second opinion
     public Rat(int x, int y, int speed) {
@@ -28,6 +28,7 @@ public class Rat extends VisibleObject {
     }
 
     public void move(){
+        //I have not put anything to stop it from going off the side of the game.
         switch (direction) {
             case NORTH:
                 //
@@ -68,6 +69,11 @@ public class Rat extends VisibleObject {
 
     public void moveUp(){
         y = y + 1;
+    }
+
+    protected Direction generateDirection(){
+        int elem = new Random().nextInt(Direction.values().length);
+        return Direction.values()[elem];
     }
 
 
