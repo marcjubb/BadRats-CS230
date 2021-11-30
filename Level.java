@@ -291,9 +291,9 @@ public class Level extends Application {
         grass = new Image("/resources/Images/Tiles/Grass.png");
         path = new Image("/resources/Images/Tiles/Path.png");
         tunnel = new Image("/resources/Images/Tiles/Tunnel.png");
-       /*
         bomb = new Image ("/resources/Images/Items/Bomb.png");
-        maleSexChange= new Image("/resources/Images/Items/MaleSexChange.png");
+
+     /*   maleSexChange= new Image("/resources/Images/Items/MaleSexChange.png");
         femaleSexChange =  new Image("/resources/Images/Items/FemaleSexChange.png");
         gas = new Image("/resources/Images/Items/Gas.png");
         noEntry = new Image("/resources/Images/Items/NoEntry.png");
