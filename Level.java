@@ -78,6 +78,7 @@ public class Level extends Application {
     private static Rat testRat =  new Rat();
 
 
+
     protected void generateLevel() {
     }
 
@@ -291,8 +292,8 @@ public class Level extends Application {
 
         //Testing Tick's
 
-        testRat.setX(0);
-        testRat.setY(0);
+        testRat.setX(1);
+        testRat.setY(1);
 
         rat1 = new Image("resources/Images/Rat/Rat1.png");
         testRat.setImg(rat1);
