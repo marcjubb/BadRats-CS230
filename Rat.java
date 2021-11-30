@@ -6,7 +6,7 @@ import java.util.Random;
  * @author samgriffin and Alex Walker
  */
 
-/*TODO create functioning move method, which should update its location - need to wait to know whether we can make level static*/
+/*TODO Finish move method*/
 public class Rat extends VisibleObject {
     protected int speed;
     protected enum Direction {NORTH, SOUTH, EAST, WEST}
