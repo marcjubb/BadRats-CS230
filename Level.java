@@ -72,8 +72,8 @@ public class Level extends Application {
     //this is a hardcoded level layout only here for testing purposes
     private static char[][] levelLayout = {
             {'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G'},
-            {'G', 'P', 'P', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'G'},
-            {'G', 'P', 'P', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'G'},
+            {'G', 'P', 'G', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'G'},
+            {'G', 'P', 'P', 'G', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'G'},
             {'G', 'P', 'P', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'G'},
             {'G', 'P', 'P', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'G'},
             {'G', 'P', 'P', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'G'},
@@ -311,8 +311,6 @@ public class Level extends Application {
         ratDown = new Image("resources/Images/Rat/RatDown.png");
 
 
-
-        testRat.setImg(ratRight);
 
         grass = new Image("/resources/Images/Tiles/Grass.png");
         path = new Image("/resources/Images/Tiles/Path.png");
