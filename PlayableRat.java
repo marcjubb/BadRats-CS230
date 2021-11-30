@@ -1,3 +1,5 @@
+import javafx.scene.image.Image;
+
 import java.util.Random;
 
 public class PlayableRat extends Rat {
@@ -12,6 +14,7 @@ public class PlayableRat extends Rat {
     private boolean isAdult;
     private boolean isPregnant; // can't really remember why we need this - actually it will probs need to have a getter
     //                             and be called by Level to see if a baby rat needs to be made at that point
+
 
     //3 constructors 1 for new babies at start of game, 1 for new babies after given birth and the other for existed loaded in rats
 
@@ -50,6 +53,23 @@ public class PlayableRat extends Rat {
     }
 
 
+    public void setImageDirection(){
+        switch (getDirection()) {
+            case "NORTH":
+                this.setImg(new Image("resources/Images/Rat/RatUp.png"));
+                break;
+            case "SOUTH":
+                this.setImg(new Image("resources/Images/Rat/RatDown.png"));
+                break;
+            case "EAST":
+                this.setImg(new Image("resources/Images/Rat/Rat1.png"));
+                break;
+            case "WEST":
+                this.setImg(new Image("resources/Images/Rat/Rat3.png"));
+                break;
+        }
+    }
+
     public void changeSex() {
         if (sex == Sex.MALE) {
             sex = Sex.FEMALE;
@@ -68,11 +88,11 @@ public class PlayableRat extends Rat {
     }
 
     private int generateRandomX() {
-        return new Random().nextInt(Level.getLevelWidth());
+        return new Random().nextInt(Level.getGridWidth() -1 );
     }
 
     private int generateRandomY() {
-        return new Random().nextInt(Level.getLevelHeight());
+        return new Random().nextInt(Level.getGridHeight()-1);
     }
 
     @Override
