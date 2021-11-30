@@ -6,7 +6,7 @@ import java.util.Random;
  * @author samgriffin and Alex Walker
  */
 
-/*TODO Handle for edge cases in move method*/
+/*TODO Handle for edge cases in move method and find logic errors*/
 public class Rat extends VisibleObject {
     protected int speed;
     protected enum Direction {NORTH, SOUTH, EAST, WEST}
@@ -28,6 +28,7 @@ public class Rat extends VisibleObject {
 
     public void move(){
         Direction leftOrRight = Direction.values()[new Random().nextInt(Direction.values().length)];
+        System.out.println(direction.toString());
         //I have not put anything to stop it from going off the side of the game yet.
         switch (direction) {
             case NORTH:
@@ -84,7 +85,6 @@ public class Rat extends VisibleObject {
                 break;
 
             case WEST:
-                System.out.println("WEST");
                 if (Level.getLevelLayout()[x - 1][y] != 'G') {
                     moveLeft();
                 } else {
@@ -126,7 +126,6 @@ public class Rat extends VisibleObject {
 
 
     public String toString() {
-        String returnString = x + ", " + y;
-       return returnString;
+        return x + ", " + y;
     }
 }
