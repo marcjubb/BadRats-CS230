@@ -18,6 +18,9 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 
@@ -64,8 +67,12 @@ public class Level extends Application {
     private static int sizeLevel, levelWidth, levelHeight, maxPopulation, ratPopulationRate, secExpected, time;
     private boolean completed;
 
-    private static ArrayList<Rat> ratObj = new ArrayList<Rat>();
-    private static ArrayList<Item> itemObj = new ArrayList<Item>();
+
+    PlayerProfile player;
+    private String saveGame;
+
+    private static ArrayList<Rat> ratList = new ArrayList<Rat>();
+    private static ArrayList<Item> itemList = new ArrayList<Item>();
     //this is a hardcoded level layout only here for testing purposes
     private static char[][] levelLayout = {
             {'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G'},
@@ -157,29 +164,33 @@ public class Level extends Application {
      */
     public void drawGame() {
         // Get the Graphic Context of the canvas. This is what we draw on.
-        GraphicsContext gc = canvas.getGraphicsContext2D();
+        if(!pauseGame) {
+            GraphicsContext gc = canvas.getGraphicsContext2D();
 
-        // Clear canvas
-        gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+            // Clear canvas
+            gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
-        // Set the background to gray.
-        gc.setFill(Color.GRAY);
-        gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+            // Set the background to gray.
+            gc.setFill(Color.GRAY);
+            gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
-        // Draw row of dirt images
-        // We multiply by the cell width and height to turn a coordinate in our grid into a pixel coordinate.
-        for (int y = 0; y < GRID_HEIGHT; y++){
-            for(int x = 0; x < GRID_WIDTH; x++){
-                if (levelLayout[y][x] == 'G') {
-                    gc.drawImage(grass, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
-                }else if (levelLayout[y][x] == 'T') {
-                    gc.drawImage(tunnel, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
-                }else {
-                    gc.drawImage(path, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
+            // Draw row of dirt images
+            // We multiply by the cell width and height to turn a coordinate in our grid into a pixel coordinate.
+            for (int y = 0; y < GRID_HEIGHT; y++) {
+                for (int x = 0; x < GRID_WIDTH; x++) {
+                    if (levelLayout[y][x] == 'G') {
+                        gc.drawImage(grass, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
+                    } else if (levelLayout[y][x] == 'T') {
+                        gc.drawImage(tunnel, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
+                    } else {
+                        gc.drawImage(path, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
+                    }
                 }
             }
+            gc.drawImage(testRat.img, testRat.getX() * GRID_CELL_WIDTH, testRat.getY() * GRID_CELL_HEIGHT);
+        }else {
+            pauseGame();
         }
-        gc.drawImage(testRat.img, testRat.getX() * GRID_CELL_WIDTH, testRat.getY() * GRID_CELL_HEIGHT);
     }
 
     public void canvasDragDroppedOccured(DragEvent event) {
@@ -374,15 +385,17 @@ public class Level extends Application {
         tickTimeline.stop();
 
         continueBtn.setOnAction(e -> {
+            pauseGame = false;
             pauseStage.close();
             tickTimeline.play();
+
         });
 
         saveGameBtn.setOnAction(e -> {
             try{
-                //save
+                saveToFile();
             }catch(Exception ex) {
-                //error msg
+                System.out.println(ex);
             }
         });
 
@@ -407,6 +420,23 @@ public class Level extends Application {
                 break;
         }
         event.consume();
+    }
+
+    public void saveToFile(){
+        try{
+            FileWriter writer =new FileWriter(saveGame);
+            //writer.write(Tiles.toString());
+            writer.write(player.toString());
+            for(Rat rat: ratList){
+                writer.write(ratList.toString());
+            }
+            for(Item item: itemList){
+                writer.write(itemList.toString());
+            }
+
+        }catch (IOException e){
+            System.out.println(e);
+        }
     }
 
     public static void main(String[] args) {
