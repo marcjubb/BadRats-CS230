@@ -18,9 +18,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 
 
 
@@ -45,17 +43,17 @@ public class Level extends Application {
     private Canvas canvas;
 
     // Loaded images
-    private Image rat1;
-    private Image grass;
-    private Image path;
-    private Image tunnel;
-    private Image bomb;
-    private Image maleSexChange;
-    private Image femaleSexChange;
-    private Image gas;
-    private Image noEntry;
-    private Image poison;
-    private Image sterilisation;
+    private static Image rat1;
+    private static Image grass;
+    private static Image path;
+    private static Image tunnel;
+    private static Image bomb;
+    private static Image maleSexChange;
+    private static Image femaleSexChange;
+    private static Image gas;
+    private static Image noEntry;
+    private static Image poison;
+    private static Image sterilisation;
 
     private Timeline tickTimeline;
 
@@ -63,13 +61,13 @@ public class Level extends Application {
     private boolean pauseGame = false;
     private boolean levelCompleted = false;
 
-    private Integer sizeLevel, levelWidth, levelHeight, maxPopulation, ratPopulationRate, secExpected, time;
+    private static int sizeLevel, levelWidth, levelHeight, maxPopulation, ratPopulationRate, secExpected, time;
     private boolean completed;
 
-    ArrayList<Rat> ratObj = new ArrayList<Rat>();
-    ArrayList<Item> itemObj = new ArrayList<Item>();
+    private static ArrayList<Rat> ratObj = new ArrayList<Rat>();
+    private static ArrayList<Item> itemObj = new ArrayList<Item>();
     //this is a hardcoded level layout only here for testing purposes
-    private char[][] levelLayout = {
+    private static char[][] levelLayout = {
             {'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G'},
             {'G', 'P', 'P', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'G'},
             {'G', 'P', 'P', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'G'},
@@ -77,7 +75,8 @@ public class Level extends Application {
             {'G', 'P', 'P', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'G'},
             {'G', 'P', 'P', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'G'},
             {'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G'}};
-    Rat testRat =  new Rat();
+    private static Rat testRat =  new Rat();
+
 
 
     protected void generateLevel() {
@@ -86,41 +85,41 @@ public class Level extends Application {
     private void loadLevel(String path) {
     }
 
-    public char[][] getLevelLayout() {
+    public static char[][] getLevelLayout() {
         return levelLayout;
     }
 
 
 
-    public Integer getLevelHeight() {
+    public static int getLevelHeight() {
         return levelHeight;
     }
 
-    public void setLevelHeight(Integer levelHeight) {
+    public void setLevelHeight(int levelHeight) {
         this.levelHeight = levelHeight;
     }
 
-    public Integer getLevelWidth() {
+    public static int getLevelWidth() {
         return levelWidth;
     }
 
-    public Integer getMaxPopulation() {
+    public int getMaxPopulation() {
         return maxPopulation;
     }
 
-    public Integer getRatPopulationRate() {
+    public int getRatPopulationRate() {
         return ratPopulationRate;
     }
 
-    public Integer getSecExpected() {
+    public int getSecExpected() {
         return secExpected;
     }
 
-    public Integer getSizeLevel() {
+    public int getSizeLevel() {
         return sizeLevel;
     }
 
-    public Integer getTime() {
+    public int getTime() {
         return time;
     }
 
@@ -293,14 +292,20 @@ public class Level extends Application {
 
         //Testing Tick's
 
-        testRat.setX(0);
-        testRat.setY(0);
+        testRat.setX(1);
+        testRat.setY(1);
+
         rat1 = new Image("resources/Images/Rat/Rat1.png");
         testRat.setImg(rat1);
+
         grass = new Image("/resources/Images/Tiles/Grass.png");
         path = new Image("/resources/Images/Tiles/Path.png");
         tunnel = new Image("/resources/Images/Tiles/Tunnel.png");
+
         bomb = new Image("/resources/Images/Items/Bomb.png");
+        femaleSexChange = new Image("/resources/Images/Items/FemaleSexChange.png");
+        maleSexChange = new Image("/resources/Images/Items/MaleSexChange.png");
+
 
      /*   maleSexChange= new Image("/resources/Images/Items/MaleSexChange.png");
         femaleSexChange =  new Image("/resources/Images/Items/FemaleSexChange.png");

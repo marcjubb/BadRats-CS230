@@ -3,12 +3,14 @@ import java.util.Random;
 public class PlayableRat extends Rat {
     static final private int ADULT_SPEED = 2; //arbitrary nums for now
     static final private int BABY_SPEED = 5;
+
     private enum Sex {MALE, FEMALE}
+
     private int ticksSinceCreation; //not sure about this attribute here - would also need a tick update from Level
 
     private Sex sex;
     private boolean isAdult;
-    private boolean isPregnant; // can't really remember why we need this - actually i twill probs need to have a getter
+    private boolean isPregnant; // can't really remember why we need this - actually it will probs need to have a getter
     //                             and be called by Level to see if a baby rat needs to be made at that point
 
     //3 constructors 1 for new babies at start of game, 1 for new babies after given birth and the other for existed loaded in rats
@@ -17,13 +19,14 @@ public class PlayableRat extends Rat {
         super.speed = BABY_SPEED; //arbitrary  number for now
         sex = pickSex();
         isAdult = false;
-        //super.x = generateRandomX(); //this is not complete - will need to loop until it finds a tile that is not 'G'
-        //super.y = generateRandomY();
+        super.x = generateRandomX(); //this is not complete - will need to loop until it finds a tile that is not 'G'
+        super.y = generateRandomY();
         ticksSinceCreation = 0;
+        super.direction = generateDirection();
     }
 
 
-    public PlayableRat(int x, int y, boolean isAdult, boolean isPregnant){
+    public PlayableRat(int x, int y, boolean isAdult, boolean isPregnant) {
         super.x = x;
         super.y = y;
         this.isAdult = isAdult;
@@ -31,10 +34,11 @@ public class PlayableRat extends Rat {
         sex = pickSex();
         super.speed = ADULT_SPEED;
         ticksSinceCreation = 0;
+        super.direction = generateDirection();
     }
 
 
-    public PlayableRat(int x, int y, boolean isAdult, boolean isPregnant, Sex sex, int ticksSinceCreation){
+    public PlayableRat(int x, int y, boolean isAdult, boolean isPregnant, Sex sex, int ticksSinceCreation, Direction direction) {
         super.x = x;
         super.y = y;
         this.isAdult = isAdult;
@@ -42,6 +46,7 @@ public class PlayableRat extends Rat {
         this.sex = sex;
         super.speed = ADULT_SPEED;
         this.ticksSinceCreation = ticksSinceCreation;
+        super.direction = direction;
     }
 
 
@@ -62,18 +67,18 @@ public class PlayableRat extends Rat {
         isAdult = true;
     }
 
-//    private int generateRandomX() {
-//        return new Random().nextInt(new Level(5, 5).getLevelWidth()); //not actually a new Level object just not sure how that's gonna work yet
-//    }
-//
-//    private int generateRandomY() {
-//        return new Random().nextInt(new Level(5, 5).getLevelHeight()); //not actually a new Level object just not sure how that's gonna work yet
-//    }
+    private int generateRandomX() {
+        return new Random().nextInt(Level.getLevelWidth());
+    }
+
+    private int generateRandomY() {
+        return new Random().nextInt(Level.getLevelHeight());
+    }
 
     @Override
     public String toString() {
-        String returnString = ticksSinceCreation + ", " + sex.toString() + ", " + isAdult + ", " +isPregnant;
-        returnString += super.toString();
+        String returnString = ", " + ticksSinceCreation + ", " + sex.toString() + ", " + isAdult + ", " + isPregnant;
+        returnString = "PlayableRat, " + super.toString() + returnString;
         return returnString;
     }
 }
