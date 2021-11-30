@@ -19,7 +19,10 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+
+
 
 public class Level extends Application {
 
@@ -56,9 +59,15 @@ public class Level extends Application {
 
     private Timeline tickTimeline;
 
+    private Stage primaryStage;
+    private boolean pauseGame = false;
+    private boolean levelCompleted = false;
 
     private Integer sizeLevel, levelWidth, levelHeight, maxPopulation, ratPopulationRate, secExpected, time;
     private boolean completed;
+
+    ArrayList<Rat> ratObj = new ArrayList<Rat>();
+    ArrayList<Item> itemObj = new ArrayList<Item>();
     //this is a hardcoded level layout only here for testing purposes
     private char[][] levelLayout = {
             {'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G'},
@@ -291,7 +300,7 @@ public class Level extends Application {
         grass = new Image("/resources/Images/Tiles/Grass.png");
         path = new Image("/resources/Images/Tiles/Path.png");
         tunnel = new Image("/resources/Images/Tiles/Tunnel.png");
-        bomb = new Image ("/resources/Images/Items/Bomb.png");
+        bomb = new Image("/resources/Images/Items/Bomb.png");
 
      /*   maleSexChange= new Image("/resources/Images/Items/MaleSexChange.png");
         femaleSexChange =  new Image("/resources/Images/Items/FemaleSexChange.png");
@@ -303,7 +312,7 @@ public class Level extends Application {
 
         Pane root = buildGUI();
         Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
-
+        scene.addEventFilter(KeyEvent.KEY_RELEASED, event -> processKeyEvent(event));
         // Register a tick method to be called periodically.
         // Make a new timeline with one keyframe that triggers the tick method every half a second.
         tickTimeline = new Timeline(new KeyFrame(Duration.millis(500), event -> tick()));
@@ -332,6 +341,67 @@ public class Level extends Application {
         }
         // We then redraw the whole canvas.
         drawGame();
+    }
+
+
+    public void pauseGame() {
+        Stage pauseStage = new Stage();
+
+        BorderPane root = new BorderPane();
+        canvas = new Canvas(CANVAS_WIDTH,CANVAS_WIDTH);
+        root.setCenter(canvas);
+
+        HBox toolbar = new HBox();
+        toolbar.setSpacing(100);
+        toolbar.setPadding(new Insets(10, 10, 10, 10));
+        root.setTop(toolbar);
+
+
+        Button continueBtn = new Button("Continue");
+        toolbar.getChildren().add(continueBtn);
+
+        Button saveGameBtn = new Button("Save");
+        toolbar.getChildren().add(saveGameBtn);
+
+        Button exitBtn = new Button("Exit");
+        toolbar.getChildren().add(exitBtn);
+
+        tickTimeline.stop();
+
+        continueBtn.setOnAction(e -> {
+            pauseStage.close();
+            tickTimeline.play();
+        });
+
+        saveGameBtn.setOnAction(e -> {
+            try{
+                //save
+            }catch(Exception ex) {
+                //error msg
+            }
+        });
+
+        exitBtn.setOnAction(e -> {
+            pauseStage.close();
+            primaryStage.close();
+        });
+        Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
+        pauseStage.setScene(scene);
+        pauseStage.show();
+
+    }
+    public void processKeyEvent(KeyEvent event) {
+
+        switch (event.getCode()) {
+            case P:
+                pauseGame = true;
+                System.out.println("work");
+                break;
+            default:
+                // Do nothing for all other keys.
+                break;
+        }
+        event.consume();
     }
 
     public static void main(String[] args) {
