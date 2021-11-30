@@ -46,6 +46,6 @@ public class Sterilisation extends Item {
     }
     @Override
     public String toString() {
-        return super.toString() + ", " + timeLeft;
+        return super.toString() + ", " + timeLeft + "\n";
     }
 }

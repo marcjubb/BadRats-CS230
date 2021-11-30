@@ -48,6 +48,6 @@ public class PlayerProfile {
 
     @Override
     public String toString() {
-        return playerName + ", " + String.valueOf(maxLevelCompleted);
+        return playerName + ", " + String.valueOf(maxLevelCompleted) + "\n";
     }
 }
