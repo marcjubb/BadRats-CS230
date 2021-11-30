@@ -3,7 +3,9 @@ import java.util.Random;
 public class PlayableRat extends Rat {
     static final private int ADULT_SPEED = 2; //arbitrary nums for now
     static final private int BABY_SPEED = 5;
+
     private enum Sex {MALE, FEMALE}
+
     private int ticksSinceCreation; //not sure about this attribute here - would also need a tick update from Level
 
     private Sex sex;
@@ -24,7 +26,7 @@ public class PlayableRat extends Rat {
     }
 
 
-    public PlayableRat(int x, int y, boolean isAdult, boolean isPregnant){
+    public PlayableRat(int x, int y, boolean isAdult, boolean isPregnant) {
         super.x = x;
         super.y = y;
         this.isAdult = isAdult;
@@ -36,7 +38,7 @@ public class PlayableRat extends Rat {
     }
 
 
-    public PlayableRat(int x, int y, boolean isAdult, boolean isPregnant, Sex sex, int ticksSinceCreation, Direction direction){
+    public PlayableRat(int x, int y, boolean isAdult, boolean isPregnant, Sex sex, int ticksSinceCreation, Direction direction) {
         super.x = x;
         super.y = y;
         this.isAdult = isAdult;
@@ -75,8 +77,8 @@ public class PlayableRat extends Rat {
 
     @Override
     public String toString() {
-        String returnString = ticksSinceCreation + ", " + sex.toString() + ", " + isAdult + ", " +isPregnant;
-        returnString += super.toString();
+        String returnString = ", " + ticksSinceCreation + ", " + sex.toString() + ", " + isAdult + ", " + isPregnant;
+        returnString = "PlayableRat, " + super.toString() + returnString;
         return returnString;
     }
 }
