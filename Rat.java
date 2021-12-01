@@ -25,77 +25,98 @@ public class Rat extends VisibleObject {
     }
     public void move(){
         Direction leftOrRight = Direction.values()[new Random().nextInt(Direction.values().length)];
-        System.out.println(leftOrRight.toString());
+        //System.out.println(leftOrRight.toString());
+
         //I have not put anything to stop it from going off the side of the game yet.
-        switch (direction) {
-            case NORTH:
-                if (Level.getLevelLayout()[y][x+1] != 'G') {
-                    moveUp();
-                } else {
-                    if (Level.getLevelLayout()[y-1][x] != 'G') {
-                        moveLeft();
-                        direction = Direction.WEST;
-                    } else if (Level.getLevelLayout()[y+1][x] != 'G') {
-                        moveRight();
-                        direction = Direction.EAST;
-                    } else {
-                        moveDown();
-                        direction = Direction.SOUTH;
-                    }
-                }
-                break;
-
-            case SOUTH:
-                if (Level.getLevelLayout()[x][y-1] != 'G') {
-                    moveDown();
-                } else {
-                     if (Level.getLevelLayout()[y+1][x] != 'G') {
-                        moveLeft();
-                        direction = Direction.EAST;
-                    } else if (Level.getLevelLayout()[y-1][x] != 'G') {
-                        moveRight();
-                        direction = Direction.WEST;
-                    } else {
+            switch (direction) {
+                case NORTH:
+                    System.out.println("Case:North - Go up(North)");
+                    if (Level.getLevelLayout()[y + 1][x] != 'G') {
                         moveUp();
-                        direction = Direction.NORTH;
-                    }
-                }
-                break;
-
-
-            case EAST:
-                if (Level.getLevelLayout()[y+1][x] != 'G') {
-                    moveRight();
-                } else {
-                    if (Level.getLevelLayout()[y][x+1] != 'G') {
-                        moveUp();
-                        direction = Direction.NORTH;
-                    } else if (Level.getLevelLayout()[y][x-1] != 'G') {
-                        moveDown();
-                        direction = Direction.SOUTH;
                     } else {
-                        moveLeft();
-                        direction = Direction.WEST;
+                        if (Level.getLevelLayout()[y][x - 1] != 'G') {
+                            moveLeft();
+                            direction = Direction.WEST;
+                            System.out.println("Case:North - Go left(West)");
+                        } else if (Level.getLevelLayout()[y][x + 1] != 'G') {
+                            moveRight();
+                            direction = Direction.EAST;
+                            System.out.println("Case:North - Go right(East)");
+                        } else {
+                            moveDown();
+                            direction = Direction.SOUTH;
+                            System.out.println("Case:North - Go down(South)");
+                        }
                     }
-                }
-                break;
+                    break;
 
-            case WEST:
-                if (Level.getLevelLayout()[y-1][x] != 'G') {
-                    moveLeft();
-                } else {
+
+                case SOUTH:
+                    if (Level.getLevelLayout()[y - 1][x] != 'G') {
+                        moveDown();
+                        System.out.println("Case:South - Go down(South)");
+                    } else {
+                        if (Level.getLevelLayout()[y + 1][x] != 'G') {
+                            moveUp();
+                            direction = Direction.NORTH;
+                            System.out.println("Case:South - Go Right(East)");
+                        } else if (Level.getLevelLayout()[y][x - 1] != 'G') {
+                            moveRight();
+                            direction = Direction.WEST;
+                            System.out.println("Case:South - Go Left(West)");
+                        } else {
+                            moveLeft();
+                            direction = Direction.EAST;
+                            System.out.println("Case:South - Go up(North)");
+                        }
+                    }
+                    break;
+
+
+                case EAST:
+                    if (Level.getLevelLayout()[y][x + 1] != 'G') {
+                        moveRight();
+                        System.out.println("Case:East - Go Right(East)");
+                    } else {
+                        if (Level.getLevelLayout()[y + 1][x] != 'G') {
+                            moveUp();
+                            direction = Direction.NORTH;
+                            System.out.println("Case:East - Go Up(North)");
+                        } else if (Level.getLevelLayout()[y - 1][x] != 'G') {
+                            moveDown();
+                            direction = Direction.SOUTH;
+                            System.out.println("Case:East - Go Down(South)");
+                        } else {
+                            moveLeft();
+                            direction = Direction.WEST;
+                            System.out.println("Case:East - Go Left(West)");
+                        }
+                    }
+                    break;
+
+                case WEST:
                     if (Level.getLevelLayout()[y][x - 1] != 'G') {
-                        moveDown();
-                        direction = Direction.SOUTH;
-                    } else if (Level.getLevelLayout()[x][y + 1] != 'G') {
-                        moveUp();
-                        direction = Direction.NORTH;
+                        moveLeft();
+                        System.out.println("Case:West - Go Left(West)");
                     } else {
-                        moveRight();
-                        direction = Direction.EAST;
+                        if (Level.getLevelLayout()[y - 1][x] != 'G') {
+                            moveDown();
+                            direction = Direction.SOUTH;
+                            System.out.println("Case:East - Go Left(West)");
+                        } else if (Level.getLevelLayout()[y + 1][x] != 'G') {
+                            moveUp();
+                            direction = Direction.NORTH;
+                            System.out.println("Case:North - Go Up(North)");
+
+                        } else {
+                            moveRight();
+                            direction = Direction.EAST;
+                            System.out.println("Case:South - Go up(North)");
+
+                        }
                     }
-                }
-                break;
+                    break;
+
         }
     }
 
