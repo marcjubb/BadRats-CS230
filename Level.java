@@ -186,14 +186,14 @@ public class Level extends Application {
 
             // Draw row of dirt images
             // We multiply by the cell width and height to turn a coordinate in our grid into a pixel coordinate.
-            for (int y = 0; y < GRID_HEIGHT; y++) {
-                for (int x = 0; x < GRID_WIDTH; x++) {
-                    if (levelLayout[y][x] == 'G') {
-                        gc.drawImage(grass, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
-                    } else if (levelLayout[y][x] == 'T') {
-                        gc.drawImage(tunnel, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
+            for (int x = 0; x < GRID_HEIGHT; x++) {
+                for (int y = 0; y < GRID_WIDTH; y++) {
+                    if (levelLayout[x][y] == 'G') {
+                        gc.drawImage(grass, y * GRID_CELL_WIDTH, x * GRID_CELL_HEIGHT);
+                    } else if (levelLayout[x][y] == 'T') {
+                        gc.drawImage(tunnel, y * GRID_CELL_WIDTH, x * GRID_CELL_HEIGHT);
                     } else {
-                        gc.drawImage(path, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
+                        gc.drawImage(path, y * GRID_CELL_WIDTH, x * GRID_CELL_HEIGHT);
                     }
                 }
             }
@@ -365,8 +365,9 @@ public class Level extends Application {
     public void tick() {
         // Here we move the player right one cell and teleport
         // them back to the left side when they reach the right side.
-        testRat.setImageDirection();
         testRat.move();
+        testRat.setImageDirection();
+
         if (testRat.getX() > 11) {
             testRat.setX(0);
         }

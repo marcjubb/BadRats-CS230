@@ -56,10 +56,10 @@ public class PlayableRat extends Rat {
     public void setImageDirection(){
         switch (getDirection()) {
             case "NORTH":
-                this.setImg(new Image("resources/Images/Rat/RatUp.png"));
+                this.setImg(new Image("resources/Images/Rat/RatDown.png"));
                 break;
             case "SOUTH":
-                this.setImg(new Image("resources/Images/Rat/RatDown.png"));
+                this.setImg(new Image("resources/Images/Rat/RatUp.png"));
                 break;
             case "EAST":
                 this.setImg(new Image("resources/Images/Rat/Rat1.png"));
