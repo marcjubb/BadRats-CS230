@@ -57,4 +57,5 @@ public abstract class VisibleObject {
     public boolean isDestroyed() {
         return destroyed;
     }
+
 }

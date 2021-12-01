@@ -13,9 +13,9 @@ public class DeathRat extends Rat {
     //Search
     //Kill
     public DeathRat() {     //not a clue what im doing here
-        DeathRatItem dRatItem = new DeathRatItem(getX(),getY());
+    /*    DeathRatItem dRatItem = new DeathRatItem(getX(),getY());
         super.x = dRatItem.getX();
-        super.y = dRatItem.getY();
+        super.y = dRatItem.getY();*/
         super.speed = ADULT_SPEED;
         ticksSinceCreation = 0;
         super.direction = generateDirection();

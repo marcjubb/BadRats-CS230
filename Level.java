@@ -21,7 +21,6 @@ import javafx.util.Duration;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Random;
 
 
 public class Level extends Application {
@@ -73,7 +72,7 @@ public class Level extends Application {
     PlayerProfile player;
     private String saveGame;
 
-    private static ArrayList<Rat> ratList = new ArrayList<Rat>();
+    private static ArrayList<PlayableRat> ratList = new ArrayList<PlayableRat>();
     private static ArrayList<Item> itemList = new ArrayList<Item>();
     //this is a hardcoded level layout only here for testing purposes
     private static char[][] levelLayout = {
@@ -84,7 +83,6 @@ public class Level extends Application {
             {'G', 'P', 'G', 'G', 'T', 'G', 'T', 'G', 'T', 'G', 'T', 'G'},
             {'G', 'P', 'P', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'G'},
             {'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G'}};
-    private static PlayableRat testRat =  new PlayableRat();
 
 
     public static int getGridHeight() {
@@ -196,7 +194,6 @@ public class Level extends Application {
                     }
                 }
             }
-            testRat.setImageDirection();
             for (Rat rat : ratList) {
                 gc.drawImage(rat.img, rat.getX() * GRID_CELL_WIDTH, rat.getY() * GRID_CELL_HEIGHT);
             }
@@ -317,15 +314,14 @@ public class Level extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         PlayableRat rat2 = new PlayableRat();
-        Image rat2img = new Image("/resources/Images/Rat/Rat6.png");
-        rat2.setImg(rat2img);
+        PlayableRat rat3 = new PlayableRat();
         //Testing Tick's
-        ratList.add(testRat);
+        ratList.add(rat3);
         ratList.add(rat2);
 
 
-        ratRight = new Image("resources/Images/Rat/Rat1.png");
-        ratLeft = new Image("resources/Images/Rat/Rat3.png");
+        ratRight = new Image("resources/Images/Rat/MRatRight.png");
+        ratLeft = new Image("resources/Images/Rat/MRatLeft.png");
         ratUp = new Image("resources/Images/Rat/RatUp.png");
         ratDown = new Image("resources/Images/Rat/RatDown.png");
 
@@ -373,12 +369,13 @@ public class Level extends Application {
     public void tick() {
         // Here we move the player right one cell and teleport
         // them back to the left side when they reach the right side.
-        testRat.move();
-        testRat.setImageDirection();
-
-        if (testRat.getX() > 11) {
-            testRat.setX(0);
+        for(PlayableRat rat : ratList){
+            rat.move();
+            rat.setImageDirection();
         }
+
+
+
         // We then redraw the whole canvas.
         drawGame();
     }

@@ -1,3 +1,4 @@
+/*
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -7,11 +8,13 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Scanner;
 
+*/
 /* Eventually will have GUI and a few more fixes
  Leader board that takes information from a file with all of the saved scores
  outputs top 5 high scores and the players
   @author Jacob K
-*/
+*//*
+
 
 
 class leaderBoard {
@@ -24,16 +27,20 @@ class leaderBoard {
         this.score = score;
     }
 
-    /**
+    */
+/**
      * @return the names
-     */
+     *//*
+
     public String getName() {
         return name;
     }
 
-    /**
+    */
+/**
      * @return the scores
-     */
+     *//*
+
     public int getScore() {
         return score;
     }
@@ -178,7 +185,8 @@ class Main {
     }
 
 }
-/* Should look like this
+
+ Should look like this
 ----All players --------
 Shows all players
 
@@ -188,4 +196,6 @@ Name: Marc,Score 2800
 Name: Sam,Score 2200
 Name: Michael,Score 750
 ------------------------
- */
+
+
+*/

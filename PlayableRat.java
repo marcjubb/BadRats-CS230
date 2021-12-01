@@ -1,8 +1,6 @@
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import javafx.scene.image.Image;
 
 import java.util.Random;
-import java.util.stream.IntStream;
 
 public class PlayableRat extends Rat {
     static final private int ADULT_SPEED = 2; //arbitrary nums for now
@@ -24,8 +22,9 @@ public class PlayableRat extends Rat {
         super.speed = BABY_SPEED; //arbitrary  number for now
         sex = pickSex();
         isAdult = false;
-        super.x = generateRandomXY()[0]; //this is not complete - will need to loop until it finds a tile that is not 'G'
-        super.y = generateRandomXY()[1];
+        int[] xy = generateRandomXY();
+        super.x = xy[0]; //this is not complete - will need to loop until it finds a tile that is not 'G'
+        super.y = xy[1];
         ticksSinceCreation = 0;
         super.direction = generateDirection();
     }
@@ -57,16 +56,49 @@ public class PlayableRat extends Rat {
     public void setImageDirection(){
         switch (getDirection()) {
             case "NORTH":
-                this.setImg(new Image("resources/Images/Rat/RatDown.png"));
+                if (isAdult){
+                    if (sex == Sex.MALE) {
+                        this.setImg(new Image("/resources/Images/Rat/RatDown.png"));
+                    }else{
+                        this.setImg(new Image("/resources/Images/Rat/FemaleRatDown.png"));
+                    }
+                }else {
+                    this.setImg(new Image("/resources/Images/Rat/BabyRatDown.png"));
+                }
+
                 break;
             case "SOUTH":
-                this.setImg(new Image("resources/Images/Rat/RatUp.png"));
+                if (isAdult){
+                    if (sex == Sex.MALE) {
+                        this.setImg(new Image("/resources/Images/Rat/RatUp.png"));
+                    }else{
+                        this.setImg(new Image("/resources/Images/Rat/FemaleRatUp.png"));
+                    }
+                }else {
+                    this.setImg(new Image("/resources/Images/Rat/BabyRatUp.png"));
+                }
                 break;
             case "EAST":
-                this.setImg(new Image("resources/Images/Rat/Rat1.png"));
+                if (isAdult){
+                    if (sex == Sex.MALE) {
+                        this.setImg(new Image("/resources/Images/Rat/MRatRight.png"));
+                    }else{
+                        this.setImg(new Image("/resources/Images/Rat/FRatRight.png"));
+                    }
+                }else {
+                    this.setImg(new Image("/resources/Images/Rat/BRatRight.png"));
+                }
                 break;
             case "WEST":
-                this.setImg(new Image("resources/Images/Rat/Rat3.png"));
+                if (isAdult){
+                    if (sex == Sex.MALE) {
+                        this.setImg(new Image("/resources/Images/Rat/MRatLeft.png"));
+                    }else{
+                        this.setImg(new Image("/resources/Images/Rat/FRatLeft.png"));
+                    }
+                }else {
+                    this.setImg(new Image("/resources/Images/Rat/BRatLeft.png"));
+                }
                 break;
         }
     }
