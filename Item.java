@@ -1,56 +1,41 @@
-import javafx.scene.image.Image;
+import java.util.ArrayList;
 
 /**
  * This Class represents a typical item in the game.
- * @author ryanwake
+ * @author ryanwake, Michael Pokorski
  */
+
 public class Item extends VisibleObject{
-
     private String itemName;
-    private String imagePath;
-    private Image itemImage;
-    private boolean isDestroyed;
 
-    public Item(int x, int y){
-        super(x, y);
-        isDestroyed = false;
-    }
-
-    public Item(String itemName, String imagePath,int x, int y) {
-        super(x, y);
-        this.setItemName(itemName);
-        this.setImagePath(imagePath);
-        this.setImage(new Image(getClass().getResourceAsStream(imagePath)));
-        this.isDestroyed = false;
-
-    }
-
-    public String getImagePath() {
-        return imagePath;
+    public Item(int x, int y, String itemName){
+        this.x = x;
+        this.y = y;
+        this.itemName = itemName;
     }
 
     public String getItemName() {
         return itemName;
     }
 
-    public boolean isDestroyed() {
-        return isDestroyed;
+    public boolean collisionAt(int x, int y) {
+        if (x == this.x && y == this.y) {
+            return true;
+        }
+        return false;
     }
 
-    public Image getImage() {
-        return itemImage;
+    protected void destroySelf() {
+        destroyed = true;
     }
 
-    public void destroySelf(boolean destroyed) {
-        //TODO
-    }
-
-    public void setImagePath(String itemImage) {
-        this.imagePath = itemImage;
-    }
-
-    public void setImage(Image itemImage) {
-        this.itemImage = itemImage;
+    protected boolean isInExplosion(ArrayList<Item> items) {
+        for (Item item : items) {
+            if (item.getItemName() == "bomb" && item.collisionAt(x, y)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void setItemName(String itemName) {
@@ -59,7 +44,6 @@ public class Item extends VisibleObject{
 
     @Override
     public String toString(){
-        return this.itemName + ", " + this.imagePath + ", " + x + ", " + y + this.isDestroyed + "\n";
+        return this.itemName + ", " + ", " + x + ", " + y + "\n";
     }
-
 }

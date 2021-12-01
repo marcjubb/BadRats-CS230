@@ -1,3 +1,4 @@
+
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
@@ -14,13 +15,8 @@ public class Sterilisation extends Item {
     private int distanceRight;
 
     public Sterilisation(int x, int y){
-        super(x,y);
-    }
-
-    public Sterilisation(String itemName, String imagePath,int x, int y){
-        super(itemName, imagePath,x, y);
-        this.setItemName("Sterilisation");
-        this.setImagePath("resources/Sterilisation.png");
+        super(x, y, "sterilisation");
+        img = new Image("/resources/Images/Items/Sterilisation.png");
         timeLeft = 3;
     }
 
