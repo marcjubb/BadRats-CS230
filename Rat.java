@@ -17,28 +17,25 @@ public class Rat extends VisibleObject {
     public Rat() {
 
     }
-
     public String getDirection() {
         return direction.toString();
     }
-
     public double getSpeed() {
         return speed;
     }
-
     public void move(){
         Direction leftOrRight = Direction.values()[new Random().nextInt(Direction.values().length)];
-        System.out.println(direction.toString());
+        System.out.println(leftOrRight.toString());
         //I have not put anything to stop it from going off the side of the game yet.
         switch (direction) {
             case NORTH:
-                if (Level.getLevelLayout()[x][y+1] != 'G') {
+                if (Level.getLevelLayout()[y][x+1] != 'G') {
                     moveUp();
                 } else {
-                    if (Level.getLevelLayout()[x-1][y] != 'G') {
+                    if (Level.getLevelLayout()[y-1][x] != 'G') {
                         moveLeft();
                         direction = Direction.WEST;
-                    } else if (Level.getLevelLayout()[x+1][y] != 'G') {
+                    } else if (Level.getLevelLayout()[y+1][x] != 'G') {
                         moveRight();
                         direction = Direction.EAST;
                     } else {
@@ -48,15 +45,14 @@ public class Rat extends VisibleObject {
                 }
                 break;
 
-
             case SOUTH:
                 if (Level.getLevelLayout()[x][y-1] != 'G') {
                     moveDown();
                 } else {
-                    if (Level.getLevelLayout()[x+1][y] != 'G') {
+                     if (Level.getLevelLayout()[y+1][x] != 'G') {
                         moveLeft();
                         direction = Direction.EAST;
-                    } else if (Level.getLevelLayout()[x-1][y] != 'G') {
+                    } else if (Level.getLevelLayout()[y-1][x] != 'G') {
                         moveRight();
                         direction = Direction.WEST;
                     } else {
@@ -68,13 +64,13 @@ public class Rat extends VisibleObject {
 
 
             case EAST:
-                if (Level.getLevelLayout()[x + 1][y] != 'G') {
+                if (Level.getLevelLayout()[y+1][x] != 'G') {
                     moveRight();
                 } else {
-                    if (Level.getLevelLayout()[x][y + 1] != 'G') {
+                    if (Level.getLevelLayout()[y][x+1] != 'G') {
                         moveUp();
                         direction = Direction.NORTH;
-                    } else if (Level.getLevelLayout()[x][y - 1] != 'G') {
+                    } else if (Level.getLevelLayout()[y][x-1] != 'G') {
                         moveDown();
                         direction = Direction.SOUTH;
                     } else {
@@ -85,10 +81,10 @@ public class Rat extends VisibleObject {
                 break;
 
             case WEST:
-                if (Level.getLevelLayout()[x - 1][y] != 'G') {
+                if (Level.getLevelLayout()[y-1][x] != 'G') {
                     moveLeft();
                 } else {
-                    if (Level.getLevelLayout()[x][y - 1] != 'G') {
+                    if (Level.getLevelLayout()[y][x - 1] != 'G') {
                         moveDown();
                         direction = Direction.SOUTH;
                     } else if (Level.getLevelLayout()[x][y + 1] != 'G') {
