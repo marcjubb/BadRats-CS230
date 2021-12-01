@@ -53,6 +53,13 @@ public class PlayableRat extends Rat {
         super.direction = direction;
     }
 
+    public void incrementTick(){
+        if (ticksSinceCreation > 4){
+            becomeAdult();
+        }
+        ticksSinceCreation++;
+    }
+
     public void setImageDirection(){
         switch (getDirection()) {
             case "NORTH":
