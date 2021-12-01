@@ -385,13 +385,18 @@ public class Level extends Application {
         tickCount++;
         // Here we move the player right one cell and teleport
         // them back to the left side when they reach the right side.
-        for (PlayableRat rat : ratList) {
+
+        for (PlayableRat rat: ratList) {
             rat.move();
             rat.setImageDirection();
             rat.incrementTick();
-            if (rat.getIsPregnant()){
-                rat.incrementTickPregnant();
-                rat.checkPregnancy();
+        }
+
+        int ratListLength = ratList.size();
+        for (int i = 0; i < ratListLength-1; i++) {
+            if (ratList.get(i).getIsPregnant()){
+                ratList.get(i).incrementTickPregnant();
+                ratList.get(i).checkPregnancy();
             }
 
         }

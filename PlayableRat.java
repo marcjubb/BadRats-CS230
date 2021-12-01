@@ -5,7 +5,7 @@ import java.util.Random;
 public class PlayableRat extends Rat {
     static final private int ADULT_SPEED = 2; //arbitrary nums for now
     static final private int BABY_SPEED = 5;
-    static final private int PREGNANCY_DURATION = 5;
+    static final private int PREGNANCY_DURATION = 7;
 
     private enum Sex {MALE, FEMALE}
 
@@ -169,7 +169,7 @@ public class PlayableRat extends Rat {
     }
 
     public void checkPregnancy(){
-        if (pregnantTick > PREGNANCY_DURATION){
+        if (pregnantTick == PREGNANCY_DURATION){
             Level.giveBirth(x, y);
             isPregnant = false;
             pregnantTick = 0;
