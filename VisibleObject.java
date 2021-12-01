@@ -7,12 +7,13 @@ import javafx.scene.image.Image;
  */
 
 public abstract class VisibleObject {
-    Image img = new Image("file:empty.png");
+    Image img;
     boolean destroyed = false;
     int x = 0;
     int y = 0;
 
     public VisibleObject(int x, int y) {
+
     }
 
     protected VisibleObject() {
