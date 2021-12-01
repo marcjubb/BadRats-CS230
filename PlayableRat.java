@@ -155,7 +155,6 @@ public class PlayableRat extends Rat {
         for (Rat rat: Level.getRatList()) {
             if (rat.getX() == x && rat.getY() == y && sex != ((PlayableRat) rat).getSex() && isAdult && !isPregnant){
                 if (this.sex == Sex.FEMALE){
-                    System.out.println("mate");
                     isPregnant = true;
                 }
             }
@@ -165,7 +164,6 @@ public class PlayableRat extends Rat {
 
     public void incrementTickPregnant(){
         pregnantTick++;
-        System.out.println(pregnantTick);
     }
 
     public void checkPregnancy(){
