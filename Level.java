@@ -21,7 +21,7 @@ import javafx.util.Duration;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-
+import java.util.Random;
 
 
 public class Level extends Application {
@@ -79,10 +79,10 @@ public class Level extends Application {
     private static char[][] levelLayout = {
             {'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G'},
             {'G', 'P', 'G', 'T', 'T', 'T', 'T', 'T', 'G', 'T', 'T', 'G'},
-            {'G', 'P', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'T', 'T', 'G'},
-            {'G', 'P', 'G', 'T', 'T', 'T', 'T', 'G', 'G', 'T', 'T', 'G'},
-            {'G', 'P', 'G', 'G', 'T', 'G', 'T', 'G', 'G', 'T', 'T', 'G'},
-            {'G', 'P', 'P', 'T', 'T', 'G', 'T', 'T', 'T', 'T', 'T', 'G'},
+            {'G', 'P', 'G', 'G', 'T', 'G', 'G', 'G', 'T', 'G', 'T', 'G'},
+            {'G', 'P', 'G', 'T', 'T', 'T', 'T', 'G', 'P', 'T', 'T', 'G'},
+            {'G', 'P', 'G', 'G', 'T', 'G', 'T', 'G', 'T', 'G', 'T', 'G'},
+            {'G', 'P', 'P', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'G'},
             {'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G'}};
     private static PlayableRat testRat =  new PlayableRat();
 
