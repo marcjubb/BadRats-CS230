@@ -3,7 +3,7 @@ import java.util.Random;
 /**
  * This Class represents a rat in the game.
  *
- * @author samgriffin and Alex Walker
+ * @author samgriffin, Ryan Wake, Marc Jubb
  */
 
 /*TODO Handle for edge cases in move method and find logic errors*/
