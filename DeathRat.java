@@ -12,6 +12,15 @@ public class DeathRat extends Rat {
     //Constructor- tick, search, if found then kill, if time elapsed then die
     //Search
     //Kill
+    public DeathRat() {     //not a clue what im doing here
+        DeathRatItem dRatItem = new DeathRatItem(getX(),getY());
+        super.x = dRatItem.getX();
+        super.y = dRatItem.getY();
+        super.speed = ADULT_SPEED;
+        ticksSinceCreation = 0;
+        super.direction = generateDirection();
+    }
+
     public DeathRat(int x, int y) {
         super.x = x;
         super.y = y;
@@ -20,9 +29,16 @@ public class DeathRat extends Rat {
         super.direction = generateDirection();
     }
 
+    public boolean checkCollisions(){
+        PlayableRat pRat = new PlayableRat();
+        DeathRat dRat = new DeathRat();
+        if((pRat.getX() == dRat.getX()) && (pRat.getY() == dRat.getY())){
+            return true;
+        }else {
+            return false;
+        }
+    }
 
-
-    
     public void setImageDirection() {
         switch (getDirection()) {
             case "NORTH":
