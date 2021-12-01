@@ -152,8 +152,8 @@ public class PlayableRat extends Rat {
     }
 
     private void checkCollision(){
-        for (PlayableRat rat: Level.getRatList()) {
-            if (rat.getX() == x && rat.getY() == y && sex != rat.getSex() && isAdult && !isPregnant){
+        for (Rat rat: Level.getRatList()) {
+            if (rat.getX() == x && rat.getY() == y && sex != ((PlayableRat) rat).getSex() && isAdult && !isPregnant){
                 if (this.sex == Sex.FEMALE){
                     System.out.println("mate");
                     isPregnant = true;

@@ -74,7 +74,7 @@ public class Level extends Application {
     PlayerProfile player;
     private String saveGame;
 
-    private static ArrayList<PlayableRat> ratList = new ArrayList<PlayableRat>();
+    private static ArrayList<Rat> ratList = new ArrayList<Rat>();
     private static ArrayList<Item> itemList = new ArrayList<Item>();
     //this is a hardcoded level layout only here for testing purposes
     private static char[][] levelLayout = {
@@ -95,7 +95,7 @@ public class Level extends Application {
         return GRID_WIDTH;
     }
 
-    public static ArrayList<PlayableRat> getRatList() {
+    public static ArrayList<Rat> getRatList() {
         return ratList;
     }
 
@@ -330,7 +330,7 @@ public class Level extends Application {
         }
 
 
-        for (PlayableRat rat : ratList) {
+        for (Rat rat : ratList) {
             rat.setImageDirection();
         }
 
@@ -386,7 +386,7 @@ public class Level extends Application {
         // Here we move the player right one cell and teleport
         // them back to the left side when they reach the right side.
 
-        for (PlayableRat rat: ratList) {
+        for (Rat rat: ratList) {
             rat.move();
             rat.setImageDirection();
             rat.incrementTick();
@@ -394,14 +394,15 @@ public class Level extends Application {
 
         int ratListLength = ratList.size();
         for (int i = 0; i < ratListLength-1; i++) {
-            if (ratList.get(i).getIsPregnant()){
-                ratList.get(i).incrementTickPregnant();
-                ratList.get(i).checkPregnancy();
+            if (ratList.get(i) instanceof PlayableRat && ((PlayableRat) ratList.get(i)).getIsPregnant()){
+                ((PlayableRat) ratList.get(i)).incrementTickPregnant();
+                ((PlayableRat) ratList.get(i)).checkPregnancy();
             }
-
         }
 
-
+        for(Item item: itemList){
+            item.setImg(item.getImage());
+        }
         // We then redraw the whole canvas.
         drawGame();
     }

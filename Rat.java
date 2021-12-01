@@ -283,7 +283,13 @@ public class Rat extends VisibleObject {
         }
     }
 
+    public void setImageDirection(){
 
+    }
+
+    public void incrementTick(){
+
+    }
 
     public void moveRight(){
         x = x + 1;
