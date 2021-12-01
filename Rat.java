@@ -252,7 +252,7 @@ public class Rat extends VisibleObject {
 
                 } else if((Level.getLevelLayout()[y][x-1] != 'G')) {
                     moveLeft();
-                }else{
+                }else {
                     if ((Level.getLevelLayout()[y+1][x] != 'G') && (Level.getLevelLayout()[y-1][x] != 'G')) {
                         if (new Random().nextInt(2) == 1) {
                             moveUp();
