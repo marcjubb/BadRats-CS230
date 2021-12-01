@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.control.SplitMenuButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
@@ -208,9 +209,11 @@ public class Level extends Application {
             for (Rat rat : ratList) {
                 gc.drawImage(rat.img, rat.getX() * GRID_CELL_WIDTH, rat.getY() * GRID_CELL_HEIGHT);
             }
+
             for (Item item : itemList) {
-                gc.drawImage(item.img, item.getX() * GRID_CELL_WIDTH, item.getY() * GRID_CELL_HEIGHT);
+                    gc.drawImage(item.img, item.getX() * GRID_CELL_WIDTH, item.getY() * GRID_CELL_HEIGHT);
             }
+
         } else {
             pauseGame();
         }
@@ -223,9 +226,13 @@ public class Level extends Application {
         // Draw an icon at the dropped location.
         GraphicsContext gc = canvas.getGraphicsContext2D();
         // Draw the the image so the center is where we dropped.
+
         if (levelLayout[y][x] == 'P') {
-            System.out.println(x * GRID_CELL_WIDTH);
-            gc.drawImage(bomb, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
+            Bomb tester = new Bomb(x,y);
+            tester.setImg(bomb);
+            gc.drawImage(tester.getImg(), x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
+           itemList.add(itemList.size(), tester);
+
         }
     }
 
@@ -268,10 +275,14 @@ public class Level extends Application {
         });
 
 
+
         // Setup a draggable image.
         ImageView draggableImage = new ImageView();
         draggableImage.setImage(bomb);
+        ImageView dragMale = new ImageView();
+        dragMale.setImage(bomb);
         toolbar.getChildren().add(draggableImage);
+
 
         // This code setup what happens when the dragging starts on the image.
         // You probably don't need to change this (unless you wish to do more advanced things).
@@ -285,7 +296,7 @@ public class Level extends Application {
                 // We have to put some content in the clipboard of the drag event.
                 // We do not use this, but we could use it to store extra data if we wished.
                 ClipboardContent content = new ClipboardContent();
-                content.putString("Hello");
+                content.putImage(draggableImage.getImage());
                 db.setContent(content);
 
                 // Consume the event. This means we mark it as dealt with.
@@ -333,6 +344,11 @@ public class Level extends Application {
         for (Rat rat : ratList) {
             rat.setImageDirection();
         }
+       /* Bomb test = new Bomb(1,1);
+        test.setImg(new Image("/resources/Images/Items/Bomb.png"));
+        itemList.add(test);
+
+        itemList.add(new MaleSexChange(1,2));*/
 
 
         ratRight = new Image("resources/Images/Rat/MRatRight.png");
@@ -400,9 +416,6 @@ public class Level extends Application {
             }
         }
 
-        for(Item item: itemList){
-            item.setImg(item.getImage());
-        }
         // We then redraw the whole canvas.
         drawGame();
     }
@@ -458,14 +471,10 @@ public class Level extends Application {
 
     public void processKeyEvent(KeyEvent event) {
 
-        switch (event.getCode()) {
-            case P:
-                pauseGame = true;
-                System.out.println("work");
-                break;
-            default:
-                // Do nothing for all other keys.
-                break;
+        // Do nothing for all other keys.
+        if (event.getCode() == KeyCode.P) {
+            pauseGame = true;
+            System.out.println("work");
         }
         event.consume();
     }
