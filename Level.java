@@ -29,19 +29,19 @@ public class Level extends Application {
 
     // The dimensions of the window
     private static final int WINDOW_WIDTH = 800;
-    private static final int WINDOW_HEIGHT = 500;
-
-    // The dimensions of the canvas
-    private static final int CANVAS_WIDTH = 600;
-    private static final int CANVAS_HEIGHT = 350;
-
-    // The width and height (in pixels) of each cell that makes up the game.
-    private static final int GRID_CELL_WIDTH = 50;
-    private static final int GRID_CELL_HEIGHT = 50;
-
-    // The width of the grid in number of cells.
+    private static final int WINDOW_HEIGHT = 600;
     private static final int GRID_WIDTH = 12;
     private static final int GRID_HEIGHT = 7;
+    // The dimensions of the canvas
+    private static final int CANVAS_WIDTH = 64*GRID_WIDTH;
+    private static final int CANVAS_HEIGHT = 64*GRID_HEIGHT;
+
+    // The width and height (in pixels) of each cell that makes up the game.
+    private static final int GRID_CELL_WIDTH = 64;
+    private static final int GRID_CELL_HEIGHT = 64;
+
+    // The width of the grid in number of cells.
+
     private Canvas canvas;
 
     // Loaded images
@@ -197,7 +197,12 @@ public class Level extends Application {
                 }
             }
             testRat.setImageDirection();
-            gc.drawImage(testRat.img, testRat.getX() * GRID_CELL_WIDTH, testRat.getY() * GRID_CELL_HEIGHT);
+            for (Rat rat : ratList) {
+                gc.drawImage(rat.img, rat.getX() * GRID_CELL_WIDTH, rat.getY() * GRID_CELL_HEIGHT);
+            }
+            for (Item item : itemList) {
+                gc.drawImage(item.img, item.getX() * GRID_CELL_WIDTH, item.getY() * GRID_CELL_HEIGHT);
+            }
         }else {
             pauseGame();
         }
@@ -205,8 +210,8 @@ public class Level extends Application {
     }
 
     public void canvasDragDroppedOccured(DragEvent event) {
-        int x = Math.floorDiv((int) event.getX(), 50);
-        int y = Math.floorDiv((int) event.getY(), 50);
+        int x = Math.floorDiv((int) event.getX(), 64);
+        int y = Math.floorDiv((int) event.getY(), 64);
         // Draw an icon at the dropped location.
         GraphicsContext gc = canvas.getGraphicsContext2D();
         // Draw the the image so the center is where we dropped.
@@ -311,11 +316,13 @@ public class Level extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-
+        PlayableRat rat2 = new PlayableRat();
+        Image rat2img = new Image("/resources/Images/Rat/Rat6.png");
+        rat2.setImg(rat2img);
         //Testing Tick's
+        ratList.add(testRat);
+        ratList.add(rat2);
 
-        testRat.setX(1);
-        testRat.setY(1);
 
         ratRight = new Image("resources/Images/Rat/Rat1.png");
         ratLeft = new Image("resources/Images/Rat/Rat3.png");

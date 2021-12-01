@@ -10,7 +10,7 @@ import java.util.Random;
 public class Rat extends VisibleObject {
     protected int speed;
     protected enum Direction {NORTH, SOUTH, EAST, WEST}
-    protected Direction direction; //this should probably randomly generated in the constructor
+    protected Direction direction; //this should probably randomly generated in the constructor1--=-=
     private enum LeftOrRight {LEFT, RIGHT}
 
     //I Don't think you need an empty
@@ -25,6 +25,7 @@ public class Rat extends VisibleObject {
     }
     public void move(){
     int rnd;
+
 
         //I have not put anything to stop it from going off the side of the game yet.
         switch (direction) {

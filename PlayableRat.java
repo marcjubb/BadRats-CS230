@@ -1,6 +1,8 @@
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import javafx.scene.image.Image;
 
 import java.util.Random;
+import java.util.stream.IntStream;
 
 public class PlayableRat extends Rat {
     static final private int ADULT_SPEED = 2; //arbitrary nums for now
@@ -22,8 +24,8 @@ public class PlayableRat extends Rat {
         super.speed = BABY_SPEED; //arbitrary  number for now
         sex = pickSex();
         isAdult = false;
-        super.x = generateRandomX(); //this is not complete - will need to loop until it finds a tile that is not 'G'
-        super.y = generateRandomY();
+        super.x = generateRandomXY()[0]; //this is not complete - will need to loop until it finds a tile that is not 'G'
+        super.y = generateRandomXY()[1];
         ticksSinceCreation = 0;
         super.direction = generateDirection();
     }
@@ -51,7 +53,6 @@ public class PlayableRat extends Rat {
         this.ticksSinceCreation = ticksSinceCreation;
         super.direction = direction;
     }
-
 
     public void setImageDirection(){
         switch (getDirection()) {
@@ -87,13 +88,20 @@ public class PlayableRat extends Rat {
         isAdult = true;
     }
 
-    private int generateRandomX() {
-        return new Random().nextInt(Level.getGridWidth() -1 );
+
+    private int[] generateRandomXY() {
+        boolean correct = false;
+        int[] xy = {(new Random().nextInt(Level.getGridWidth() -1 )), (new Random().nextInt(Level.getGridHeight() -1 ))};
+        do{
+            if (Level.getLevelLayout()[xy[1]] [xy[0]] == 'G' || Level.getLevelLayout()[xy[1]] [xy[0]] == 'T'){
+                xy = new int[]{(new Random().nextInt(Level.getGridWidth() - 1)), (new Random().nextInt(Level.getGridHeight() - 1))};
+            }else{
+                correct = true;
+            }
+        }while (!correct);
+        return xy;
     }
 
-    private int generateRandomY() {
-        return new Random().nextInt(Level.getGridHeight()-1);
-    }
 
     @Override
     public String toString() {
