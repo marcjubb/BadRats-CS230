@@ -60,6 +60,7 @@ public class Level extends Application {
     private static Image sterilisation;
     private static int tickCount;
 
+
     private Timeline tickTimeline;
 
     private Stage primaryStage;
@@ -94,6 +95,9 @@ public class Level extends Application {
         return GRID_WIDTH;
     }
 
+    public static ArrayList<PlayableRat> getRatList() {
+        return ratList;
+    }
 
     protected void generateLevel() {
     }
@@ -164,6 +168,14 @@ public class Level extends Application {
 
     public boolean isCompleted() {
         return this.completed;
+    }
+
+    public static void mate(int x, int y){
+        PlayableRat newBaby = new PlayableRat();
+        newBaby.setX(x);
+        newBaby.setY(y);
+        newBaby.setImageDirection();
+        ratList.add(newBaby);
     }
 
 

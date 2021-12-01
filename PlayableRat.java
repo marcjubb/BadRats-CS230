@@ -53,6 +53,10 @@ public class PlayableRat extends Rat {
         super.direction = direction;
     }
 
+    public Sex getSex() {
+        return sex;
+    }
+
     public void incrementTick(){
         if (ticksSinceCreation > 4){
             becomeAdult();
@@ -108,6 +112,7 @@ public class PlayableRat extends Rat {
                 }
                 break;
         }
+        checkCollision();
     }
 
     public void changeSex() {
@@ -140,6 +145,21 @@ public class PlayableRat extends Rat {
         }while (!correct);
         return xy;
     }
+
+    private void checkCollision(){
+        for (PlayableRat rat: Level.getRatList()) {
+            if (rat.getX() == x && rat.getY() == y && sex != rat.getSex() && isAdult && !isPregnant){
+                if (this.sex == Sex.FEMALE){
+                    Level.mate(x, y);
+                }
+            }
+        }
+    }
+
+
+
+
+
 
 
     @Override
