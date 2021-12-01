@@ -32,8 +32,8 @@ public class Level extends Application {
     private static final int GRID_WIDTH = 12;
     private static final int GRID_HEIGHT = 7;
     // The dimensions of the canvas
-    private static final int CANVAS_WIDTH = 64*GRID_WIDTH;
-    private static final int CANVAS_HEIGHT = 64*GRID_HEIGHT;
+    private static final int CANVAS_WIDTH = 64 * GRID_WIDTH;
+    private static final int CANVAS_HEIGHT = 64 * GRID_HEIGHT;
 
     // The width and height (in pixels) of each cell that makes up the game.
     private static final int GRID_CELL_WIDTH = 64;
@@ -58,6 +58,7 @@ public class Level extends Application {
     private static Image noEntry;
     private static Image poison;
     private static Image sterilisation;
+    private static int tickCount;
 
     private Timeline tickTimeline;
 
@@ -93,6 +94,7 @@ public class Level extends Application {
         return GRID_WIDTH;
     }
 
+
     protected void generateLevel() {
     }
 
@@ -102,7 +104,6 @@ public class Level extends Application {
     public static char[][] getLevelLayout() {
         return levelLayout;
     }
-
 
 
     public static int getLevelHeight() {
@@ -172,7 +173,7 @@ public class Level extends Application {
     public void drawGame() {
         // Get the Graphic Context of the canvas. This is what we draw on.
 
-        if(!pauseGame) {
+        if (!pauseGame) {
             GraphicsContext gc = canvas.getGraphicsContext2D();
 
             // Clear canvas
@@ -200,7 +201,7 @@ public class Level extends Application {
             for (Item item : itemList) {
                 gc.drawImage(item.img, item.getX() * GRID_CELL_WIDTH, item.getY() * GRID_CELL_HEIGHT);
             }
-        }else {
+        } else {
             pauseGame();
         }
 
@@ -212,7 +213,7 @@ public class Level extends Application {
         // Draw an icon at the dropped location.
         GraphicsContext gc = canvas.getGraphicsContext2D();
         // Draw the the image so the center is where we dropped.
-        if (levelLayout[y][x] == 'P'){
+        if (levelLayout[y][x] == 'P') {
             System.out.println(x * GRID_CELL_WIDTH);
             gc.drawImage(bomb, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
         }
@@ -313,18 +314,22 @@ public class Level extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        tickCount = 0;
         PlayableRat rat2 = new PlayableRat();
         PlayableRat rat3 = new PlayableRat();
         //Testing Tick's
         ratList.add(rat3);
         ratList.add(rat2);
 
+        for (PlayableRat rat : ratList) {
+            rat.setImageDirection();
+        }
+
 
         ratRight = new Image("resources/Images/Rat/MRatRight.png");
         ratLeft = new Image("resources/Images/Rat/MRatLeft.png");
         ratUp = new Image("resources/Images/Rat/RatUp.png");
         ratDown = new Image("resources/Images/Rat/RatDown.png");
-
 
 
         grass = new Image("/resources/Images/Tiles/Grass.png");
@@ -360,6 +365,7 @@ public class Level extends Application {
         primaryStage.show();
 
     }
+
     /**
      * This method is called periodically by the tick timeline
      * and would for, example move, perform logic in the game,
@@ -367,13 +373,14 @@ public class Level extends Application {
      * over them all and calling their own tick method).
      */
     public void tick() {
+        tickCount++;
         // Here we move the player right one cell and teleport
         // them back to the left side when they reach the right side.
-        for(PlayableRat rat : ratList){
+        for (PlayableRat rat : ratList) {
             rat.move();
             rat.setImageDirection();
+            rat.incrementTick();
         }
-
 
 
         // We then redraw the whole canvas.
@@ -384,7 +391,7 @@ public class Level extends Application {
         Stage pauseStage = new Stage();
 
         BorderPane root = new BorderPane();
-        canvas = new Canvas(CANVAS_WIDTH,CANVAS_WIDTH);
+        canvas = new Canvas(CANVAS_WIDTH, CANVAS_WIDTH);
         root.setCenter(canvas);
 
         HBox toolbar = new HBox();
@@ -412,9 +419,9 @@ public class Level extends Application {
         });
 
         saveGameBtn.setOnAction(e -> {
-            try{
+            try {
                 saveToFile();
-            }catch(Exception ex) {
+            } catch (Exception ex) {
                 System.out.println(ex);
             }
         });
@@ -428,6 +435,7 @@ public class Level extends Application {
         pauseStage.show();
 
     }
+
     public void processKeyEvent(KeyEvent event) {
 
         switch (event.getCode()) {
@@ -442,19 +450,19 @@ public class Level extends Application {
         event.consume();
     }
 
-    public void saveToFile(){
-        try{
-            FileWriter writer =new FileWriter(saveGame);
+    public void saveToFile() {
+        try {
+            FileWriter writer = new FileWriter(saveGame);
             //writer.write(Tiles.toString());
             writer.write(player.toString());
-            for(Rat rat: ratList){
+            for (Rat rat : ratList) {
                 writer.write(ratList.toString());
             }
-            for(Item item: itemList){
+            for (Item item : itemList) {
                 writer.write(itemList.toString());
             }
 
-        }catch (IOException e){
+        } catch (IOException e) {
             System.out.println(e);
         }
     }
