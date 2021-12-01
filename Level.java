@@ -1,4 +1,3 @@
-
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -79,11 +78,11 @@ public class Level extends Application {
     //this is a hardcoded level layout only here for testing purposes
     private static char[][] levelLayout = {
             {'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G'},
-            {'G', 'P', 'G', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'G'},
-            {'G', 'P', 'P', 'G', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'G'},
-            {'G', 'P', 'P', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'G'},
-            {'G', 'P', 'P', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'G'},
-            {'G', 'P', 'P', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'G'},
+            {'G', 'P', 'G', 'T', 'T', 'T', 'T', 'T', 'G', 'T', 'T', 'G'},
+            {'G', 'P', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'T', 'T', 'G'},
+            {'G', 'P', 'G', 'T', 'T', 'T', 'T', 'G', 'G', 'T', 'T', 'G'},
+            {'G', 'P', 'G', 'G', 'T', 'G', 'T', 'G', 'G', 'T', 'T', 'G'},
+            {'G', 'P', 'P', 'T', 'T', 'G', 'T', 'T', 'T', 'T', 'T', 'G'},
             {'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G'}};
     private static PlayableRat testRat =  new PlayableRat();
 
@@ -174,6 +173,7 @@ public class Level extends Application {
      */
     public void drawGame() {
         // Get the Graphic Context of the canvas. This is what we draw on.
+
         if(!pauseGame) {
             GraphicsContext gc = canvas.getGraphicsContext2D();
 
@@ -183,7 +183,6 @@ public class Level extends Application {
             // Set the background to gray.
             gc.setFill(Color.GRAY);
             gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
-
             // Draw row of dirt images
             // We multiply by the cell width and height to turn a coordinate in our grid into a pixel coordinate.
             for (int x = 0; x < GRID_HEIGHT; x++) {
@@ -197,10 +196,12 @@ public class Level extends Application {
                     }
                 }
             }
+            testRat.setImageDirection();
             gc.drawImage(testRat.img, testRat.getX() * GRID_CELL_WIDTH, testRat.getY() * GRID_CELL_HEIGHT);
         }else {
             pauseGame();
         }
+
     }
 
     public void canvasDragDroppedOccured(DragEvent event) {
@@ -373,12 +374,6 @@ public class Level extends Application {
         }
         // We then redraw the whole canvas.
         drawGame();
-    }
-
-    private void changeRatDirection(Rat rat){
-        if (rat.getDirection().equals("NORTH")){
-
-        }
     }
 
     public void pauseGame() {
