@@ -2,7 +2,7 @@ import javafx.scene.image.Image;
 
 /**
  * This Class represents a DeathRat in the game.
- * @author samgriffin and Alex Walker
+ * @author samgriffin and Ryan Wake
  */
  
 public class DeathRat extends Rat {

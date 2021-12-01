@@ -5,6 +5,7 @@ import java.util.Random;
 public class PlayableRat extends Rat {
     static final private int ADULT_SPEED = 2; //arbitrary nums for now
     static final private int BABY_SPEED = 5;
+    static final private int PREGNANCY_DURATION = 5;
 
     private enum Sex {MALE, FEMALE}
 
@@ -15,7 +16,7 @@ public class PlayableRat extends Rat {
     private boolean isPregnant; // can't really remember why we need this - actually it will probs need to have a getter
     //                             and be called by Level to see if a baby rat needs to be made at that point
 
-
+    private int pregnantTick;
     //3 constructors 1 for new babies at start of game, 1 for new babies after given birth and the other for existed loaded in rats
 
     public PlayableRat() {
@@ -27,22 +28,22 @@ public class PlayableRat extends Rat {
         super.y = xy[1];
         ticksSinceCreation = 0;
         super.direction = generateDirection();
+        pregnantTick = 0;
     }
 
 
-    public PlayableRat(int x, int y, boolean isAdult, boolean isPregnant) {
+    public PlayableRat(int x, int y) {
         super.x = x;
         super.y = y;
-        this.isAdult = isAdult;
-        this.isPregnant = isPregnant;
         sex = pickSex();
         super.speed = ADULT_SPEED;
         ticksSinceCreation = 0;
         super.direction = generateDirection();
+        pregnantTick = 0;
     }
 
 
-    public PlayableRat(int x, int y, boolean isAdult, boolean isPregnant, Sex sex, int ticksSinceCreation, Direction direction) {
+    public PlayableRat(int x, int y, boolean isAdult, boolean isPregnant, Sex sex, int ticksSinceCreation, Direction direction, int pregnantTick) {
         super.x = x;
         super.y = y;
         this.isAdult = isAdult;
@@ -55,6 +56,10 @@ public class PlayableRat extends Rat {
 
     public Sex getSex() {
         return sex;
+    }
+
+    public boolean getIsPregnant(){
+        return isPregnant;
     }
 
     public void incrementTick(){
@@ -150,13 +155,26 @@ public class PlayableRat extends Rat {
         for (PlayableRat rat: Level.getRatList()) {
             if (rat.getX() == x && rat.getY() == y && sex != rat.getSex() && isAdult && !isPregnant){
                 if (this.sex == Sex.FEMALE){
-                    Level.mate(x, y);
+                    System.out.println("mate");
+                    isPregnant = true;
                 }
             }
         }
     }
 
 
+    public void incrementTickPregnant(){
+        pregnantTick++;
+        System.out.println(pregnantTick);
+    }
+
+    public void checkPregnancy(){
+        if (pregnantTick > PREGNANCY_DURATION){
+            Level.giveBirth(x, y);
+            isPregnant = false;
+            pregnantTick = 0;
+        }
+    }
 
 
 

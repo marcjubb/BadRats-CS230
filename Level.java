@@ -170,10 +170,8 @@ public class Level extends Application {
         return this.completed;
     }
 
-    public static void mate(int x, int y){
-        PlayableRat newBaby = new PlayableRat();
-        newBaby.setX(x);
-        newBaby.setY(y);
+    public static void giveBirth(int x, int y){
+        PlayableRat newBaby = new PlayableRat(x,y);
         newBaby.setImageDirection();
         ratList.add(newBaby);
     }
@@ -391,6 +389,11 @@ public class Level extends Application {
             rat.move();
             rat.setImageDirection();
             rat.incrementTick();
+            if (rat.getIsPregnant()){
+                rat.incrementTickPregnant();
+                rat.checkPregnancy();
+            }
+
         }
 
 
