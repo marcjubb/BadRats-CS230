@@ -315,11 +315,10 @@ public class Level extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         tickCount = 0;
-        PlayableRat rat2 = new PlayableRat();
-        PlayableRat rat3 = new PlayableRat();
-        //Testing Tick's
-        ratList.add(rat3);
-        ratList.add(rat2);
+        for (int i = 0; i < 4; i++) {
+            ratList.add(new PlayableRat());
+        }
+
 
         for (PlayableRat rat : ratList) {
             rat.setImageDirection();
