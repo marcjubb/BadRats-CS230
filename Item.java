@@ -59,7 +59,7 @@ public class Item extends VisibleObject{
 
     @Override
     public String toString(){
-        return this.itemName + ", " + this.imagePath + ", " + x + ", " + y + this.isDestroyed + "\n";
+        return this.itemName + ", " + this.imagePath + ", " + x + ", " + y + ", " + this.isDestroyed + "\n";
     }
 
 }

@@ -76,6 +76,7 @@ public class Level extends Application {
 
     private static ArrayList<Rat> ratList = new ArrayList<Rat>();
     private static ArrayList<Item> itemList = new ArrayList<Item>();
+    private static ArrayList<Item> inventory = new ArrayList<Item>();
     //this is a hardcoded level layout only here for testing purposes
     private static char[][] levelLayout = {
             {'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G'},
@@ -226,6 +227,8 @@ public class Level extends Application {
         if (levelLayout[y][x] == 'P') {
             System.out.println(x * GRID_CELL_WIDTH);
             gc.drawImage(bomb, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
+            itemList.add(new DeathRatItem(x,y));
+
         }
     }
 
@@ -402,6 +405,7 @@ public class Level extends Application {
 
         for(Item item: itemList){
             item.setImg(item.getImage());
+            System.out.println(item.toString());
         }
         // We then redraw the whole canvas.
         drawGame();

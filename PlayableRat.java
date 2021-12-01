@@ -2,6 +2,7 @@ import javafx.scene.image.Image;
 
 import java.util.Random;
 
+/* */
 public class PlayableRat extends Rat {
     static final private int ADULT_SPEED = 2; //arbitrary nums for now
     static final private int BABY_SPEED = 5;
@@ -78,7 +79,7 @@ public class PlayableRat extends Rat {
                     }else{
                         this.setImg(new Image("/resources/Images/Rat/FemaleRatDown.png"));
                     }
-                }else {
+                } else {
                     this.setImg(new Image("/resources/Images/Rat/BabyRatDown.png"));
                 }
 
