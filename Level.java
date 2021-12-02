@@ -237,7 +237,7 @@ public class Level<e> extends Application {
         if (levelLayout[y][x] == 'P') {
             if (Objects.equals(event.getDragboard().getString(), "Bomb")) {
 
-                itemList.add(itemList.size(), new Bomb(x* GRID_CELL_WIDTH, y*GRID_CELL_HEIGHT));
+                itemList.add(itemList.size(), new Bomb(x, y));
 
                 gc.drawImage(bomb, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
 

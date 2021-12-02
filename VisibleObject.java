@@ -14,8 +14,7 @@ public abstract class VisibleObject {
     protected int y = 0;
 
     public VisibleObject(int x, int y) {
-        this.x = x* tileSize;
-        this.y = y* tileSize;
+
     }
 
     protected VisibleObject() {
