@@ -28,7 +28,7 @@ public class Saver {
      *
      */
 
-    public static void saveGame(){
+   /* public static void saveGame(){
         Date date = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy_HH-mm-ss");
         File file = new File ("source/saves/" + dateFormat.format(date) + "_BadRats_Save");
@@ -41,7 +41,7 @@ public class Saver {
 
         fileOutputStream.close();
         objectOutputStream.close();
-    }
+    }*/
 
     /**
      *

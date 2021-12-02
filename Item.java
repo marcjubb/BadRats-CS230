@@ -8,11 +8,10 @@ import java.util.ArrayList;
 public class Item extends VisibleObject{
     private String itemName;
 
-    public Item(int x, int y, String itemName, String fpImg){
+    public Item(int x, int y, String itemName){
         this.x = x;
         this.y = y;
         this.itemName = itemName;
-        this.img = new Image(fpImg);
     }
 
 
@@ -33,7 +32,7 @@ public class Item extends VisibleObject{
 
     protected boolean isInExplosion(ArrayList<Item> items) {
         for (Item item : items) {
-            if (item.getItemName() == "Bomb" && item.collisionAt(x, y)) {
+            if (item.getItemName() == "bomb" && item.collisionAt(x, y)) {
                 return true;
             }
         }

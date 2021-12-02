@@ -30,7 +30,7 @@ public class DeathRat extends Rat {
     }
 
 
-    public void checkCollisions() {
+    public void checkCollisions(){
         /*int ratListLength = Level.getRatList().size();
         ArrayList<Rat> ratsToRemove = new ArrayList<>();
         for (int i = 0; i <= ratListLength-1; i++) {
@@ -41,19 +41,15 @@ public class DeathRat extends Rat {
         }*/
         System.out.println("checking collision!");
 
-        /*for (Rat rat : Level.getRatList()) {
-            if (rat.getClass() != this.getClass() && rat.getX() == x && rat.getY() == y) {
+       /* for(Rat rat: Level.getRatList()){
+            if (rat.getClass() != this.getClass() && rat.getX() == x && rat.getY() == y){
                 System.out.println("Mac - 'sam grif!'");
                 Level.getRatList().remove(rat);
             }
+
         }*/
-        for (Iterator<Rat> it = Level.getRatList().iterator(); it.hasNext(); ) {
-            Rat rat = it.next();
-            if (rat.getClass() != this.getClass() && rat.getX() == x && rat.getY() == y) {
-                System.out.println("Mac - 'sam grif!'");
-                it.remove();
-            }
-        }
+        Level.getRatList().removeIf(rat -> rat.getClass() != this.getClass() && rat.getX() == x && rat.getY() == y);
+
     }
 
 

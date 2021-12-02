@@ -45,10 +45,6 @@ public class Level<e> extends Application {
     private Canvas canvas;
 
     // Loaded images
-    private static Image ratRight;
-    private static Image ratLeft;
-    private static Image ratUp;
-    private static Image ratDown;
     private static Image grass;
     private static Image path;
     private static Image tunnel;
@@ -81,10 +77,10 @@ public class Level<e> extends Application {
     //this is a hardcoded level layout only here for testing purposes
     private static char[][] levelLayout = {
             {'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G'},
-            {'G', 'P', 'G', 'T', 'T', 'T', 'T', 'T', 'G', 'T', 'T', 'G'},
-            {'G', 'P', 'G', 'G', 'T', 'G', 'G', 'G', 'T', 'G', 'T', 'G'},
-            {'G', 'P', 'G', 'T', 'T', 'T', 'T', 'G', 'P', 'T', 'T', 'G'},
-            {'G', 'P', 'G', 'G', 'T', 'G', 'T', 'G', 'T', 'G', 'T', 'G'},
+            {'G', 'P', 'P', 'T', 'T', 'T', 'T', 'T','P', 'T', 'T', 'G'},
+            {'G', 'P', 'G', 'G', 'T', 'G', 'P', 'G', 'T', 'G', 'T', 'G'},
+            {'G', 'P', 'P', 'T', 'T', 'T', 'T', 'P', 'P', 'T', 'T', 'G'},
+            {'G', 'P', 'G', 'G', 'T', 'G', 'P', 'G', 'T', 'G', 'T', 'G'},
             {'G', 'P', 'P', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'G'},
             {'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G'}};
 
@@ -114,6 +110,10 @@ public class Level<e> extends Application {
 
     public static int getLevelHeight() {
         return levelHeight;
+    }
+
+    public static int getGridCellHeight() {
+        return GRID_CELL_HEIGHT;
     }
 
     public void setLevelHeight(int levelHeight) {
@@ -211,12 +211,14 @@ public class Level<e> extends Application {
                     }
                 }
             }
+
             for (Rat rat : ratList) {
-                gc.drawImage(rat.img, rat.getX() * GRID_CELL_WIDTH, rat.getY() * GRID_CELL_HEIGHT);
+                rat.draw(gc);
+                /*gc.drawImage(rat.img, rat.getX() * GRID_CELL_WIDTH, rat.getY() * GRID_CELL_HEIGHT);*/
             }
 
             for (Item item : itemList) {
-                gc.drawImage(item.img, item.getX() * GRID_CELL_WIDTH, item.getY() * GRID_CELL_HEIGHT);
+                 item.draw(gc);
             }
 
         } else {
@@ -234,8 +236,11 @@ public class Level<e> extends Application {
 
         if (levelLayout[y][x] == 'P') {
             if (Objects.equals(event.getDragboard().getString(), "Bomb")) {
-                itemList.add(itemList.size(), new Bomb(x, y));
+
+                itemList.add(itemList.size(), new Bomb(x* GRID_CELL_WIDTH, y*GRID_CELL_HEIGHT));
+
                 gc.drawImage(bomb, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
+
             } else if (Objects.equals(event.getDragboard().getString(), "MaleSexChange")) {
                 itemList.add(itemList.size(), new MaleSexChange(x, y));
                 gc.drawImage(maleSexChange, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
@@ -256,7 +261,6 @@ public class Level<e> extends Application {
                 gc.drawImage(sterilisation, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
             }else {
                 itemList.add(itemList.size(), new DeathRatItem(x, y));
-                //ratList.add(ratList.size(), new DeathRat(x, y));
                 gc.drawImage(deathrat, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
 
 
@@ -534,17 +538,15 @@ public class Level<e> extends Application {
         for (Rat rat : ratList) {
             rat.setImageDirection();
         }
-       /* Bomb test = new Bomb(1,1);
-        test.setImg(new Image("/resources/Images/Items/Bomb.png"));
-        itemList.add(test);
+        /*Bomb test = new Bomb(1,1);
+      itemList.add(test);*/
 
-        itemList.add(new MaleSexChange(1,2));*/
+      /*  itemList.add(new MaleSexChange(1,2));*/
 
-
-        ratRight = new Image("resources/Images/Rat/MRatRight.png");
+/*        ratRight = new Image("resources/Images/Rat/MRatRight.png");
         ratLeft = new Image("resources/Images/Rat/MRatLeft.png");
         ratUp = new Image("resources/Images/Rat/RatUp.png");
-        ratDown = new Image("resources/Images/Rat/RatDown.png");
+        ratDown = new Image("resources/Images/Rat/RatDown.png");*/
 
 
         grass = new Image("/resources/Images/Tiles/Grass.png");
@@ -565,7 +567,7 @@ public class Level<e> extends Application {
         scene.addEventFilter(KeyEvent.KEY_RELEASED, event -> processKeyEvent(event));
         // Register a tick method to be called periodically.
         // Make a new timeline with one keyframe that triggers the tick method every half a second.
-        tickTimeline = new Timeline(new KeyFrame(Duration.millis(500), event -> tick()));
+        tickTimeline = new Timeline(new KeyFrame(Duration.millis(250), event -> tick()));
         // Loop the timeline forever
         tickTimeline.setCycleCount(Animation.INDEFINITE);
         // We start the timeline upon a button press.
@@ -595,22 +597,24 @@ public class Level<e> extends Application {
             rat.incrementTick();
         }
 
-        int ratListLength = ratList.size();
-        for (int i = 0; i <= ratListLength-1; i++) {
-            ratList.get(i).setImageDirection();
-            if (ratList.get(i) instanceof PlayableRat && ((PlayableRat) ratList.get(i)).getIsPregnant()){
-                ((PlayableRat) ratList.get(i)).incrementTickPregnant();
-                ((PlayableRat) ratList.get(i)).checkPregnancy();
-            }
-        }
-        int itemListLength = itemList.size();
 
-        for (int i = 0; i <= itemListLength-1 ; i++) {
-            itemList.get(i).update();
-            if (itemList.get(i).isDestroyed()){
-                itemList.remove(itemList.get(i));
+        for (Rat rat : ratList) {
+            rat.setImageDirection();
+
+            if (rat instanceof PlayableRat && ((PlayableRat) rat).getIsPregnant()) {
+                ((PlayableRat) rat).incrementTickPregnant();
+                ((PlayableRat) rat).checkPregnancy();
+
             }
         }
+
+        for (Item item : itemList){
+            item.update();
+            if (item.isDestroyed()) {
+                itemList.remove(item);
+            }
+        }
+
 
         // We then redraw the whole canvas.
         drawGame();

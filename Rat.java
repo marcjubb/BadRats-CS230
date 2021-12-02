@@ -17,10 +17,12 @@ public class Rat extends VisibleObject {
     private enum LeftOrRight {LEFT, RIGHT}
 
     protected int ticksSinceCreation;
-
-    //I Don't think you need an empty
     public Rat() {
 
+    }
+    //I Don't think you need an empty
+    public Rat(int x,int y) {
+        super(x,y);
     }
 
     public String getDirection() {

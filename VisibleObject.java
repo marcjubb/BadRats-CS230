@@ -7,14 +7,15 @@ import javafx.scene.image.Image;
  */
 
 public abstract class VisibleObject {
-    private final int tileSize = Level.getGridCellWidth();
-    private Image img;
-    private boolean destroyed = false;
-    private int x = 0;
-    private int y = 0;
+     final int tileSize = Level.getGridCellHeight();
+     Image img;
+     boolean destroyed = false;
+    protected int x = 0;
+    protected int y = 0;
 
     public VisibleObject(int x, int y) {
-
+        this.x = x* tileSize;
+        this.y = y* tileSize;
     }
 
     protected VisibleObject() {
