@@ -5,7 +5,7 @@ import java.util.Random;
 /* */
 public class PlayableRat extends Rat {
     static final private int ADULT_SPEED = 2; //arbitrary nums for now
-    static final private int BABY_SPEED = 5;
+    static final private int BABY_SPEED = 1;
     static final private int PREGNANCY_DURATION = 7;
 
     private enum Sex {MALE, FEMALE}
@@ -37,7 +37,7 @@ public class PlayableRat extends Rat {
         super.x = x;
         super.y = y;
         sex = pickSex();
-        super.speed = ADULT_SPEED;
+        super.speed = BABY_SPEED;
         super.ticksSinceCreation = 0;
         super.direction = generateDirection();
         pregnantTick = 0;
@@ -136,6 +136,7 @@ public class PlayableRat extends Rat {
 
     public void becomeAdult() {
         isAdult = true;
+        speed = ADULT_SPEED;
     }
 
 

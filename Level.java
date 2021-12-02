@@ -581,11 +581,16 @@ public class Level<e> extends Application {
      */
     public void tick() {
         tickCount++;
+        System.out.println(tickCount);
         // Here we move the player right one cell and teleport
         // them back to the left side when they reach the right side.
 
         for (Rat rat: ratList) {
-            rat.move();
+            System.out.println(tickCount % rat.getSpeed());
+            if (tickCount % rat.getSpeed() == 0){
+                rat.move();
+            }
+
             rat.setImageDirection();
             rat.incrementTick();
         }
