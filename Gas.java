@@ -12,15 +12,12 @@ public class Gas extends Item {
     private int distanceRight;
 
     public Gas(int x, int y) {
-        super(x, y, "Gas");
-    }
-
-    public Gas(String itemName, int x, int y) {
-        super(x, y, itemName);
-        this.setItemName("Gas");
-        this.setImg(new Image("/resources/Images/Items/Gas.png"));
+        super(x, y, "Gas", "/resources/Images/Items/Gas.png");
         timeLeft = 10;
     }
+
+
+
 }
 
 //    public void update() {
