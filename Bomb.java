@@ -53,9 +53,10 @@ public class Bomb extends Item {
             return false;
         }else {
             if (x >= this.x && x < this.x + 1 && y >= this.y - distanceUp && y < this.y + 1 + distanceDown) {
-                if (x >= this.x - distanceRight && x < this.x + 1 + distanceRight && y >= this.y && y < this.y + 1) {
-                    return true;
-                }
+                return true;
+            }
+            if (x >= this.x - distanceLeft && x < this.x + 1 + distanceRight && y >= this.y && y < this.y + 1) {
+                return true;
             }
             return false;
         }

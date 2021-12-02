@@ -42,6 +42,12 @@ public class Item extends VisibleObject{
         return false;
     }
 
+    public void update() {
+        if (isInExplosion(Level.getItemList())) {
+            destroySelf();
+        }
+    }
+
     public void setItemName(String itemName) {
         this.itemName = itemName;
     }

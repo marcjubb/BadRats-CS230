@@ -97,6 +97,10 @@ public class Level<e> extends Application {
         return ratList;
     }
 
+    public static ArrayList<Item> getItemList() {
+        return itemList;
+    }
+
     protected void generateLevel() {
     }
 
