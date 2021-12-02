@@ -30,17 +30,19 @@ public class DeathRat extends Rat {
 
 
     public void checkCollisions(){
-        int ratListLength = Level.getRatList().size();
+        /*int ratListLength = Level.getRatList().size();
         ArrayList<Rat> ratsToRemove = new ArrayList<>();
         for (int i = 0; i <= ratListLength-1; i++) {
-            if (Level.getRatList().get(i).getX() == x && Level.getRatList().get(i).getY() == y){
+            if (Level.getRatList().get(i).getX() == this.x && Level.getRatList().get(i).getY() == this.y){
+                System.out.println("a!");
                 ratsToRemove.add(Level.getRatList().get(i));
             }
-        }
-
+        }*/
+        System.out.println("COLLISION!");
 
         for(Rat rat: Level.getRatList()){
-            if (rat.getX() == x && rat.getY() == y){
+            if (rat.getClass() != this.getClass() && rat.getX() == x && rat.getY() == y){
+                System.out.println("Mac - 'sam grif!'");
                 Level.getRatList().remove(rat);
             }
         }
@@ -64,7 +66,7 @@ public class DeathRat extends Rat {
                 this.setImg(new Image("resources/Images/Rat/Rat11.png"));
                 break;
         }
-    //checkCollisions();
+    checkCollisions();
     }
  
 }
