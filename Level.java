@@ -8,7 +8,6 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
-import javafx.scene.control.SplitMenuButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
@@ -16,16 +15,16 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Objects;
 
 
-public class Level extends Application {
+public class Level<e> extends Application {
 
 
     // The dimensions of the window
@@ -56,6 +55,7 @@ public class Level extends Application {
     private static Image bomb;
     private static Image maleSexChange;
     private static Image femaleSexChange;
+    private static Image deathrat;
     private static Image gas;
     private static Image noEntry;
     private static Image poison;
@@ -221,6 +221,7 @@ public class Level extends Application {
 
     }
 
+
     public void canvasDragDroppedOccured(DragEvent event) {
         int x = Math.floorDiv((int) event.getX(), 64);
         int y = Math.floorDiv((int) event.getY(), 64);
@@ -228,28 +229,40 @@ public class Level extends Application {
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
         if (levelLayout[y][x] == 'P') {
-            if (Objects.equals(event.getDragboard().getString(), "Bomb")){
-                itemList.add(itemList.size(), new Bomb(x,y));
+            if (Objects.equals(event.getDragboard().getString(), "Bomb")) {
+                itemList.add(itemList.size(), new Bomb(x, y));
                 gc.drawImage(bomb, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
-            }else if (Objects.equals(event.getDragboard().getString(), "MaleSexChange")){
-                itemList.add(itemList.size(), new MaleSexChange(x,y));
+            } else if (Objects.equals(event.getDragboard().getString(), "MaleSexChange")) {
+                itemList.add(itemList.size(), new MaleSexChange(x, y));
                 gc.drawImage(maleSexChange, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
-            }else if (Objects.equals(event.getDragboard().getString(), "FemaleSexChange")){
-                itemList.add(itemList.size(), new FemaleSexChange(x,y));
+            } else if (Objects.equals(event.getDragboard().getString(), "FemaleSexChange")) {
+                itemList.add(itemList.size(), new FemaleSexChange(x, y));
                 gc.drawImage(femaleSexChange, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
-            }else{
-                itemList.add(itemList.size(), new Sterilisation(x,y));
+            } else if (Objects.equals(event.getDragboard().getString(), "Gas")){
+                itemList.add(itemList.size(), new Gas(x, y));
+                gc.drawImage(gas, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
+            }else if (Objects.equals(event.getDragboard().getString(), "Poison")){
+                itemList.add(itemList.size(), new Poison(x, y));
+                gc.drawImage(poison, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
+            }else if (Objects.equals(event.getDragboard().getString(), "NoEntry")){
+                itemList.add(itemList.size(), new NoEntrySign(x, y));
+                gc.drawImage(noEntry, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
+            }else if (Objects.equals(event.getDragboard().getString(), "Sterilisation")){
+                itemList.add(itemList.size(), new Sterilisation(x, y));
                 gc.drawImage(sterilisation, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
+            }else {
+                ratList.add(ratList.size(), new DeathRat(x, y));
+                gc.drawImage(deathrat, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
+
+
             }
+        }
 
         }
-    }
-
-
-    private Pane buildGUI() {
+                private Pane buildGUI() {
         // Create top-level panel that will hold all GUI nodes.
         BorderPane root = new BorderPane();
-
+                    Button btnLoadLevel = new Button("Load Level");
         // Create the canvas that we will draw on.
         // We store this as a global variable so other methods can access it.
         canvas = new Canvas(CANVAS_WIDTH, CANVAS_HEIGHT);
@@ -264,7 +277,7 @@ public class Level extends Application {
         Button startTickTimelineButton = new Button("Start Ticks");
         Button stopTickTimelineButton = new Button("StopTicks");
         // We add both buttons at the same time to the timeline (we could have done this in two steps).
-        toolbar.getChildren().addAll(startTickTimelineButton, stopTickTimelineButton);
+        toolbar.getChildren().addAll(startTickTimelineButton, stopTickTimelineButton, btnLoadLevel);
         // Stop button is disabled by default
         stopTickTimelineButton.setDisable(true);
 
@@ -283,20 +296,150 @@ public class Level extends Application {
             startTickTimelineButton.setDisable(false);
         });
 
+//Button to load level files NOT FINISHED
+                    btnLoadLevel.setOnAction(e -> {
 
+                        GraphicsContext gc = canvas.getGraphicsContext2D();
+                        FileChooser fileChooser = new FileChooser();
+
+                        //Set extension filter
+                        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
+                        fileChooser.getExtensionFilters().add(extFilter);
+
+                        //Show save file dialog
+                        File file = fileChooser.showOpenDialog(primaryStage);
+
+                        if(file != null){
+
+                            //System.out.print(readFile(file));
+                            try {
+                                // create a reader instance
+                                BufferedReader br = new BufferedReader(new FileReader(file));
+
+                                ArrayList<ArrayList<Character>> levelLayout = new ArrayList<>();
+                                String line;
+
+                                // read until end of file
+                                while ((line = br.readLine()) != null) {
+                                    //System.out.println(line);
+                                    ArrayList<Character> chars = new ArrayList<Character>();
+                                    for (char c : line.toCharArray()) {
+                                        chars.add(c);
+                                    }
+                                    levelLayout.add(chars);
+                                }
+
+                                for (int x = 0; x < GRID_HEIGHT; x++) {
+                                    for (int y = 0; y < GRID_WIDTH; y++) {
+                                        System.out.print(" x="+x);
+                                        System.out.print(" y="+y);
+                                        if (levelLayout.get(x).get(y) == 'G') {
+                                            gc.drawImage(grass, y * GRID_CELL_WIDTH, x * GRID_CELL_HEIGHT);
+
+                                        } else if (levelLayout.get(x).get(y) == 'T') {
+                                            gc.drawImage(tunnel, y * GRID_CELL_WIDTH, x * GRID_CELL_HEIGHT);
+
+                                        } else {
+                                            gc.drawImage(path, y * GRID_CELL_WIDTH, x * GRID_CELL_HEIGHT);
+                                        }
+                                    }
+                                }
+                                br.close();
+                            } catch (IOException ex) {
+                                System.out.print("Error");
+                            }
+                        }
+                    });
 
         // Setup a draggable image.
-        ImageView draggableImage = new ImageView();
+        ImageView dragBomb = new ImageView();
         ImageView dragMaleGender = new ImageView();
         ImageView dragFemaleGender = new ImageView();
+        ImageView dragPoison = new ImageView();
+        ImageView dragNoEntry = new ImageView();
+        ImageView dragSterilisation = new ImageView();
+        ImageView dragGas = new ImageView();
+        ImageView dragDeathRat = new ImageView();
+
         dragMaleGender.setImage(maleSexChange);
-        draggableImage.setImage(bomb);
+        dragBomb.setImage(bomb);
         dragFemaleGender.setImage(femaleSexChange);
-        toolbar.getChildren().add(draggableImage);
+        dragPoison.setImage(poison);
+        dragNoEntry.setImage(noEntry);
+        dragSterilisation.setImage(sterilisation);
+        dragGas.setImage(gas);
+        dragDeathRat.setImage(deathrat);
+
+
+        toolbar.getChildren().add(dragBomb);
         toolbar.getChildren().add(dragMaleGender);
         toolbar.getChildren().add(dragFemaleGender);
+        toolbar.getChildren().add(dragGas);
+        toolbar.getChildren().add(dragPoison);
+        toolbar.getChildren().add(dragSterilisation);
+        toolbar.getChildren().add(dragDeathRat);
+        toolbar.getChildren().add(dragNoEntry);
+
+        dragNoEntry.setOnDragDetected(event -> {
+
+            Dragboard db = dragNoEntry.startDragAndDrop(TransferMode.ANY);
+
+            ClipboardContent content = new ClipboardContent();
+            content.putString("NoEntry");
+
+            db.setContent(content);
 
 
+            event.consume();
+        });
+        dragDeathRat.setOnDragDetected(event -> {
+
+            Dragboard db = dragDeathRat.startDragAndDrop(TransferMode.ANY);
+
+            ClipboardContent content = new ClipboardContent();
+            content.putString("DeathRat");
+
+            db.setContent(content);
+
+
+            event.consume();
+        });
+        dragSterilisation.setOnDragDetected(event -> {
+
+            Dragboard db = dragSterilisation.startDragAndDrop(TransferMode.ANY);
+
+            ClipboardContent content = new ClipboardContent();
+            content.putString("Sterilisation");
+
+            db.setContent(content);
+
+
+            event.consume();
+        });
+        dragPoison.setOnDragDetected(event -> {
+
+            Dragboard db = dragPoison.startDragAndDrop(TransferMode.ANY);
+
+            ClipboardContent content = new ClipboardContent();
+            content.putString("Poison");
+
+            db.setContent(content);
+
+
+            event.consume();
+        });
+        dragGas.setOnDragDetected(event -> {
+
+            Dragboard db = dragGas.startDragAndDrop(TransferMode.ANY);
+
+            ClipboardContent content = new ClipboardContent();
+            content.putString("Gas");
+
+            db.setContent(content);
+
+
+            event.consume();
+        });
         dragFemaleGender.setOnDragDetected(event -> {
 
             Dragboard db = dragFemaleGender.startDragAndDrop(TransferMode.ANY);
@@ -326,12 +469,12 @@ public class Level extends Application {
 
         // This code setup what happens when the dragging starts on the image.
         // You probably don't need to change this (unless you wish to do more advanced things).
-        draggableImage.setOnDragDetected(new EventHandler<MouseEvent>() {
+        dragBomb.setOnDragDetected(new EventHandler<MouseEvent>() {
             public void handle(MouseEvent event) {
                 // Mark the drag as started.
                 // We do not use the transfer mode (this can be used to indicate different forms
                 // of drags operations, for example, moving files or copying files).
-                Dragboard db = draggableImage.startDragAndDrop(TransferMode.ANY);
+                Dragboard db = dragBomb.startDragAndDrop(TransferMode.ANY);
 
                 // We have to put some content in the clipboard of the drag event.
                 // We do not use this, but we could use it to store extra data if we wished.
@@ -350,7 +493,9 @@ public class Level extends Application {
             public void handle(DragEvent event) {
                 // Mark the drag as acceptable if the source was the draggable image.
                 // (for example, we don't want to allow the user to drag things or files into our application)
-                if (event.getGestureSource() == draggableImage || event.getGestureSource() == dragMaleGender|| event.getGestureSource() == dragFemaleGender ) {
+                if (event.getGestureSource() == dragBomb || event.getGestureSource() == dragMaleGender|| event.getGestureSource() == dragFemaleGender
+                || event.getGestureSource() == dragDeathRat || event.getGestureSource() == dragPoison|| event.getGestureSource() == dragNoEntry
+                        || event.getGestureSource() == dragGas || event.getGestureSource() == dragSterilisation ) {
                     // Mark the drag event as acceptable by the canvas.
                     event.acceptTransferModes(TransferMode.ANY);
                     // Consume the event. This means we mark it as dealt with.
@@ -400,18 +545,14 @@ public class Level extends Application {
         grass = new Image("/resources/Images/Tiles/Grass.png");
         path = new Image("/resources/Images/Tiles/Path.png");
         tunnel = new Image("/resources/Images/Tiles/Tunnel.png");
-
+       deathrat = new Image("/resources/Images/Rat/DeathLeft.png");
         bomb = new Image("/resources/Images/Items/Bomb.png");
         femaleSexChange = new Image("/resources/Images/Items/FemaleSexChange.png");
         maleSexChange = new Image("/resources/Images/Items/MaleSexChange.png");
-
-
-     /*   maleSexChange= new Image("/resources/Images/Items/MaleSexChange.png");
-        femaleSexChange =  new Image("/resources/Images/Items/FemaleSexChange.png");
         gas = new Image("/resources/Images/Items/Gas.png");
         noEntry = new Image("/resources/Images/Items/NoEntry.png");
         poison = new Image("/resources/Images/Items/Poison.png");
-        sterilisation = new Image("/resources/Images/Items/Sterilisation.png");*/
+        sterilisation = new Image("/resources/Images/Items/Sterilisation.png");
 
 
         Pane root = buildGUI();

@@ -1,30 +1,28 @@
-//import javafx.scene.canvas.GraphicsContext;
-//import javafx.scene.image.Image;
-//
-///**
-// * This Class represents the Gas item in the game.
-// * @author ryanwake
-// */
-//public class Gas extends Item {
-//
-//    private int timeLeft;
-//    private boolean visibility;
-//    private int distanceUp;
-//    private int distanceDown;
-//    private int distanceLeft;
-//    private int distanceRight;
-//
-//    public  Gas(int x, int y){
-//        super(x,y);
-//    }
-//
-//    public Gas(String itemName, String imagePath,int x, int y){
-//        super(itemName, imagePath,x,y);
-//        this.setItemName("Gas");
-//        this.setImagePath("resources/Gas.png");
-//        timeLeft = 10;
-//    }
-//
+
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
+
+
+public class Gas extends Item {
+
+    private int timeLeft;
+    private boolean visibility;
+    private int distanceUp;
+    private int distanceDown;
+    private int distanceRight;
+
+    public Gas(int x, int y) {
+        super(x, y, "Gas");
+    }
+
+    public Gas(String itemName, int x, int y) {
+        super(x, y, itemName);
+        this.setItemName("Gas");
+        this.setImg(new Image("/resources/Images/Items/Gas.png"));
+        timeLeft = 10;
+    }
+}
+
 //    public void update() {
 //        timeLeft--;
 //        if (timeLeft <= 0) {
@@ -49,9 +47,7 @@
 //    }
 //
 //    public void checkTime(Rat Object){
-//        //if rat collides for certain amount of ticks, kill it
-//        //dont know if this should be done here.
-//        //TODO
+//
 //    }
 //
 //    public void draw(GraphicsContext gc) {
@@ -60,22 +56,19 @@
 //            gc.drawImage(new Image("resources/Gas.png"), x, y);
 //
 //        }else{
-//           //remove image from screen.
-//           //TODO
+//
 //       }
 //    }
 //
 //    public void updateDistance(){
-//        //TODO
+//
 //    }
 //
 //    public int getTimeLeft() {
 //        return timeLeft;
-//    }
-//
-//    public String toString() {
-//        return super.toString() + ", " + timeLeft + "\n";
-//    }
-//
-//
-//}
+/*   }*/
+
+ /*   public String toString() {
+        return super.toString() + ", " + timeLeft + "\n";
+   }*/
+

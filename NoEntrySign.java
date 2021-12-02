@@ -11,6 +11,7 @@ public class NoEntrySign extends Item {
 
     public NoEntrySign(int x, int y) {
         super(x, y, "noentrysign");
+        this.setImg(new Image("/resources/Images/Items/NoEntry.png"));
         durability = 5;
     }
 
