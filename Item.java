@@ -1,3 +1,5 @@
+import javafx.scene.image.Image;
+
 import java.util.ArrayList;
 
 /**
@@ -8,10 +10,11 @@ import java.util.ArrayList;
 public class Item extends VisibleObject{
     private String itemName;
 
-    public Item(int x, int y, String itemName){
+    public Item(int x, int y, String itemName, String fpImg){
         this.x = x;
         this.y = y;
         this.itemName = itemName;
+        this.img = new Image(fpImg);
     }
 
 
