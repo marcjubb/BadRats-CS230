@@ -1,5 +1,11 @@
 import java.io.*;
 import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 /**
  *Saves all data to a text file that can be loaded
@@ -10,10 +16,13 @@ import java.text.SimpleDateFormat;
 
 public class Saver {
     /**
+     *Saves the data to the text file#
      *
      */
     // not sure what data actually needs to be saved or how to save it
-    public static void save();
+    public static void save(){
+
+    }
 
     /**
      *
@@ -36,29 +45,30 @@ public class Saver {
 
     /**
      *
+     *
      * @param filename
      * @throws IOException
      * @throws ClassNotFoundException
      * @throws NullPointerException
      */
     // Not needed........
-    public static load(File filename)
-        throws IOException, ClassNotFoundException, NullPointerException{
-        if(!filename.exists()) {
-            throw new NullPointerException(
-                    "The file located at <" + filename + "> does not exist.");
-        }else{
-            FileInputStream fileInputStream = new FileInputStream(filename);
-            ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+   // public static load(File filename)
+   //     throws IOException, ClassNotFoundException, NullPointerException{
+   //     if(!filename.exists()) {
+   //         throw new NullPointerException(
+  //                  "The file located at <" + filename + "> does not exist.");
+   //     }else{
+   //         FileInputStream fileInputStream = new FileInputStream(filename);
+   //         ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
 
-        }
-    }
+   // /    }
+  //  }
 
     /**
      * Creates a constant global key for each value used to save the
      * correct data whatever that will be
      */
-    public enum Key {
+   // public enum Key {
 
-    }
+   // }
 }
