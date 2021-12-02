@@ -546,7 +546,7 @@ public class Level<e> extends Application {
         grass = new Image("/resources/Images/Tiles/Grass.png");
         path = new Image("/resources/Images/Tiles/Path.png");
         tunnel = new Image("/resources/Images/Tiles/Tunnel.png");
-       deathrat = new Image("/resources/Images/Rat/DeathLeft.png");
+       deathrat = new Image("/resources/Images/Rat/Rat10.png");
         bomb = new Image("/resources/Images/Items/Bomb.png");
         femaleSexChange = new Image("/resources/Images/Items/FemaleSexChange.png");
         maleSexChange = new Image("/resources/Images/Items/MaleSexChange.png");
