@@ -16,6 +16,8 @@ public class Rat extends VisibleObject {
 
     private enum LeftOrRight {LEFT, RIGHT}
 
+    protected int ticksSinceCreation;
+
     //I Don't think you need an empty
     public Rat() {
 
@@ -310,6 +312,6 @@ public class Rat extends VisibleObject {
 
 
     public String toString() {
-        return x + ", " + y;
+        return x + ", " + y + ticksSinceCreation;
     }
 }

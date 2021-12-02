@@ -10,7 +10,7 @@ public class PlayableRat extends Rat {
 
     private enum Sex {MALE, FEMALE}
 
-    private int ticksSinceCreation; //not sure about this attribute here - would also need a tick update from Level
+    //private int ticksSinceCreation; //not sure about this attribute here - would also need a tick update from Level
 
     private Sex sex;
     private boolean isAdult;
@@ -27,7 +27,7 @@ public class PlayableRat extends Rat {
         int[] xy = generateRandomXY();
         super.x = xy[0]; //this is not complete - will need to loop until it finds a tile that is not 'G'
         super.y = xy[1];
-        ticksSinceCreation = 0;
+        super.ticksSinceCreation = 0;
         super.direction = generateDirection();
         pregnantTick = 0;
     }
@@ -38,7 +38,7 @@ public class PlayableRat extends Rat {
         super.y = y;
         sex = pickSex();
         super.speed = ADULT_SPEED;
-        ticksSinceCreation = 0;
+        super.ticksSinceCreation = 0;
         super.direction = generateDirection();
         pregnantTick = 0;
     }
@@ -51,7 +51,7 @@ public class PlayableRat extends Rat {
         this.isPregnant = isPregnant;
         this.sex = sex;
         super.speed = ADULT_SPEED;
-        this.ticksSinceCreation = ticksSinceCreation;
+        super.ticksSinceCreation = ticksSinceCreation;
         super.direction = direction;
     }
 
@@ -64,10 +64,10 @@ public class PlayableRat extends Rat {
     }
 
     public void incrementTick(){
-        if (ticksSinceCreation > 4){
+        if (super.ticksSinceCreation > 4){
             becomeAdult();
         }
-        ticksSinceCreation++;
+        super.ticksSinceCreation++;
     }
 
     public void setImageDirection(){
@@ -154,7 +154,7 @@ public class PlayableRat extends Rat {
 
     private void checkCollision(){
         for (Rat rat: Level.getRatList()) {
-            if (rat.getX() == x && rat.getY() == y && sex != ((PlayableRat) rat).getSex() && isAdult && !isPregnant){
+            if (rat instanceof PlayableRat && rat.getX() == x && rat.getY() == y && sex != ((PlayableRat) rat).getSex() && isAdult && !isPregnant){
                 if (this.sex == Sex.FEMALE){
                     isPregnant = true;
                 }
@@ -181,7 +181,7 @@ public class PlayableRat extends Rat {
 
     @Override
     public String toString() {
-        String returnString = ", " + ticksSinceCreation + ", " + sex.toString() + ", " + isAdult + ", " + isPregnant;
+        String returnString = ", " + sex.toString() + ", " + isAdult + ", " + isPregnant;
         returnString = "PlayableRat, " + super.toString() + returnString;
         return returnString;
     }

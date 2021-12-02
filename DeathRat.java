@@ -8,13 +8,13 @@ import javafx.scene.image.Image;
 public class DeathRat extends Rat {
     private int numCollisions = 0;
     static final private int ADULT_SPEED = 2;
-    private int ticksSinceCreation;
+    //private int ticksSinceCreation;
 
 
 
     public DeathRat() {
         super.speed = ADULT_SPEED;
-        ticksSinceCreation = 0;
+        super.ticksSinceCreation = 0;
         super.direction = generateDirection();
     }
 
@@ -22,7 +22,7 @@ public class DeathRat extends Rat {
         super.x = x;
         super.y = y;
         super.speed = ADULT_SPEED;
-        ticksSinceCreation = 0;
+        super.ticksSinceCreation = 0;
         super.direction = generateDirection();
     }
 
