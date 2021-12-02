@@ -15,10 +15,9 @@ public class Bomb extends Item {
     private int distanceRight;
 
     public Bomb(int x, int y) {
-        super (x, y, "Bomb");
+        super (x, y, "Bomb", "/resources/Images/Items/Bomb.png");
         timer = 5;
-        img = new Image("/resources/Images/Items/Bomb.png");
-       /* updateDistance();*/
+        updateDistance();
     }
 
     public void update() {
@@ -32,20 +31,20 @@ public class Bomb extends Item {
 
         if (timer > 0) {
             if (timer == 5) {
-                gc.drawImage(new Image("/resources/Images/Items/Bomb.png"), x , y);
+                gc.drawImage(new Image("/resources/Images/Items/Bomb.png"), x * tileSize, y * tileSize);
               }else if (timer == 4) {
-                gc.drawImage(new Image("/resources/Images/Items/Bomb4.png"), x, y);
+                gc.drawImage(new Image("/resources/Images/Items/Bomb4.png"), x * tileSize, y * tileSize);
               }else if (timer == 3) {
-                gc.drawImage(new Image("/resources/Images/Items/Bomb3.png"), x, y);
+                gc.drawImage(new Image("/resources/Images/Items/Bomb3.png"), x * tileSize, y * tileSize);
               }else if (timer == 2) {
-                gc.drawImage(new Image("/resources/Images/Items/Bomb2.png"), x, y);
+                gc.drawImage(new Image("/resources/Images/Items/Bomb2.png"), x * tileSize, y * tileSize);
               }else {
-                gc.drawImage(new Image("/resources/Images/Items/Bomb1.png"), x, y);
+                gc.drawImage(new Image("/resources/Images/Items/Bomb1.png"), x * tileSize, y * tileSize);
               }
         }else {
             gc.setFill(Color.YELLOW);
-            gc.fillRect(x - distanceLeft, y, distanceLeft + 64 + distanceRight, 64);
-            gc.fillRect(x, y - distanceUp, 64, distanceUp + 64 + distanceDown);
+            gc.fillRect((x - distanceLeft) * tileSize, y * tileSize, (distanceLeft + 1 + distanceRight)  * tileSize, tileSize);
+            gc.fillRect(x  * tileSize, (y - distanceUp) * tileSize, tileSize, (distanceUp + 1 + distanceDown) * tileSize);
         }
     }
 
@@ -53,8 +52,8 @@ public class Bomb extends Item {
         if (timer > 0) {
             return false;
         }else {
-            if (x >= this.x && x < this.x + 64 && y >= this.y - distanceUp && y < this.y + 64 + distanceDown) {
-                if (x >= this.x - distanceRight && x < this.x + 64 + distanceRight && y >= this.y && y < this.y + 64) {
+            if (x >= this.x && x < this.x + 1 && y >= this.y - distanceUp && y < this.y + 1 + distanceDown) {
+                if (x >= this.x - distanceRight && x < this.x + 1 + distanceRight && y >= this.y && y < this.y + 1) {
                     return true;
                 }
             }
@@ -67,20 +66,18 @@ public class Bomb extends Item {
         distanceDown = 0;
         distanceLeft = 0;
         distanceRight = 0;
-        int xIndex = x / 64;
-        int yIndex = y / 64;
 
-        while (Level.getLevelLayout()[yIndex - ((distanceUp + 64) / 64)][xIndex] != 'G') {
-          distanceUp += 64;
+        while (Level.getLevelLayout()[y - (distanceUp + 1)][x] != 'G') {
+          distanceUp += 1;
         }
-        while (Level.getLevelLayout()[yIndex + ((distanceDown + 64) / 64)][xIndex] != 'G') {
-          distanceDown += 64;
+        while (Level.getLevelLayout()[y + (distanceDown + 1)][x] != 'G') {
+          distanceDown += 1;
         }
-        while (Level.getLevelLayout()[yIndex][xIndex - ((distanceLeft + 64) / 64)] != 'G') {
-          distanceLeft += 64;
+        while (Level.getLevelLayout()[y][x - (distanceLeft + 1)] != 'G') {
+          distanceLeft += 1;
         }
-        while (Level.getLevelLayout()[yIndex][xIndex + ((distanceRight + 64) / 64)] != 'G') {
-          distanceRight += 64;
+        while (Level.getLevelLayout()[y][x + (distanceRight + 1)] != 'G') {
+          distanceRight += 1;
         }
     }
 }

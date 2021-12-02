@@ -17,7 +17,6 @@ public class Item extends VisibleObject{
         this.img = new Image(fpImg);
     }
 
-
     public String getItemName() {
         return itemName;
     }
@@ -35,7 +34,7 @@ public class Item extends VisibleObject{
 
     protected boolean isInExplosion(ArrayList<Item> items) {
         for (Item item : items) {
-            if (item.getItemName() == "bomb" && item.collisionAt(x, y)) {
+            if (item.getItemName() == "Bomb" && item.collisionAt(x, y)) {
                 return true;
             }
         }

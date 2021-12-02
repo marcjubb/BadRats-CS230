@@ -10,7 +10,7 @@ public class NoEntrySign extends Item {
     private int durability;
 
     public NoEntrySign(int x, int y) {
-        super(x, y, "NoEntrySign");
+        super(x, y, "NoEntrySign", "/resources/Images/Items/NoEntry.png");
         durability = 5;
     }
 
