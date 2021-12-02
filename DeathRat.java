@@ -38,7 +38,7 @@ public class DeathRat extends Rat {
                 ratsToRemove.add(Level.getRatList().get(i));
             }
         }*/
-        System.out.println("COLLISION!");
+        System.out.println("checking collision!");
 
         for(Rat rat: Level.getRatList()){
             if (rat.getClass() != this.getClass() && rat.getX() == x && rat.getY() == y){
