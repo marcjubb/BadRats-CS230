@@ -27,8 +27,8 @@ public class DeathRatItem extends Item {
 
     public void update() {
         ticksSinceCreation++;
-        if (ticksSinceCreation <= 5) {
-            //destroySelf();
+        if (ticksSinceCreation == 5) {
+            destroySelf();
             DeathRat rat = new DeathRat(x, y);
             rat.setImageDirection();
             Level.getRatList().add(rat);

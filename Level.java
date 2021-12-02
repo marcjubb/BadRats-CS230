@@ -251,7 +251,8 @@ public class Level<e> extends Application {
                 itemList.add(itemList.size(), new Sterilisation(x, y));
                 gc.drawImage(sterilisation, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
             }else {
-                ratList.add(ratList.size(), new DeathRat(x, y));
+                itemList.add(itemList.size(), new DeathRatItem(x, y));
+                //ratList.add(ratList.size(), new DeathRat(x, y));
                 gc.drawImage(deathrat, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
 
 
@@ -590,10 +591,18 @@ public class Level<e> extends Application {
         }
 
         int ratListLength = ratList.size();
-        for (int i = 0; i < ratListLength-1; i++) {
+        for (int i = 0; i <= ratListLength-1; i++) {
             if (ratList.get(i) instanceof PlayableRat && ((PlayableRat) ratList.get(i)).getIsPregnant()){
                 ((PlayableRat) ratList.get(i)).incrementTickPregnant();
                 ((PlayableRat) ratList.get(i)).checkPregnancy();
+            }
+        }
+        int itemListLength = itemList.size();
+
+        for (int i = 0; i <= itemListLength-1 ; i++) {
+            itemList.get(i).update();
+            if (itemList.get(i).isDestroyed()){
+                itemList.remove(itemList.get(i));
             }
         }
 

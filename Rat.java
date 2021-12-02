@@ -285,6 +285,7 @@ public class Rat extends VisibleObject {
 
     }
 
+
     public void incrementTick() {
         ticksSinceCreation++;
     }
