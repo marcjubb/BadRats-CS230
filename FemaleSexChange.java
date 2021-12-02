@@ -8,7 +8,7 @@ import javafx.scene.image.Image;
 public class FemaleSexChange extends Collectable{
 
     public FemaleSexChange(int x, int y) {
-        super(x, y, "femalesexchange");
+        super(x, y, "FemaleSexChange");
         img = new Image("/resources/Images/Items/FemaleSexChange.png");
     }
 }

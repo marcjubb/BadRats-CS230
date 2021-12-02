@@ -15,9 +15,10 @@ public class Bomb extends Item {
     private int distanceRight;
 
     public Bomb(int x, int y) {
-        super (x, y, "bomb");
+        super (x, y, "Bomb");
         timer = 5;
-        updateDistance();
+        img = new Image("/resources/Images/Items/Bomb.png");
+       /* updateDistance();*/
     }
 
     public void update() {

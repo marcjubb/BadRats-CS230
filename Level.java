@@ -22,6 +22,7 @@ import javafx.util.Duration;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 
 public class Level extends Application {
@@ -211,7 +212,7 @@ public class Level extends Application {
             }
 
             for (Item item : itemList) {
-                    gc.drawImage(item.img, item.getX() * GRID_CELL_WIDTH, item.getY() * GRID_CELL_HEIGHT);
+                gc.drawImage(item.img, item.getX() * GRID_CELL_WIDTH, item.getY() * GRID_CELL_HEIGHT);
             }
 
         } else {
@@ -225,13 +226,21 @@ public class Level extends Application {
         int y = Math.floorDiv((int) event.getY(), 64);
         // Draw an icon at the dropped location.
         GraphicsContext gc = canvas.getGraphicsContext2D();
-        // Draw the the image so the center is where we dropped.
 
         if (levelLayout[y][x] == 'P') {
-            Bomb tester = new Bomb(x,y);
-            tester.setImg(bomb);
-            gc.drawImage(tester.getImg(), x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
-           itemList.add(itemList.size(), tester);
+            if (Objects.equals(event.getDragboard().getString(), "Bomb")){
+                itemList.add(itemList.size(), new Bomb(x,y));
+                gc.drawImage(bomb, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
+            }else if (Objects.equals(event.getDragboard().getString(), "MaleSexChange")){
+                itemList.add(itemList.size(), new MaleSexChange(x,y));
+                gc.drawImage(maleSexChange, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
+            }else if (Objects.equals(event.getDragboard().getString(), "FemaleSexChange")){
+                itemList.add(itemList.size(), new FemaleSexChange(x,y));
+                gc.drawImage(femaleSexChange, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
+            }else{
+                itemList.add(itemList.size(), new Sterilisation(x,y));
+                gc.drawImage(sterilisation, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
+            }
 
         }
     }
@@ -278,11 +287,42 @@ public class Level extends Application {
 
         // Setup a draggable image.
         ImageView draggableImage = new ImageView();
+        ImageView dragMaleGender = new ImageView();
+        ImageView dragFemaleGender = new ImageView();
+        dragMaleGender.setImage(maleSexChange);
         draggableImage.setImage(bomb);
-        ImageView dragMale = new ImageView();
-        dragMale.setImage(bomb);
+        dragFemaleGender.setImage(femaleSexChange);
         toolbar.getChildren().add(draggableImage);
+        toolbar.getChildren().add(dragMaleGender);
+        toolbar.getChildren().add(dragFemaleGender);
 
+
+        dragFemaleGender.setOnDragDetected(event -> {
+
+            Dragboard db = dragFemaleGender.startDragAndDrop(TransferMode.ANY);
+
+            ClipboardContent content = new ClipboardContent();
+            content.putString("FemaleSexChange");
+
+            db.setContent(content);
+
+
+            event.consume();
+        });
+
+        dragMaleGender.setOnDragDetected(event -> {
+
+            Dragboard db = dragMaleGender.startDragAndDrop(TransferMode.ANY);
+
+
+            ClipboardContent content = new ClipboardContent();
+            content.putString("MaleSexChange");
+
+            db.setContent(content);
+
+
+            event.consume();
+        });
 
         // This code setup what happens when the dragging starts on the image.
         // You probably don't need to change this (unless you wish to do more advanced things).
@@ -296,7 +336,7 @@ public class Level extends Application {
                 // We have to put some content in the clipboard of the drag event.
                 // We do not use this, but we could use it to store extra data if we wished.
                 ClipboardContent content = new ClipboardContent();
-                content.putImage(draggableImage.getImage());
+                content.putString("Bomb");
                 db.setContent(content);
 
                 // Consume the event. This means we mark it as dealt with.
@@ -310,7 +350,7 @@ public class Level extends Application {
             public void handle(DragEvent event) {
                 // Mark the drag as acceptable if the source was the draggable image.
                 // (for example, we don't want to allow the user to drag things or files into our application)
-                if (event.getGestureSource() == draggableImage) {
+                if (event.getGestureSource() == draggableImage || event.getGestureSource() == dragMaleGender|| event.getGestureSource() == dragFemaleGender ) {
                     // Mark the drag event as acceptable by the canvas.
                     event.acceptTransferModes(TransferMode.ANY);
                     // Consume the event. This means we mark it as dealt with.
@@ -325,6 +365,7 @@ public class Level extends Application {
             public void handle(DragEvent event) {
                 // We call this method which is where the bulk of the behaviour takes place.
                 canvasDragDroppedOccured(event);
+
                 // Consume the event. This means we mark it as dealt with.
                 event.consume();
             }
@@ -339,7 +380,6 @@ public class Level extends Application {
         for (int i = 0; i < 4; i++) {
             ratList.add(new PlayableRat());
         }
-
 
         for (Rat rat : ratList) {
             rat.setImageDirection();

@@ -11,21 +11,23 @@ public class DeathRatItem extends Item {
     private int ticksSinceCreation;
 
     public DeathRatItem(int x, int y){
-        super(x,y);
+        super(x,y, "DeathRat");
+        this.setImg(new Image("/resources/Images/Rat/Rat10.png"));
+
     }
 
-    public DeathRatItem(String itemName, String imagePath,int x, int y){
-        super(itemName,imagePath,x,y);
+    public DeathRatItem(String itemName,int x, int y){
+        super(x,y,"Death Rat");
         this.setItemName("DeathRatItem");
-        this.setImagePath("resources/DeathRat.png");
+        this.setImg(new Image("/resources/Images/Rat/Rat10.png"));
         ticksSinceCreation = 0;
 
 
     }
 
     public void update() {
-        ticksSinceCreation--;
-        if (ticksSinceCreation <= 0) {
+        ticksSinceCreation++;
+        if (ticksSinceCreation <= 5) {
             //destroySelf();
             DeathRat rat = new DeathRat(x, y);
             rat.setImageDirection();
