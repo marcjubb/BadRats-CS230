@@ -144,6 +144,10 @@ public class Level<e> extends Application {
         return time;
     }
 
+    public int getGridCellWidth() {
+        return GRID_CELL_WIDTH;
+    }
+    
     public void setLevelWidth(Integer levelWidth) {
         this.levelWidth = levelWidth;
     }
