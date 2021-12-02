@@ -15,8 +15,7 @@ public class Sterilisation extends Item {
     private int distanceRight;
 
     public Sterilisation(int x, int y){
-        super(x, y, "Sterilisation");
-        img = new Image("/resources/Images/Items/Sterilisation.png");
+        super(x, y, "Sterilisation", "/resources/Images/Items/Sterilisation.png");
         timeLeft = 3;
     }
 
