@@ -1,6 +1,7 @@
 import javafx.scene.image.Image;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * This Class represents a typical item in the game.
