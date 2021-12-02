@@ -581,22 +581,21 @@ public class Level<e> extends Application {
      */
     public void tick() {
         tickCount++;
-        System.out.println(tickCount);
         // Here we move the player right one cell and teleport
         // them back to the left side when they reach the right side.
 
         for (Rat rat: ratList) {
-            System.out.println(tickCount % rat.getSpeed());
             if (tickCount % rat.getSpeed() == 0){
                 rat.move();
             }
 
-            rat.setImageDirection();
+
             rat.incrementTick();
         }
 
         int ratListLength = ratList.size();
         for (int i = 0; i <= ratListLength-1; i++) {
+            ratList.get(i).setImageDirection();
             if (ratList.get(i) instanceof PlayableRat && ((PlayableRat) ratList.get(i)).getIsPregnant()){
                 ((PlayableRat) ratList.get(i)).incrementTickPregnant();
                 ((PlayableRat) ratList.get(i)).checkPregnancy();
