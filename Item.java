@@ -1,6 +1,7 @@
 import javafx.scene.image.Image;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * This Class represents a typical item in the game.
@@ -35,7 +36,7 @@ public class Item extends VisibleObject{
 
     protected boolean isInExplosion(ArrayList<Item> items) {
         for (Item item : items) {
-            if (item.getItemName() == "bomb" && item.collisionAt(x, y)) {
+            if (Objects.equals(item.getItemName(), "bomb") && item.collisionAt(x, y)) {
                 return true;
             }
         }
