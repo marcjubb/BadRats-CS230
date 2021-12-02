@@ -4,7 +4,7 @@ import javafx.scene.image.Image;
 
 /* This Class represents the deathRat as an Item. The deathRatItem
  * will then become a deathRat after a set time when placed.
- * @author ryanwake */
+ * @author ryanwake, samgriffin */
 
 public class DeathRatItem extends Item {
 
@@ -32,7 +32,6 @@ public class DeathRatItem extends Item {
             DeathRat rat = new DeathRat(x, y);
             rat.setImageDirection();
             Level.getRatList().add(rat);
-            //create playerable DeathRat object at same coords?
         }
     }
     public void draw(GraphicsContext gc) {

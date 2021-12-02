@@ -1,5 +1,7 @@
 import javafx.scene.image.Image;
 
+import java.util.ArrayList;
+
 /**
  * This Class represents a DeathRat in the game.
  * @author samgriffin and Ryan Wake
@@ -26,7 +28,17 @@ public class DeathRat extends Rat {
         super.direction = generateDirection();
     }
 
+
     public void checkCollisions(){
+        int ratListLength = Level.getRatList().size();
+        ArrayList<Rat> ratsToRemove = new ArrayList<>();
+        for (int i = 0; i <= ratListLength-1; i++) {
+            if (Level.getRatList().get(i).getX() == x && Level.getRatList().get(i).getY() == y){
+                ratsToRemove.add(Level.getRatList().get(i));
+            }
+        }
+
+
         for(Rat rat: Level.getRatList()){
             if (rat.getX() == x && rat.getY() == y){
                 Level.getRatList().remove(rat);
@@ -52,6 +64,7 @@ public class DeathRat extends Rat {
                 this.setImg(new Image("resources/Images/Rat/Rat11.png"));
                 break;
         }
+    //checkCollisions();
     }
  
 }
