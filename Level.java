@@ -627,8 +627,9 @@ public class Level<e> extends Application {
         // them back to the left side when they reach the right side.
 
         for (Rat rat: ratList) {
+            rat.checkCollisions();
             if (tickCount % rat.getSpeed() == 0){
-                rat.checkCollisions();
+
                 rat.move();
             }
             rat.incrementTick();

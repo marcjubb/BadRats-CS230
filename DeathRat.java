@@ -43,7 +43,7 @@ public class DeathRat extends Rat {
                 rat.setDestroyed(true);
                 currentKillCount++;
                 if (currentKillCount >= 5){
-                    setDestroyed(true);
+                    this.setDestroyed(true);
                 }
 
             }
