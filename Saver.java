@@ -23,7 +23,17 @@ public class Saver {
     public static void save(){
 
     }
-
+    
+    public void saveLevelFile(String content, File file) {
+        try {
+            PrintWriter writer;
+            writer = new PrintWriter(file);
+            writer.println(content);
+            writer.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
     /**
      *
      */
@@ -38,7 +48,6 @@ public class Saver {
         FileOutputStream fileOutputStream = new FileOutputStream(file);
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
         objectOutputStream.writeObject(data);
-
         fileOutputStream.close();
         objectOutputStream.close();
     }*/
@@ -52,23 +61,23 @@ public class Saver {
      * @throws NullPointerException
      */
     // Not needed........
-   // public static load(File filename)
-   //     throws IOException, ClassNotFoundException, NullPointerException{
-   //     if(!filename.exists()) {
-   //         throw new NullPointerException(
-  //                  "The file located at <" + filename + "> does not exist.");
-   //     }else{
-   //         FileInputStream fileInputStream = new FileInputStream(filename);
-   //         ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+    // public static load(File filename)
+    //     throws IOException, ClassNotFoundException, NullPointerException{
+    //     if(!filename.exists()) {
+    //         throw new NullPointerException(
+    //                  "The file located at <" + filename + "> does not exist.");
+    //     }else{
+    //         FileInputStream fileInputStream = new FileInputStream(filename);
+    //         ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
 
-   // /    }
-  //  }
+    // /    }
+    //  }
 
     /**
      * Creates a constant global key for each value used to save the
      * correct data whatever that will be
      */
-   // public enum Key {
+    // public enum Key {
 
-   // }
+    // }
 }
