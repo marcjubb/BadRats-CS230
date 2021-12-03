@@ -1,4 +1,7 @@
+import javafx.scene.image.Image;
+
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * This Class represents a typical item in the game.
@@ -8,12 +11,12 @@ import java.util.ArrayList;
 public class Item extends VisibleObject{
     private String itemName;
 
-    public Item(int x, int y, String itemName){
+    public Item(int x, int y, String itemName, String fpImg){
         this.x = x;
         this.y = y;
         this.itemName = itemName;
+        this.img = new Image(fpImg);
     }
-
 
     public String getItemName() {
         return itemName;
@@ -32,11 +35,17 @@ public class Item extends VisibleObject{
 
     protected boolean isInExplosion(ArrayList<Item> items) {
         for (Item item : items) {
-            if (item.getItemName() == "bomb" && item.collisionAt(x, y)) {
+            if (item.getItemName() == "Bomb" && item.collisionAt(x, y)) {
                 return true;
             }
         }
         return false;
+    }
+
+    public void update() {
+        if (isInExplosion(Level.getItemList())) {
+            destroySelf();
+        }
     }
 
     public void setItemName(String itemName) {

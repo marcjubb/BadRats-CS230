@@ -13,14 +13,17 @@ public class Rat extends VisibleObject {
     protected enum Direction {NORTH, SOUTH, EAST, WEST}
 
     protected Direction direction; //this should probably randomly generated in the constructor1--=-=
+    protected Item item;
 
     private enum LeftOrRight {LEFT, RIGHT}
 
     protected int ticksSinceCreation;
-
-    //I Don't think you need an empty
     public Rat() {
 
+    }
+    //I Don't think you need an empty
+    public Rat(int x,int y) {
+        super(x,y);
     }
 
     public String getDirection() {
@@ -313,6 +316,41 @@ public class Rat extends VisibleObject {
     protected Direction generateDirection() {
         int elem = new Random().nextInt(Direction.values().length);
         return Direction.values()[elem];
+    }
+    public void collisionType(){
+
+        switch(item.getItemName()) {
+            case "Bomb":
+
+                break;
+            case "Death Rat Item":
+
+                break;
+
+            case "FemaleSexChange":
+                if(this.getClass()!=DeathRat.class){
+
+                }
+                break;
+
+            case "Gas":
+
+                break;
+
+            case "MaleSexChange":
+
+                break;
+
+            case "NoEntrySign":
+
+                break;
+
+            case "Sterilisation":
+
+                break;
+
+        }
+
     }
 
 

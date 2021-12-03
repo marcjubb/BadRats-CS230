@@ -7,10 +7,11 @@ import javafx.scene.image.Image;
  */
 
 public abstract class VisibleObject {
-    Image img;
-    boolean destroyed = false;
-    int x = 0;
-    int y = 0;
+     final int tileSize = Level.getGridCellHeight();
+     Image img;
+     boolean destroyed = false;
+    protected int x = 0;
+    protected int y = 0;
 
     public VisibleObject(int x, int y) {
 
@@ -52,7 +53,7 @@ public abstract class VisibleObject {
     }
     
     public void draw(GraphicsContext gc) {
-        gc.drawImage(img, x, y);
+        gc.drawImage(img, x * tileSize, y * tileSize);
     }
     
     public boolean isDestroyed() {

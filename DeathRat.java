@@ -30,21 +30,20 @@ public class DeathRat extends Rat {
     }
 
 
-    public void checkCollisions(){
+    public void checkCollisions() {
         System.out.println("start of check collisions");
 
         Iterator<Rat> iterator = Level.getRatList().listIterator();
-        while(iterator.hasNext()){
+        while (iterator.hasNext()) {
             Rat rat = iterator.next();
-            if(rat.getX() == x && rat.getY() == y && rat != this){
+            if (rat.getX() == x && rat.getY() == y && rat != this) {
                 iterator.remove();
+
+
+                System.out.println("end of check collisions");
             }
         }
-
-
-        System.out.println("end of check collisions");
     }
-
 
 
     public void setImageDirection() {
@@ -62,7 +61,7 @@ public class DeathRat extends Rat {
                 this.setImg(new Image("resources/Images/Rat/Rat11.png"));
                 break;
         }
-    //checkCollisions();
+    checkCollisions();
     }
  
 }

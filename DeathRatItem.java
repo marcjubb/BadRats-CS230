@@ -11,18 +11,8 @@ public class DeathRatItem extends Item {
     private int ticksSinceCreation;
 
     public DeathRatItem(int x, int y){
-        super(x,y, "DeathRat");
-        this.setImg(new Image("/resources/Images/Rat/Rat10.png"));
-
-    }
-
-    public DeathRatItem(String itemName,int x, int y){
-        super(x,y,"Death Rat");
-        this.setItemName("DeathRatItem");
-        this.setImg(new Image("/resources/Images/Rat/Rat10.png"));
+        super(x,y, "DeathRat", "/resources/Images/Rat/DeathRatR.png");
         ticksSinceCreation = 0;
-
-
     }
 
     public void update() {

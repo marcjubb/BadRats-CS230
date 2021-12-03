@@ -15,23 +15,22 @@ public class Sterilisation extends Item {
     private int distanceRight;
 
     public Sterilisation(int x, int y){
-        super(x, y, "sterilisation");
-        img = new Image("/resources/Images/Items/Sterilisation.png");
+        super(x, y, "Sterilisation", "/resources/Images/Items/Sterilisation.png");
         timeLeft = 3;
     }
 
-//    public void update() {
+    //    public void update() {
 //        timeLeft--;
 //        if (timeLeft <= 0) {
 //            destroySelf();
 //        }
 //    }
     public void draw(GraphicsContext gc) {
-      if (timeLeft > 0){
-        gc.drawImage(new Image("resources/Sterilisation.png"), x, y);
-      }else{
-          //remove image.
-      }
+        if (timeLeft > 0){
+            gc.drawImage(new Image("resources/Sterilisation.png"), x, y);
+        }else{
+            //remove image.
+        }
 
 //    public void updateDistance(){
 //          //TODO

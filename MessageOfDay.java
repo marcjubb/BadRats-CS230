@@ -1,6 +1,7 @@
 /**
  * Opens the cswebcat site, decrpyts the message out puts the Message of the Day
  * @author Aaron Davies and Marc Jubb
+ * @version 0.0.1
  */
 
 
