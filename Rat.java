@@ -11,6 +11,7 @@ public class Rat extends VisibleObject {
     static final protected int ADULT_SPEED = 2;
     static final protected int BABY_SPEED = 1;
     protected int speed;
+    private int ticksInGas;
 
     protected enum Direction {NORTH, SOUTH, EAST, WEST}
 
@@ -36,9 +37,17 @@ public class Rat extends VisibleObject {
         return speed;
     }
 
+    public void incrementTicksInGas(){
+        ticksInGas++;
+    }
+
+    public int getTicksInGas(){
+        return ticksInGas;
+    }
+
     public void checkCollisions(){
         for (Item item : Level.getItemList()) {
-            if (item.getX() == x && item.getY() == y){
+            if (item.collisionAt(x, y)){
                 if(item instanceof NoEntrySign){
                     ((NoEntrySign) item).damage();
                     switch (direction){
@@ -59,6 +68,10 @@ public class Rat extends VisibleObject {
                 if (item instanceof Poison){
                     this.setDestroyed(true);
                     item.destroySelf();
+                }
+
+                if (item instanceof Bomb){
+                    this.setDestroyed(true);
                 }
             }
         }
