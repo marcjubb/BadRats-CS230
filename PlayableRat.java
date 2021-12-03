@@ -119,7 +119,6 @@ public class PlayableRat extends Rat {
                 }
                 break;
         }
-        //checkCollision();
     }
 
     public void changeSex() {
@@ -164,9 +163,6 @@ public class PlayableRat extends Rat {
                 }
             }
         }
-//        for (Rat rat: Level.getRatList()) {
-//
-//        }
     }
 
 

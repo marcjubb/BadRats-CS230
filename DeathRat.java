@@ -11,6 +11,8 @@ import java.util.Iterator;
 public class DeathRat extends Rat {
     private int numCollisions = 0;
     static final private int ADULT_SPEED = 2;
+    static final private int MAX_KILL_COUNT = 5;
+    private int currentKillCount;
     //private int ticksSinceCreation;
 
 
@@ -19,6 +21,7 @@ public class DeathRat extends Rat {
         super.speed = ADULT_SPEED;
         super.ticksSinceCreation = 0;
         super.direction = generateDirection();
+        currentKillCount = 0;
     }
 
     public DeathRat(int x, int y) {
@@ -27,20 +30,21 @@ public class DeathRat extends Rat {
         super.speed = ADULT_SPEED;
         super.ticksSinceCreation = 0;
         super.direction = generateDirection();
+        currentKillCount = 0;
     }
 
 
     public void checkCollisions() {
-        System.out.println("start of check collisions");
-
         Iterator<Rat> iterator = Level.getRatList().listIterator();
         while (iterator.hasNext()) {
             Rat rat = iterator.next();
             if (rat.getX() == x && rat.getY() == y && rat != this) {
                 iterator.remove();
+                currentKillCount++;
+                if (currentKillCount >= 5){
+                    setDestroyed(true);
+                }
 
-
-                System.out.println("end of check collisions");
             }
         }
     }
@@ -61,7 +65,6 @@ public class DeathRat extends Rat {
                 this.setImg(new Image("resources/Images/Rat/Rat11.png"));
                 break;
         }
-    checkCollisions();
     }
  
 }

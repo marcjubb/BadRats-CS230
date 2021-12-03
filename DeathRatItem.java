@@ -24,12 +24,12 @@ public class DeathRatItem extends Item {
             Level.getRatList().add(rat);
         }
     }
-    public void draw(GraphicsContext gc) {
-        while(ticksSinceCreation > 0){
-            gc.drawImage(new Image("/resources/DeathRat.png"), x, y);
-        }
-        //dont know what to do here cos were not deleting the item, it's changing to actual death rat
-    }
+//    public void draw(GraphicsContext gc) {
+//        while(ticksSinceCreation > 0){
+//            gc.drawImage(new Image("/resources/Images/Rat/DeathRat.png"), x, y); //for some reason is making the window freeze when it is correct
+//        }
+//        //dont know what to do here cos were not deleting the item, it's changing to actual death rat
+//    }
 
     public int getTicksSinceCreation() {
         return ticksSinceCreation;

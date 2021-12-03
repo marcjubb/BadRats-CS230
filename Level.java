@@ -595,34 +595,57 @@ public class Level<e> extends Application {
         // Here we move the player right one cell and teleport
         // them back to the left side when they reach the right side.
 
-        for (Rat rat: ratList) {
+//        for (Rat rat: ratList) {
+//            if (tickCount % rat.getSpeed() == 0){
+//                rat.move();
+//            }
+//            rat.incrementTick();
+//        }
+//        int ratListLength = ratList.size();
+//        for (int i = 0; i <= ratListLength-1; i++) {
+//            ratList.get(i).setImageDirection();
+//            if (ratList.get(i) instanceof PlayableRat && ((PlayableRat) ratList.get(i)).getIsPregnant()){
+//                ((PlayableRat) ratList.get(i)).incrementTickPregnant();
+//                ((PlayableRat) ratList.get(i)).checkPregnancy();
+//            }
+//        }
+
+        Iterator<Rat> iteratorRat = ratList.listIterator();
+        while(iteratorRat.hasNext()){
+            Rat rat = iteratorRat.next();
             if (tickCount % rat.getSpeed() == 0){
                 rat.move();
             }
+            rat.setImageDirection();
             rat.incrementTick();
-        }
-        int ratListLength = ratList.size();
-        for (int i = 0; i <= ratListLength-1; i++) {
-            ratList.get(i).setImageDirection();
-            if (ratList.get(i) instanceof PlayableRat && ((PlayableRat) ratList.get(i)).getIsPregnant()){
-                ((PlayableRat) ratList.get(i)).incrementTickPregnant();
-                ((PlayableRat) ratList.get(i)).checkPregnancy();
+            if (rat instanceof PlayableRat && ((PlayableRat) rat).getIsPregnant()){
+                ((PlayableRat) rat).incrementTickPregnant();
+                ((PlayableRat) rat).checkPregnancy();
+            }
+
+            rat.checkCollisions();
+            if (rat.isDestroyed()){
+                iteratorRat.remove();
             }
         }
 
-        Iterator<Rat> iterator = ratList.listIterator();
-        while(iterator.hasNext()){
-            iterator.next().checkCollisions();
-        }
 
-
-
-        for (Item item : itemList){
-            item.update();
-            if (item.isDestroyed()) {
-                itemList.remove(item);
+        Iterator<Item> iteratorItem = itemList.listIterator();
+        while (iteratorItem.hasNext()){
+            Item item = iteratorItem.next();
+            item.update(); //updates the tickcount
+            if (item.isDestroyed()) { //checks if item should be destroyed
+                iteratorItem.remove(); //destroys item
             }
         }
+
+//        for (Item item : itemList){
+//            item.update(); //updates the tickcount
+//            if (item.isDestroyed()) { //checks if item should be destroyed
+//                itemList.remove(item); //destroys item
+//            }
+//        }
+
 
 
         // We then redraw the whole canvas.
