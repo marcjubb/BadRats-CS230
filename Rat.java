@@ -47,32 +47,46 @@ public class Rat extends VisibleObject {
 
     public void checkCollisions(){
         for (Item item : Level.getItemList()) {
-            if (item.collisionAt(x, y)){
-                if(item instanceof NoEntrySign){
-                    ((NoEntrySign) item).damage();
-                    switch (direction){
-                        case NORTH:
+            if (item instanceof NoEntrySign) {
+                switch(direction){
+                    case NORTH:
+                        if(item.collisionAt(x,y)){
+                            this.setY(y-1);
                             direction = Direction.SOUTH;
-                            break;
-                        case SOUTH:
+                            System.out.println("Stop  backseat coding mac man");
+                            ((NoEntrySign) item).damage();
+                        }
+                    case SOUTH:
+                        if(item.collisionAt(x,y)){
+                            this.setY(y+1);
                             direction = Direction.NORTH;
-                            break;
-                        case EAST:
+                            System.out.println("everest climber sam");
+                            ((NoEntrySign) item).damage();
+                        }
+                    case EAST:
+                        if(item.collisionAt(x,y)){
+                            this.setX(x-1);
                             direction = Direction.WEST;
-                            break;
-                        case WEST:
+                            System.out.println("asada climber sam");
+                            ((NoEntrySign) item).damage();
+                        }
+                    case WEST:
+                        if(item.collisionAt(x,y)){
+                            this.setX(x+1);
                             direction = Direction.EAST;
-                            break;
-                    }
-                }
-                if (item instanceof Poison){
-                    this.setDestroyed(true);
-                    item.destroySelf();
+                            System.out.println("climber sam");
+                            ((NoEntrySign) item).damage();
+                        }
                 }
 
-                if (item instanceof Bomb){
-                    this.setDestroyed(true);
-                }
+            if (item instanceof Poison){
+                this.setDestroyed(true);
+                item.destroySelf();
+            }
+
+            if (item instanceof Bomb){
+                this.setDestroyed(true);
+                System.out.println("Fat");
             }
         }
 
