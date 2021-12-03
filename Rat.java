@@ -35,6 +35,13 @@ public class Rat extends VisibleObject {
     }
 
     public void checkCollisions(){
+        for (Item item : Level.getItemList()) {
+            if (item.getX() == x && item.getY() == y){
+                if(item instanceof NoEntrySign){
+                    ((NoEntrySign) item).damage();
+                }
+            }
+        }
 
     }
 
@@ -352,6 +359,8 @@ public class Rat extends VisibleObject {
         }
 
     }
+
+
 
 
     public String toString() {

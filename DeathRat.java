@@ -33,13 +33,14 @@ public class DeathRat extends Rat {
         currentKillCount = 0;
     }
 
-
+//i was thinking it might be better to remove rats like we do items - just set them as to be destroyed and then just remove those
     public void checkCollisions() {
         Iterator<Rat> iterator = Level.getRatList().listIterator();
         while (iterator.hasNext()) {
             Rat rat = iterator.next();
             if (rat.getX() == x && rat.getY() == y && rat != this) {
-                iterator.remove();
+                //iterator.remove();
+                rat.setDestroyed(true);
                 currentKillCount++;
                 if (currentKillCount >= 5){
                     setDestroyed(true);

@@ -669,6 +669,13 @@ public class Level<e> extends Application {
             }
         }
 
+        Iterator<Rat> iteratorRat2 = ratList.listIterator();
+        while (iteratorRat2.hasNext()) {
+            Rat rat = iteratorRat2.next();
+            if (rat.isDestroyed()) { //checks if item should be destroyed
+                iteratorRat2.remove(); //destroys rat
+            }
+        }
 
         Iterator<Item> iteratorItem = itemList.listIterator();
         while (iteratorItem.hasNext()) {

@@ -11,13 +11,11 @@ public class PlayableRat extends Rat {
 
     private enum Sex {MALE, FEMALE}
 
-    //private int ticksSinceCreation; //not sure about this attribute here - would also need a tick update from Level
 
     private Sex sex;
     private boolean isAdult;
-    private boolean isPregnant; // can't really remember why we need this - actually it will probs need to have a getter
-    //                             and be called by Level to see if a baby rat needs to be made at that point
-
+    private boolean isPregnant;
+    private boolean isSterile;
     private int pregnantTick;
     //3 constructors 1 for new babies at start of game, 1 for new babies after given birth and the other for existed loaded in rats
 
@@ -31,6 +29,7 @@ public class PlayableRat extends Rat {
         super.ticksSinceCreation = 0;
         super.direction = generateDirection();
         pregnantTick = 0;
+        isSterile = false;
     }
 
 
@@ -42,10 +41,11 @@ public class PlayableRat extends Rat {
         super.ticksSinceCreation = 0;
         super.direction = generateDirection();
         pregnantTick = 0;
+        isSterile = false;
     }
 
 
-    public PlayableRat(int x, int y, boolean isAdult, boolean isPregnant, Sex sex, int ticksSinceCreation, Direction direction, int pregnantTick) {
+    public PlayableRat(int x, int y, boolean isAdult, boolean isPregnant, Sex sex, int ticksSinceCreation, Direction direction, int pregnantTick, boolean isSterile) {
         super.x = x;
         super.y = y;
         this.isAdult = isAdult;
@@ -54,30 +54,35 @@ public class PlayableRat extends Rat {
         super.speed = ADULT_SPEED;
         super.ticksSinceCreation = ticksSinceCreation;
         super.direction = direction;
+        this.isSterile = isSterile;
     }
 
     public Sex getSex() {
         return sex;
     }
 
-    public boolean getIsPregnant(){
+    public boolean getIsPregnant() {
         return isPregnant;
     }
 
-    public void incrementTick(){
-        if (super.ticksSinceCreation > 4){
+    public boolean isSterile() {
+        return isSterile;
+    }
+
+    public void incrementTick() {
+        if (super.ticksSinceCreation > 4) {
             becomeAdult();
         }
         super.ticksSinceCreation++;
     }
 
-    public void setImageDirection(){
+    public void setImageDirection() {
         switch (getDirection()) {
             case "NORTH":
-                if (isAdult){
+                if (isAdult) {
                     if (sex == Sex.MALE) {
                         this.setImg(new Image("/resources/Images/Rat/RatDown.png"));
-                    }else{
+                    } else {
                         this.setImg(new Image("/resources/Images/Rat/FemaleRatDown.png"));
                     }
                 } else {
@@ -86,35 +91,35 @@ public class PlayableRat extends Rat {
 
                 break;
             case "SOUTH":
-                if (isAdult){
+                if (isAdult) {
                     if (sex == Sex.MALE) {
                         this.setImg(new Image("/resources/Images/Rat/RatUp.png"));
-                    }else{
+                    } else {
                         this.setImg(new Image("/resources/Images/Rat/FemaleRatUp.png"));
                     }
-                }else {
+                } else {
                     this.setImg(new Image("/resources/Images/Rat/BabyRatUp.png"));
                 }
                 break;
             case "EAST":
-                if (isAdult){
+                if (isAdult) {
                     if (sex == Sex.MALE) {
                         this.setImg(new Image("/resources/Images/Rat/MRatRight.png"));
-                    }else{
+                    } else {
                         this.setImg(new Image("/resources/Images/Rat/FRatRight.png"));
                     }
-                }else {
+                } else {
                     this.setImg(new Image("/resources/Images/Rat/BRatRight.png"));
                 }
                 break;
             case "WEST":
-                if (isAdult){
+                if (isAdult) {
                     if (sex == Sex.MALE) {
                         this.setImg(new Image("/resources/Images/Rat/MRatLeft.png"));
-                    }else{
+                    } else {
                         this.setImg(new Image("/resources/Images/Rat/FRatLeft.png"));
                     }
-                }else {
+                } else {
                     this.setImg(new Image("/resources/Images/Rat/BRatLeft.png"));
                 }
                 break;
@@ -142,44 +147,58 @@ public class PlayableRat extends Rat {
 
     private int[] generateRandomXY() {
         boolean correct = false;
-        int[] xy = {(new Random().nextInt(Level.getGridWidth() -1 )), (new Random().nextInt(Level.getGridHeight() -1 ))};
-        do{
-            if (Level.getLevelLayout()[xy[1]] [xy[0]] == 'G' || Level.getLevelLayout()[xy[1]] [xy[0]] == 'T'){
+        int[] xy = {(new Random().nextInt(Level.getGridWidth() - 1)), (new Random().nextInt(Level.getGridHeight() - 1))};
+        do {
+            if (Level.getLevelLayout()[xy[1]][xy[0]] == 'G' || Level.getLevelLayout()[xy[1]][xy[0]] == 'T') {
                 xy = new int[]{(new Random().nextInt(Level.getGridWidth() - 1)), (new Random().nextInt(Level.getGridHeight() - 1))};
-            }else{
+            } else {
                 correct = true;
             }
-        }while (!correct);
+        } while (!correct);
         return xy;
     }
 
-    public void checkCollisions(){
+    public void checkCollisions() {
         Iterator<Rat> iterator = Level.getRatList().listIterator();
-        while (iterator.hasNext()){
+        while (iterator.hasNext()) {
             Rat rat = iterator.next();
-            if (rat instanceof PlayableRat && rat.getX() == x && rat.getY() == y && sex != ((PlayableRat) rat).getSex() && isAdult && !isPregnant){
-                if (this.sex == Sex.FEMALE){
+            if (rat instanceof PlayableRat && rat.getX() == x && rat.getY() == y && sex != ((PlayableRat) rat).getSex() && isAdult && !isPregnant && !this.isSterile && !((PlayableRat) rat).isSterile()) {
+                if (this.sex == Sex.FEMALE) {
                     isPregnant = true;
                 }
             }
         }
+
+        for (Item item : Level.getItemList()) {
+            if (item.getX() == x && item.getY() == y) {
+                if (item instanceof MaleSexChange && this.sex == Sex.MALE) {
+                    changeSex();
+                    item.destroySelf();
+                } else if (item instanceof FemaleSexChange && this.sex == Sex.FEMALE) {
+                    changeSex();
+                    item.destroySelf();
+                } else if (item instanceof Sterilisation) {
+                    isSterile = true;
+                    item.destroySelf();
+                }
+
+            }
+        }
+        super.checkCollisions();
     }
 
 
-    public void incrementTickPregnant(){
+    public void incrementTickPregnant() {
         pregnantTick++;
     }
 
-    public void checkPregnancy(){
-        if (pregnantTick == PREGNANCY_DURATION){
+    public void checkPregnancy() {
+        if (pregnantTick == PREGNANCY_DURATION) {
             Level.giveBirth(x, y);
             isPregnant = false;
             pregnantTick = 0;
         }
     }
-
-
-
 
 
     @Override
