@@ -1,3 +1,4 @@
+import com.sun.javafx.tools.packager.MakeAllParams;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -20,10 +21,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.Objects;
+import java.util.*;
 
 
 public class Level<e> extends Application {
@@ -42,6 +40,9 @@ public class Level<e> extends Application {
     private static final int GRID_CELL_WIDTH = 64;
     private static final int GRID_CELL_HEIGHT = 64;
 
+    private static ArrayList<Item> items = new ArrayList<>();
+    private static ArrayList<Item> currentInventory = new ArrayList<>();
+
     // The width of the grid in number of cells.
 
     private Canvas canvas;
@@ -59,7 +60,7 @@ public class Level<e> extends Application {
     private static Image poison;
     private static Image sterilisation;
     private static int tickCount;
-
+    private static int score = 0;
 
     private Timeline tickTimeline;
 
@@ -170,10 +171,14 @@ public class Level<e> extends Application {
         this.time = time;
     }
 
+
     public boolean isCompleted() {
         return this.completed;
     }
 
+    public static void incrementScore(){
+        score += 10;
+    }
     public static void giveBirth(int x, int y) {
         PlayableRat newBaby = new PlayableRat(x, y);
         newBaby.setImageDirection();
@@ -266,6 +271,15 @@ public class Level<e> extends Application {
         }
 
     }
+
+    private void addRandomItem(){
+        Random r = new Random();
+        int i = r.nextInt(items.size());
+        currentInventory.add(items.get(i));
+    }
+
+    private void addToToolbar(HBox toolbar){}
+
 
     private Pane buildGUI() {
         // Create top-level panel that will hold all GUI nodes.
@@ -411,14 +425,38 @@ public class Level<e> extends Application {
         dragDeathRat.setImage(deathrat);
 
 
-        toolbar.getChildren().add(dragBomb);
-        toolbar.getChildren().add(dragMaleGender);
-        toolbar.getChildren().add(dragFemaleGender);
-        toolbar.getChildren().add(dragGas);
-        toolbar.getChildren().add(dragPoison);
-        toolbar.getChildren().add(dragSterilisation);
-        toolbar.getChildren().add(dragDeathRat);
-        toolbar.getChildren().add(dragNoEntry);
+        for (Item item:items) {
+            if (item instanceof Bomb){
+                toolbar.getChildren().add(dragBomb);
+            } else if( item instanceof MaleSexChange){
+                toolbar.getChildren().add(dragMaleGender);
+            } else if( item instanceof FemaleSexChange){
+                toolbar.getChildren().add(dragFemaleGender);
+            } else if( item instanceof Gas){
+                toolbar.getChildren().add(dragGas);
+            } else if( item instanceof Poison){
+                toolbar.getChildren().add(dragPoison);
+            } else if( item instanceof Sterilisation){
+                toolbar.getChildren().add(dragSterilisation);
+            } else if( item instanceof DeathRatItem){
+                toolbar.getChildren().add(dragDeathRat);
+            } else if( item instanceof NoEntrySign){
+                toolbar.getChildren().add(dragNoEntry);
+            }
+        }
+
+
+
+
+
+//        toolbar.getChildren().add(dragBomb);
+//        toolbar.getChildren().add(dragMaleGender);
+//        toolbar.getChildren().add(dragFemaleGender);
+//        toolbar.getChildren().add(dragGas);
+//        toolbar.getChildren().add(dragPoison);
+//        toolbar.getChildren().add(dragSterilisation);
+//        toolbar.getChildren().add(dragDeathRat);
+//        toolbar.getChildren().add(dragNoEntry);
 
         dragNoEntry.setOnDragDetected(event -> {
 
@@ -569,6 +607,8 @@ public class Level<e> extends Application {
         for (Rat rat : ratList) {
             rat.setImageDirection();
         }
+
+
         /*Bomb test = new Bomb(1,1);
       itemList.add(test);*/
 
@@ -592,6 +632,15 @@ public class Level<e> extends Application {
         poison = new Image("/resources/Images/Items/Poison.png");
         sterilisation = new Image("/resources/Images/Items/Sterilisation.png");
 
+        items.add(new Bomb(5,5));
+        items.add(new MaleSexChange(0,0));
+        items.add(new FemaleSexChange(0,0));
+        items.add(new Gas(0,0));
+        items.add(new Poison(0,0));
+        items.add(new Sterilisation(0,0));
+        items.add(new DeathRatItem(0,0));
+        items.add(new NoEntrySign(0,0));
+        addRandomItem();
 
         Pane root = buildGUI();
         Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -617,9 +666,13 @@ public class Level<e> extends Application {
      * over them all and calling their own tick method).
      */
     public void tick() {
+        System.out.println(score);
+        if (tickCount % 10 == 0){
+            addRandomItem();
+        }
 //        if (levelCompleted){
 //            System.out.println("Game Won"); //not sure what we want to do when the game is won.
-//        } else if (tickCount >= secExpected){
+//        } else if (ratList.size() >= MAX_RAT_POPULATIOn){
 //            System.out.println("Game Lost");
 //        }
         tickCount++;
@@ -660,8 +713,13 @@ public class Level<e> extends Application {
             //rat.checkCollisions();
             if (rat.isDestroyed()) {
                 iteratorRat.remove();
+                if (rat instanceof PlayableRat){
+                    score += 10;
+                }
+
             }
         }
+
 
         Iterator<Rat> iteratorRat2 = ratList.listIterator();
         while (iteratorRat2.hasNext()) {
@@ -689,7 +747,9 @@ public class Level<e> extends Application {
 
 
         // We then redraw the whole canvas.
+
         drawGame();
+
     }
 
     public void pauseGame() {
@@ -756,10 +816,10 @@ public class Level<e> extends Application {
             FileWriter writer = new FileWriter(saveGame);
             //writer.write(Tiles.toString());
             writer.write(player.toString());
-            for (Rat rat : ratList) {
+            for (Rat ignored : ratList) {
                 writer.write(ratList.toString());
             }
-            for (Item item : itemList) {
+            for (Item ignored : itemList) {
                 writer.write(itemList.toString());
             }
 
