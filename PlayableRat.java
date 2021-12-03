@@ -172,12 +172,15 @@ public class PlayableRat extends Rat {
             if (item.getX() == x && item.getY() == y) {
                 if (item instanceof MaleSexChange && this.sex == Sex.FEMALE) {
                     changeSex();
+                    item.destroySelf();
                 } else if (item instanceof FemaleSexChange && this.sex == Sex.MALE) {
                     changeSex();
+                    item.destroySelf();
                 } else if (item instanceof Sterilisation) {
                     isSterile = true;
+                    item.destroySelf();
                 }
-                item.destroySelf();
+
             }
         }
         super.checkCollisions();

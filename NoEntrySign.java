@@ -15,9 +15,9 @@ public class NoEntrySign extends Item {
     }
 
     public void damage() {
-        System.out.println(durability);
         durability--;
         if (durability <= 0) {
+            System.out.println("here");
             destroySelf();
         }
     }
