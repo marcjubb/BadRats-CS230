@@ -26,7 +26,7 @@ public class DeathRatItem extends Item {
     }
     public void draw(GraphicsContext gc) {
         while(ticksSinceCreation > 0){
-            gc.drawImage(new Image("resources/DeathRat.png"), x, y);
+            gc.drawImage(new Image("/resources/DeathRat.png"), x, y);
         }
         //dont know what to do here cos were not deleting the item, it's changing to actual death rat
     }
