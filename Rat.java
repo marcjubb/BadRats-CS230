@@ -90,7 +90,6 @@ public class Rat extends VisibleObject {
 
                 if (item instanceof Bomb) {
                     this.setDestroyed(true);
-                    System.out.println("Fat");
                 }
             }
 
