@@ -10,7 +10,7 @@ import java.util.Iterator;
  
 public class DeathRat extends Rat {
     private int numCollisions = 0;
-    static final private int ADULT_SPEED = 2;
+    //static final private int ADULT_SPEED = 2;
     static final private int MAX_KILL_COUNT = 5;
     private int currentKillCount;
     //private int ticksSinceCreation;

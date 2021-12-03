@@ -628,6 +628,7 @@ public class Level<e> extends Application {
 
         for (Rat rat: ratList) {
             if (tickCount % rat.getSpeed() == 0){
+                rat.checkCollisions();
                 rat.move();
             }
             rat.incrementTick();
@@ -655,7 +656,7 @@ public class Level<e> extends Application {
 //                ((PlayableRat) rat).checkPregnancy();
 //            }
 
-            rat.checkCollisions();
+            //rat.checkCollisions();
             if (rat.isDestroyed()) {
                 iteratorRat.remove();
             }

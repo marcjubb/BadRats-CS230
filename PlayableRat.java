@@ -5,9 +5,8 @@ import java.util.Random;
 
 /* */
 public class PlayableRat extends Rat {
-    static final private int ADULT_SPEED = 2; //arbitrary nums for now
-    static final private int BABY_SPEED = 1;
-    static final private int PREGNANCY_DURATION = 7;
+
+    static final private int PREGNANCY_DURATION = 9;
 
     private enum Sex {MALE, FEMALE}
 
@@ -175,10 +174,10 @@ public class PlayableRat extends Rat {
 
         for (Item item : Level.getItemList()) {
             if (item.getX() == x && item.getY() == y) {
-                if (item instanceof MaleSexChange && this.sex == Sex.MALE) {
+                if (item instanceof MaleSexChange && this.sex == Sex.FEMALE) {
                     changeSex();
                     item.destroySelf();
-                } else if (item instanceof FemaleSexChange && this.sex == Sex.FEMALE) {
+                } else if (item instanceof FemaleSexChange && this.sex == Sex.MALE) {
                     changeSex();
                     item.destroySelf();
                 }

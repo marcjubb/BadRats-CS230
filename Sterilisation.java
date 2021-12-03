@@ -30,11 +30,18 @@ public class Sterilisation extends Item {
     }
 
         public void update() {
-       timer--;
-       if (timer <= 0) {
-            destroySelf();
+            timer--;
+            if (timer <= 0) {
+                destroySelf();
+            }
         }
-    }
+    //    public void update() {
+//        timeLeft--;
+//        if (timeLeft <= 0) {
+//            destroySelf();
+//        }
+//
+
     public void draw(GraphicsContext gc) {
 
 
@@ -50,11 +57,10 @@ public class Sterilisation extends Item {
 
 
     }
-    public int getTimer(){
-        return timer;
-    }
+
     @Override
     public String toString() {
         return super.toString() + ", " + timer + "\n";
     }
 }
+

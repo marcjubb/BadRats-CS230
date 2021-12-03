@@ -8,6 +8,8 @@ import java.util.Random;
 
 /*TODO Handle for edge cases in move method and find logic errors*/
 public class Rat extends VisibleObject {
+    static final protected int ADULT_SPEED = 2;
+    static final protected int BABY_SPEED = 1;
     protected int speed;
 
     protected enum Direction {NORTH, SOUTH, EAST, WEST}
@@ -39,6 +41,24 @@ public class Rat extends VisibleObject {
             if (item.getX() == x && item.getY() == y){
                 if(item instanceof NoEntrySign){
                     ((NoEntrySign) item).damage();
+                    switch (direction){
+                        case NORTH:
+                            direction = Direction.SOUTH;
+                            break;
+                        case SOUTH:
+                            direction = Direction.NORTH;
+                            break;
+                        case EAST:
+                            direction = Direction.WEST;
+                            break;
+                        case WEST:
+                            direction = Direction.EAST;
+                            break;
+                    }
+                }
+                if (item instanceof Poison){
+                    this.setDestroyed(true);
+                    item.destroySelf();
                 }
             }
         }
