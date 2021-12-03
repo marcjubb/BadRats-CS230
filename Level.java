@@ -625,37 +625,43 @@ public class Level<e> extends Application {
      * over them all and calling their own tick method).
      */
     public void tick() {
+//        if (levelCompleted){
+//            System.out.println("Game Won"); //not sure what we want to do when the game is won.
+//        } else if (tickCount >= secExpected){
+//            System.out.println("Game Lost");
+//        }
         tickCount++;
         // Here we move the player right one cell and teleport
         // them back to the left side when they reach the right side.
 
-//        for (Rat rat: ratList) {
-//            if (tickCount % rat.getSpeed() == 0){
-//                rat.move();
-//            }
-//            rat.incrementTick();
-//        }
-//        int ratListLength = ratList.size();
-//        for (int i = 0; i <= ratListLength-1; i++) {
-//            ratList.get(i).setImageDirection();
-//            if (ratList.get(i) instanceof PlayableRat && ((PlayableRat) ratList.get(i)).getIsPregnant()){
-//                ((PlayableRat) ratList.get(i)).incrementTickPregnant();
-//                ((PlayableRat) ratList.get(i)).checkPregnancy();
-//            }
-//        }
+        for (Rat rat: ratList) {
+            if (tickCount % rat.getSpeed() == 0){
+                rat.move();
+            }
+            rat.incrementTick();
+        }
+        int ratListLength = ratList.size();
+        for (int i = 0; i <= ratListLength-1; i++) {
+            ratList.get(i).setImageDirection();
+            if (ratList.get(i) instanceof PlayableRat && ((PlayableRat) ratList.get(i)).getIsPregnant()){
+                ((PlayableRat) ratList.get(i)).incrementTickPregnant();
+                ((PlayableRat) ratList.get(i)).checkPregnancy();
+            }
+        }
 
         Iterator<Rat> iteratorRat = ratList.listIterator();
         while (iteratorRat.hasNext()) {
             Rat rat = iteratorRat.next();
-            if (tickCount % rat.getSpeed() == 0) {
-                rat.move();
-            }
-            rat.setImageDirection();
-            rat.incrementTick();
-            if (rat instanceof PlayableRat && ((PlayableRat) rat).getIsPregnant()) {
-                ((PlayableRat) rat).incrementTickPregnant();
-                ((PlayableRat) rat).checkPregnancy();
-            }
+            //the commented out bits was just something I was trying, Sam
+//            if (tickCount % rat.getSpeed() == 0) {
+//                rat.move();
+//            }
+//            rat.setImageDirection();
+//            rat.incrementTick();
+//            if (rat instanceof PlayableRat && ((PlayableRat) rat).getIsPregnant()) {
+//                ((PlayableRat) rat).incrementTickPregnant();
+//                ((PlayableRat) rat).checkPregnancy();
+//            }
 
             rat.checkCollisions();
             if (rat.isDestroyed()) {
