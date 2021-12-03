@@ -41,6 +41,20 @@ public class Rat extends VisibleObject {
             if (item.getX() == x && item.getY() == y){
                 if(item instanceof NoEntrySign){
                     ((NoEntrySign) item).damage();
+                    switch (direction){
+                        case NORTH:
+                            direction = Direction.SOUTH;
+                            break;
+                        case SOUTH:
+                            direction = Direction.NORTH;
+                            break;
+                        case EAST:
+                            direction = Direction.WEST;
+                            break;
+                        case WEST:
+                            direction = Direction.EAST;
+                            break;
+                    }
                 }
                 if (item instanceof Poison){
                     this.setDestroyed(true);
