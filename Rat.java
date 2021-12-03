@@ -8,6 +8,8 @@ import java.util.Random;
 
 /*TODO Handle for edge cases in move method and find logic errors*/
 public class Rat extends VisibleObject {
+    static final protected int ADULT_SPEED = 2;
+    static final protected int BABY_SPEED = 1;
     protected int speed;
 
     protected enum Direction {NORTH, SOUTH, EAST, WEST}
