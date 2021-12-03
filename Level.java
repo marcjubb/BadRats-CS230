@@ -21,6 +21,7 @@ import javafx.util.Duration;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Objects;
 
@@ -78,7 +79,7 @@ public class Level<e> extends Application {
     //this is a hardcoded level layout only here for testing purposes
     private static char[][] levelLayout = {
             {'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G'},
-            {'G', 'P', 'P', 'T', 'T', 'T', 'T', 'T','P', 'T', 'T', 'G'},
+            {'G', 'P', 'P', 'T', 'T', 'T', 'T', 'T', 'P', 'T', 'T', 'G'},
             {'G', 'P', 'G', 'G', 'T', 'G', 'P', 'G', 'T', 'G', 'T', 'G'},
             {'G', 'P', 'P', 'T', 'T', 'T', 'T', 'P', 'P', 'T', 'T', 'G'},
             {'G', 'P', 'G', 'G', 'T', 'G', 'P', 'G', 'T', 'G', 'T', 'G'},
@@ -152,7 +153,7 @@ public class Level<e> extends Application {
     public int getGridCellWidth() {
         return GRID_CELL_WIDTH;
     }
-    
+
     public void setLevelWidth(Integer levelWidth) {
         this.levelWidth = levelWidth;
     }
@@ -181,8 +182,8 @@ public class Level<e> extends Application {
         return this.completed;
     }
 
-    public static void giveBirth(int x, int y){
-        PlayableRat newBaby = new PlayableRat(x,y);
+    public static void giveBirth(int x, int y) {
+        PlayableRat newBaby = new PlayableRat(x, y);
         newBaby.setImageDirection();
         ratList.add(newBaby);
     }
@@ -223,7 +224,7 @@ public class Level<e> extends Application {
             }
 
             for (Item item : itemList) {
-                 item.draw(gc);
+                item.draw(gc);
             }
 
         } else {
@@ -252,19 +253,19 @@ public class Level<e> extends Application {
             } else if (Objects.equals(event.getDragboard().getString(), "FemaleSexChange")) {
                 itemList.add(itemList.size(), new FemaleSexChange(x, y));
                 gc.drawImage(femaleSexChange, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
-            } else if (Objects.equals(event.getDragboard().getString(), "Gas")){
+            } else if (Objects.equals(event.getDragboard().getString(), "Gas")) {
                 itemList.add(itemList.size(), new Gas(x, y));
                 gc.drawImage(gas, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
-            }else if (Objects.equals(event.getDragboard().getString(), "Poison")){
+            } else if (Objects.equals(event.getDragboard().getString(), "Poison")) {
                 itemList.add(itemList.size(), new Poison(x, y));
                 gc.drawImage(poison, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
-            }else if (Objects.equals(event.getDragboard().getString(), "NoEntry")){
+            } else if (Objects.equals(event.getDragboard().getString(), "NoEntry")) {
                 itemList.add(itemList.size(), new NoEntrySign(x, y));
                 gc.drawImage(noEntry, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
-            }else if (Objects.equals(event.getDragboard().getString(), "Sterilisation")){
+            } else if (Objects.equals(event.getDragboard().getString(), "Sterilisation")) {
                 itemList.add(itemList.size(), new Sterilisation(x, y));
                 gc.drawImage(sterilisation, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
-            }else {
+            } else {
                 itemList.add(itemList.size(), new DeathRatItem(x, y));
                 gc.drawImage(deathrat, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
 
@@ -272,11 +273,11 @@ public class Level<e> extends Application {
             }
         }
 
-        }
-                private Pane buildGUI() {
+    }
+
+    private Pane buildGUI() {
         // Create top-level panel that will hold all GUI nodes.
         BorderPane root = new BorderPane();
-                    Button btnLoadLevel = new Button("Load Level");
         // Create the canvas that we will draw on.
         // We store this as a global variable so other methods can access it.
         canvas = new Canvas(CANVAS_WIDTH, CANVAS_HEIGHT);
@@ -286,12 +287,15 @@ public class Level<e> extends Application {
         toolbar.setSpacing(10);
         toolbar.setPadding(new Insets(10, 10, 10, 10));
         root.setTop(toolbar);
-
+        //Button to load the level
+        Button btnLoadLevel = new Button("Load Level");
+        //Button to save the layout running
+        Button btnSaveLevel = new Button("Save Level");
         // Tick Timeline buttons
         Button startTickTimelineButton = new Button("Start Ticks");
         Button stopTickTimelineButton = new Button("StopTicks");
         // We add both buttons at the same time to the timeline (we could have done this in two steps).
-        toolbar.getChildren().addAll(startTickTimelineButton, stopTickTimelineButton, btnLoadLevel);
+        toolbar.getChildren().addAll(startTickTimelineButton, stopTickTimelineButton, btnLoadLevel, btnSaveLevel);
         // Stop button is disabled by default
         stopTickTimelineButton.setDisable(true);
 
@@ -310,60 +314,90 @@ public class Level<e> extends Application {
             startTickTimelineButton.setDisable(false);
         });
 
-//Button to load level files NOT FINISHED
-                    btnLoadLevel.setOnAction(e -> {
+        btnLoadLevel.setOnAction(e -> {
 
-                        GraphicsContext gc = canvas.getGraphicsContext2D();
-                        FileChooser fileChooser = new FileChooser();
+            GraphicsContext gc = canvas.getGraphicsContext2D();
+            FileChooser fileChooser = new FileChooser();
 
-                        //Set extension filter
-                        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
-                        fileChooser.getExtensionFilters().add(extFilter);
+            // Clear canvas
+            gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
-                        //Show save file dialog
-                        File file = fileChooser.showOpenDialog(primaryStage);
+            // Set the background to gray.
+            gc.setFill(Color.GRAY);
+            gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
-                        if(file != null){
+            //Set extension filter
+            FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
+            fileChooser.getExtensionFilters().add(extFilter);
 
-                            //System.out.print(readFile(file));
-                            try {
-                                // create a reader instance
-                                BufferedReader br = new BufferedReader(new FileReader(file));
+            //Show save file dialog
+            File file = fileChooser.showOpenDialog(primaryStage);
 
-                                ArrayList<ArrayList<Character>> levelLayout = new ArrayList<>();
-                                String line;
+            if (file != null) {
+                try {
+                    // create a reader instance
+                    BufferedReader br = new BufferedReader(new FileReader(file));
+                    //Scanner sc = new Scanner(file);
 
-                                // read until end of file
-                                while ((line = br.readLine()) != null) {
-                                    //System.out.println(line);
-                                    ArrayList<Character> chars = new ArrayList<Character>();
-                                    for (char c : line.toCharArray()) {
-                                        chars.add(c);
-                                    }
-                                    levelLayout.add(chars);
-                                }
+                    ArrayList<ArrayList<Character>> levelLayout = new ArrayList<>();
+                    String line;
 
-                                for (int x = 0; x < GRID_HEIGHT; x++) {
-                                    for (int y = 0; y < GRID_WIDTH; y++) {
-                                        System.out.print(" x="+x);
-                                        System.out.print(" y="+y);
-                                        if (levelLayout.get(x).get(y) == 'G') {
-                                            gc.drawImage(grass, y * GRID_CELL_WIDTH, x * GRID_CELL_HEIGHT);
+                    br.readLine(); //skip first line, uncomment if you load map with height/width
+                    // read until end of file
+                    while ((line = br.readLine()) != null) {
+                        //System.out.println(line);
+                        ArrayList<Character> chars = new ArrayList<Character>();
+                        for (char c : line.toCharArray()) {
+                            chars.add(c);
+                        }
+                        levelLayout.add(chars);
+                    }
 
-                                        } else if (levelLayout.get(x).get(y) == 'T') {
-                                            gc.drawImage(tunnel, y * GRID_CELL_WIDTH, x * GRID_CELL_HEIGHT);
+                    //System.out.print(levelLayout);
+                    System.out.print(levelLayout.get(0));
 
-                                        } else {
-                                            gc.drawImage(path, y * GRID_CELL_WIDTH, x * GRID_CELL_HEIGHT);
-                                        }
-                                    }
-                                }
-                                br.close();
-                            } catch (IOException ex) {
-                                System.out.print("Error");
+                    for (int x = 0; x < GRID_HEIGHT; x++) {
+                        for (int y = 0; y < GRID_WIDTH; y++) {
+
+                            if (levelLayout.get(x).get(y) == 'G') {
+                                gc.drawImage(grass, y * GRID_CELL_WIDTH, x * GRID_CELL_HEIGHT);
+
+                            } else if (levelLayout.get(x).get(y) == 'T') {
+                                gc.drawImage(tunnel, y * GRID_CELL_WIDTH, x * GRID_CELL_HEIGHT);
+
+                            } else {
+                                gc.drawImage(path, y * GRID_CELL_WIDTH, x * GRID_CELL_HEIGHT);
                             }
                         }
-                    });
+                    }
+                    br.close();
+                } catch (IOException ex) {
+                    System.out.print("Error");
+                }
+            }
+        });
+
+        //Button to save the level layout in a file, just save the layout, should save more variables on it
+        btnSaveLevel.setOnAction(e -> {
+            Saver saveLevel = new Saver(); //Get save function from Saver class
+            FileChooser fileChooser = new FileChooser();
+
+            //Set extension filter for text files
+            FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
+            fileChooser.getExtensionFilters().add(extFilter);
+
+            //Show save file dialog
+            File file = fileChooser.showSaveDialog(primaryStage);
+
+            if (file != null) {
+                String levelFormatted = Arrays.deepToString(levelLayout)
+                        .replace(",", "")  //remove the commas
+                        .replace("[", "")  //remove the right bracket
+                        .replace("]", "\n") //remove the left bracket and lane break
+                        .replace(" ", "");
+                saveLevel.saveLevelFile(levelFormatted, file);
+            }
+        });
 
         // Setup a draggable image.
         ImageView dragBomb = new ImageView();
@@ -507,9 +541,9 @@ public class Level<e> extends Application {
             public void handle(DragEvent event) {
                 // Mark the drag as acceptable if the source was the draggable image.
                 // (for example, we don't want to allow the user to drag things or files into our application)
-                if (event.getGestureSource() == dragBomb || event.getGestureSource() == dragMaleGender|| event.getGestureSource() == dragFemaleGender
-                || event.getGestureSource() == dragDeathRat || event.getGestureSource() == dragPoison|| event.getGestureSource() == dragNoEntry
-                        || event.getGestureSource() == dragGas || event.getGestureSource() == dragSterilisation ) {
+                if (event.getGestureSource() == dragBomb || event.getGestureSource() == dragMaleGender || event.getGestureSource() == dragFemaleGender
+                        || event.getGestureSource() == dragDeathRat || event.getGestureSource() == dragPoison || event.getGestureSource() == dragNoEntry
+                        || event.getGestureSource() == dragGas || event.getGestureSource() == dragSterilisation) {
                     // Mark the drag event as acceptable by the canvas.
                     event.acceptTransferModes(TransferMode.ANY);
                     // Consume the event. This means we mark it as dealt with.
@@ -546,7 +580,7 @@ public class Level<e> extends Application {
         /*Bomb test = new Bomb(1,1);
       itemList.add(test);*/
 
-      /*  itemList.add(new MaleSexChange(1,2));*/
+        /*  itemList.add(new MaleSexChange(1,2));*/
 
 /*        ratRight = new Image("resources/Images/Rat/MRatRight.png");
         ratLeft = new Image("resources/Images/Rat/MRatLeft.png");
@@ -611,27 +645,27 @@ public class Level<e> extends Application {
 //        }
 
         Iterator<Rat> iteratorRat = ratList.listIterator();
-        while(iteratorRat.hasNext()){
+        while (iteratorRat.hasNext()) {
             Rat rat = iteratorRat.next();
-            if (tickCount % rat.getSpeed() == 0){
+            if (tickCount % rat.getSpeed() == 0) {
                 rat.move();
             }
             rat.setImageDirection();
             rat.incrementTick();
-            if (rat instanceof PlayableRat && ((PlayableRat) rat).getIsPregnant()){
+            if (rat instanceof PlayableRat && ((PlayableRat) rat).getIsPregnant()) {
                 ((PlayableRat) rat).incrementTickPregnant();
                 ((PlayableRat) rat).checkPregnancy();
             }
 
             rat.checkCollisions();
-            if (rat.isDestroyed()){
+            if (rat.isDestroyed()) {
                 iteratorRat.remove();
             }
         }
 
 
         Iterator<Item> iteratorItem = itemList.listIterator();
-        while (iteratorItem.hasNext()){
+        while (iteratorItem.hasNext()) {
             Item item = iteratorItem.next();
             item.update(); //updates the tickcount
             if (item.isDestroyed()) { //checks if item should be destroyed
@@ -645,7 +679,6 @@ public class Level<e> extends Application {
 //                itemList.remove(item); //destroys item
 //            }
 //        }
-
 
 
         // We then redraw the whole canvas.
@@ -731,4 +764,5 @@ public class Level<e> extends Application {
     public static void main(String[] args) {
         launch(args);
     }
+
 }
