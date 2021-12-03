@@ -21,6 +21,7 @@ import javafx.util.Duration;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Objects;
 
 
@@ -592,7 +593,6 @@ public class Level<e> extends Application {
 
             rat.incrementTick();
         }
-
         int ratListLength = ratList.size();
         for (int i = 0; i <= ratListLength-1; i++) {
             ratList.get(i).setImageDirection();
@@ -601,6 +601,13 @@ public class Level<e> extends Application {
                 ((PlayableRat) ratList.get(i)).checkPregnancy();
             }
         }
+
+        Iterator<Rat> iterator = ratList.listIterator();
+        while(iterator.hasNext()){
+            iterator.next().checkCollisions();
+        }
+
+
         int itemListLength = itemList.size();
 
         for (int i = 0; i <= itemListLength-1 ; i++) {

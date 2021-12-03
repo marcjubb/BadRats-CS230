@@ -1,5 +1,6 @@
 import javafx.scene.image.Image;
 
+import java.util.Iterator;
 import java.util.Random;
 
 /* */
@@ -118,7 +119,7 @@ public class PlayableRat extends Rat {
                 }
                 break;
         }
-        checkCollision();
+        //checkCollision();
     }
 
     public void changeSex() {
@@ -153,14 +154,19 @@ public class PlayableRat extends Rat {
         return xy;
     }
 
-    private void checkCollision(){
-        for (Rat rat: Level.getRatList()) {
+    public void checkCollisions(){
+        Iterator<Rat> iterator = Level.getRatList().listIterator();
+        while (iterator.hasNext()){
+            Rat rat = iterator.next();
             if (rat instanceof PlayableRat && rat.getX() == x && rat.getY() == y && sex != ((PlayableRat) rat).getSex() && isAdult && !isPregnant){
                 if (this.sex == Sex.FEMALE){
                     isPregnant = true;
                 }
             }
         }
+//        for (Rat rat: Level.getRatList()) {
+//
+//        }
     }
 
 

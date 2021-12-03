@@ -1,6 +1,7 @@
 import javafx.scene.image.Image;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * This Class represents a DeathRat in the game.
@@ -30,21 +31,18 @@ public class DeathRat extends Rat {
 
 
     public void checkCollisions(){
-        int ratListLength = Level.getRatList().size();
-        ArrayList<Rat> ratsToRemove = new ArrayList<>();
-        for (int i = 0; i <= ratListLength-1; i++) {
-            if (Level.getRatList().get(i).getX() == x && Level.getRatList().get(i).getY() == y){
-                ratsToRemove.add(Level.getRatList().get(i));
+        System.out.println("start of check collisions");
+
+        Iterator<Rat> iterator = Level.getRatList().listIterator();
+        while(iterator.hasNext()){
+            Rat rat = iterator.next();
+            if(rat.getX() == x && rat.getY() == y && rat != this){
+                iterator.remove();
             }
         }
 
 
-        for(Rat rat: Level.getRatList()){
-            if (rat.getX() == x && rat.getY() == y){
-                Level.getRatList().remove(rat);
-            }
-        }
-
+        System.out.println("end of check collisions");
     }
 
 

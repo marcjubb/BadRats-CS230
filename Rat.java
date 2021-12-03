@@ -31,6 +31,10 @@ public class Rat extends VisibleObject {
         return speed;
     }
 
+    public void checkCollisions(){
+
+    }
+
     public void move() {
         int rnd;
 
