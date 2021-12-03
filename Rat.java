@@ -55,28 +55,24 @@ public class Rat extends VisibleObject {
                         if (item.collisionAt(x, y)) {
                             this.setY(y - 1);
                             direction = Direction.SOUTH;
-                            System.out.println("Stop  backseat coding mac man");
                             ((NoEntrySign) item).damage();
                         }
                     case SOUTH:
                         if (item.collisionAt(x, y)) {
                             this.setY(y + 1);
                             direction = Direction.NORTH;
-                            System.out.println("everest climber sam");
                             ((NoEntrySign) item).damage();
                         }
                     case EAST:
                         if (item.collisionAt(x, y)) {
                             this.setX(x - 1);
                             direction = Direction.WEST;
-                            System.out.println("asada climber sam");
                             ((NoEntrySign) item).damage();
                         }
                     case WEST:
                         if (item.collisionAt(x, y)) {
                             this.setX(x + 1);
                             direction = Direction.EAST;
-                            System.out.println("climber sam");
                             ((NoEntrySign) item).damage();
                         }
                 }
