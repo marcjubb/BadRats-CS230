@@ -16,17 +16,16 @@ public class Gas extends Item {
         timer = 5;
     }
 
-   /* public void gasArea() {
-        for (int x = getX() - 1; x < getX() + 2; x++) {
-            for (int y = getY() - 1; y < getY() + 2; y++) {
-                for (Rat rat : Level.getRatList()) {
-                    if (rat.getX() == x && rat.getY() == y && rat instanceof PlayableRat) {
-                        ((PlayableRat) rat).setSterile(true);
-                    }
+    public void gasArea() {
+        int radius = 2- (Math.floorDiv(timer,2));
+        for (int x = getX()- radius; x < getX() + radius+1; x++) {
+            for (int y = getY() - radius; y < getY()+ radius+1; y++) {
+                if ( isInBounds(x,y)) {
+
                 }
             }
         }
-    }*/
+    }
 
     public void update() {
         timer--;
@@ -40,7 +39,7 @@ public void draw(GraphicsContext gc) {
         for (int x = getX()- radius; x < getX() + radius+1; x++) {
             for (int y = getY() - radius; y < getY()+ radius+1; y++) {
                 if ( isInBounds(x,y)) {
-                    if (Level.getLevelLayout()[y][x] != 'G') {
+                    if (Level.getLevelLayout()[y][x] != 'G' && Level.getLevelLayout()[y][x] != 'T') {
                         gc.drawImage(new Image("/resources/Images/Items/Gas.png"), x * Level.getGridCellHeight(), y * Level.getGridCellHeight());
                     }
                 }
