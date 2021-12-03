@@ -24,13 +24,13 @@ public class DeathRat extends Rat {
         currentKillCount = 0;
     }
 
-    public DeathRat(int x, int y) {
+    public DeathRat(int x, int y, int currentKillCount) {
         super.x = x;
         super.y = y;
         super.speed = ADULT_SPEED;
         super.ticksSinceCreation = 0;
         super.direction = generateDirection();
-        currentKillCount = 0;
+        this.currentKillCount = currentKillCount;
     }
 
 //i was thinking it might be better to remove rats like we do items - just set them as to be destroyed and then just remove those
@@ -49,6 +49,8 @@ public class DeathRat extends Rat {
             }
         }
     }
+
+
 
 
     public void setImageDirection() {
