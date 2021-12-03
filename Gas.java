@@ -16,17 +16,19 @@ public class Gas extends Item {
         timer = 5;
     }
 
-   /* public void gasArea() {
+   public void gasArea() {
         for (int x = getX() - 1; x < getX() + 2; x++) {
             for (int y = getY() - 1; y < getY() + 2; y++) {
                 for (Rat rat : Level.getRatList()) {
-                    if (rat.getX() == x && rat.getY() == y && rat instanceof PlayableRat) {
-                        ((PlayableRat) rat).setSterile(true);
+                    if (rat.getX() == x && rat.getY() == y && rat.getTicksInGas() < 8) {
+                        rat.incrementTicksInGas();
+                    } else if ((rat.getX() == x && rat.getY() == y && rat.getTicksInGas() >= 8)){
+                        rat.setDestroyed(true);
                     }
                 }
             }
         }
-    }*/
+    }
 
     public void update() {
         timer--;
@@ -40,12 +42,13 @@ public void draw(GraphicsContext gc) {
         for (int x = getX()- radius; x < getX() + radius+1; x++) {
             for (int y = getY() - radius; y < getY()+ radius+1; y++) {
                 if ( isInBounds(x,y)) {
-                    if (Level.getLevelLayout()[y][x] != 'G') {
+                    if (Level.getLevelLayout()[y][x] != 'G' && Level.getLevelLayout()[y][x] != 'T' ) {
                         gc.drawImage(new Image("/resources/Images/Items/Gas.png"), x * Level.getGridCellHeight(), y * Level.getGridCellHeight());
                     }
                 }
             }
         }
+        gasArea();
  }
  private Boolean isInBounds(int x,int y){
      return y < Level.getGridHeight() - 1 && x < Level.getGridWidth() - 1 &&
