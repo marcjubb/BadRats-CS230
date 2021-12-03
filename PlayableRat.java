@@ -80,52 +80,56 @@ public class PlayableRat extends Rat {
     }
 
     public void setImageDirection() {
-        switch (getDirection()) {
-            case "NORTH":
-                if (isAdult) {
-                    if (sex == Sex.MALE) {
-                        this.setImg(new Image("/resources/Images/Rat/RatDown.png"));
+        if (Level.getLevelLayout()[y][x] != 'T') {
+            switch (getDirection()) {
+                case "NORTH":
+                    if (isAdult) {
+                        if (sex == Sex.MALE) {
+                            this.setImg(new Image("/resources/Images/Rat/RatDown.png"));
+                        } else {
+                            this.setImg(new Image("/resources/Images/Rat/FemaleRatDown.png"));
+                        }
                     } else {
-                        this.setImg(new Image("/resources/Images/Rat/FemaleRatDown.png"));
+                        this.setImg(new Image("/resources/Images/Rat/BabyRatDown.png"));
                     }
-                } else {
-                    this.setImg(new Image("/resources/Images/Rat/BabyRatDown.png"));
-                }
 
-                break;
-            case "SOUTH":
-                if (isAdult) {
-                    if (sex == Sex.MALE) {
-                        this.setImg(new Image("/resources/Images/Rat/RatUp.png"));
+                    break;
+                case "SOUTH":
+                    if (isAdult) {
+                        if (sex == Sex.MALE) {
+                            this.setImg(new Image("/resources/Images/Rat/RatUp.png"));
+                        } else {
+                            this.setImg(new Image("/resources/Images/Rat/FemaleRatUp.png"));
+                        }
                     } else {
-                        this.setImg(new Image("/resources/Images/Rat/FemaleRatUp.png"));
+                        this.setImg(new Image("/resources/Images/Rat/BabyRatUp.png"));
                     }
-                } else {
-                    this.setImg(new Image("/resources/Images/Rat/BabyRatUp.png"));
-                }
-                break;
-            case "EAST":
-                if (isAdult) {
-                    if (sex == Sex.MALE) {
-                        this.setImg(new Image("/resources/Images/Rat/MRatRight.png"));
+                    break;
+                case "EAST":
+                    if (isAdult) {
+                        if (sex == Sex.MALE) {
+                            this.setImg(new Image("/resources/Images/Rat/MRatRight.png"));
+                        } else {
+                            this.setImg(new Image("/resources/Images/Rat/FRatRight.png"));
+                        }
                     } else {
-                        this.setImg(new Image("/resources/Images/Rat/FRatRight.png"));
+                        this.setImg(new Image("/resources/Images/Rat/BRatRight.png"));
                     }
-                } else {
-                    this.setImg(new Image("/resources/Images/Rat/BRatRight.png"));
-                }
-                break;
-            case "WEST":
-                if (isAdult) {
-                    if (sex == Sex.MALE) {
-                        this.setImg(new Image("/resources/Images/Rat/MRatLeft.png"));
+                    break;
+                case "WEST":
+                    if (isAdult) {
+                        if (sex == Sex.MALE) {
+                            this.setImg(new Image("/resources/Images/Rat/MRatLeft.png"));
+                        } else {
+                            this.setImg(new Image("/resources/Images/Rat/FRatLeft.png"));
+                        }
                     } else {
-                        this.setImg(new Image("/resources/Images/Rat/FRatLeft.png"));
+                        this.setImg(new Image("/resources/Images/Rat/BRatLeft.png"));
                     }
-                } else {
-                    this.setImg(new Image("/resources/Images/Rat/BRatLeft.png"));
-                }
-                break;
+                    break;
+            }
+        } else {
+            this.setImg(new Image("/resources/Images/BLANK.png"));
         }
     }
 

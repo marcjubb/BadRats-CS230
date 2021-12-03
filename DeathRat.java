@@ -54,20 +54,23 @@ public class DeathRat extends Rat {
 
 
     public void setImageDirection() {
-        switch (getDirection()) {
-            case "NORTH":
-                this.setImg(new Image("resources/Images/Rat/DeathRatDown.png"));
-                break;
-            case "SOUTH":
-                this.setImg(new Image("resources/Images/Rat/DeathRatUp.png"));
-                break;
-            case "EAST":
-                this.setImg(new Image("resources/Images/Rat/Rat10.png"));
-                break;
-            case "WEST":
-                this.setImg(new Image("resources/Images/Rat/Rat11.png"));
-                break;
+        if (Level.getLevelLayout()[y][x] != 'T') {
+            switch (getDirection()) {
+                case "NORTH":
+                    this.setImg(new Image("resources/Images/Rat/DeathRatDown.png"));
+                    break;
+                case "SOUTH":
+                    this.setImg(new Image("resources/Images/Rat/DeathRatUp.png"));
+                    break;
+                case "EAST":
+                    this.setImg(new Image("resources/Images/Rat/Rat10.png"));
+                    break;
+                case "WEST":
+                    this.setImg(new Image("resources/Images/Rat/Rat11.png"));
+                    break;
+            }
+        } else {
+            this.setImg(new Image ("resources/Images/BLANK.png"));
         }
     }
- 
 }
