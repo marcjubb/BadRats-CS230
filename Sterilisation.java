@@ -27,7 +27,7 @@ public class Sterilisation extends Item {
 //    }
     public void draw(GraphicsContext gc) {
         if (timeLeft > 0){
-            gc.drawImage(new Image("resources/Sterilisation.png"), x, y);
+            gc.drawImage(new Image("/resources/Images/Items//Sterilisation.png"), x, y);
         }else{
             //remove image.
         }

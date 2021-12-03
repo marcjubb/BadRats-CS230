@@ -42,6 +42,10 @@ public class Rat extends VisibleObject {
                 if(item instanceof NoEntrySign){
                     ((NoEntrySign) item).damage();
                 }
+                if (item instanceof Poison){
+                    this.setDestroyed(true);
+                    item.destroySelf();
+                }
             }
         }
 
