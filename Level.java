@@ -653,7 +653,10 @@ public class Level<e> extends Application {
         // We start the timeline upon a button press.
         
         //Load menu
-        drawMenu();
+        //drawMenu();
+        drawGame();
+        primaryStage.setScene(scene);
+        primaryStage.show();
         //drawGame moved to Play
 
     }
@@ -827,16 +830,16 @@ public class Level<e> extends Application {
         }
     }
     
-    //Menu
-    public void drawMenu() {
-    }
-    
-    private void Play() {
-        //Delete menu
-        drawGame();
-        primaryStage.setScene(scene);
-        primaryStage.show();
-    }
+//    //Menu
+//    public void drawMenu() {
+//    }
+//
+//    private void Play() {
+//        //Delete menu
+//        drawGame();
+//        primaryStage.setScene(scene);
+//        //primaryStage.show();
+//    }
     
     //private void LevelSelect()
     //private String Load()
