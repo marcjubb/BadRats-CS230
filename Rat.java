@@ -21,12 +21,14 @@ public class Rat extends VisibleObject {
     private enum LeftOrRight {LEFT, RIGHT}
 
     protected int ticksSinceCreation;
+
     public Rat() {
 
     }
+
     //I Don't think you need an empty
-    public Rat(int x,int y) {
-        super(x,y);
+    public Rat(int x, int y) {
+        super(x, y);
     }
 
     public String getDirection() {
@@ -37,11 +39,11 @@ public class Rat extends VisibleObject {
         return speed;
     }
 
-    public void incrementTicksInGas(){
+    public void incrementTicksInGas() {
         ticksInGas++;
     }
 
-    public int getTicksInGas(){
+    public int getTicksInGas() {
         return ticksInGas;
     }
 
@@ -78,7 +80,9 @@ public class Rat extends VisibleObject {
                             ((NoEntrySign) item).damage();
                         }
                 }
+            }
 
+            if (item.collisionAt(x,y)) {
                 if (item instanceof Poison) {
                     this.setDestroyed(true);
                     item.destroySelf();
@@ -372,8 +376,6 @@ public class Rat extends VisibleObject {
         int elem = new Random().nextInt(Direction.values().length);
         return Direction.values()[elem];
     }
-
-
 
 
     public String toString() {
