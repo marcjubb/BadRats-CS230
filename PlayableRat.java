@@ -166,9 +166,7 @@ public class PlayableRat extends Rat {
     }
 
     public void checkCollisions() {
-        Iterator<Rat> iterator = Level.getRatList().listIterator();
-        while (iterator.hasNext()) {
-            Rat rat = iterator.next();
+        for (Rat rat : Level.getRatList()) {
             if (rat instanceof PlayableRat && rat.getX() == x && rat.getY() == y && sex != ((PlayableRat) rat).getSex() && isAdult && !isPregnant && !this.isSterile && !((PlayableRat) rat).isSterile()) {
                 if (this.sex == Sex.FEMALE) {
                     isPregnant = true;
