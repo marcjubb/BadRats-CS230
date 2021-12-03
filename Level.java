@@ -651,11 +651,10 @@ public class Level<e> extends Application {
         // Loop the timeline forever
         tickTimeline.setCycleCount(Animation.INDEFINITE);
         // We start the timeline upon a button press.
-
-        // Display the scene on the stage
-        drawGame();
-        primaryStage.setScene(scene);
-        primaryStage.show();
+        
+        //Load menu
+        drawMenu();
+        //drawGame moved to Play
 
     }
 
@@ -827,6 +826,21 @@ public class Level<e> extends Application {
             System.out.println(e);
         }
     }
+    
+    //Menu
+    public void drawMenu() {
+    }
+    
+    private void Play() {
+        //Delete menu
+        drawGame();
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+    
+    //private void LevelSelect()
+    //private String Load()
+        
 
     public static void main(String[] args) {
         launch(args);
