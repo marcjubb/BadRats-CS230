@@ -45,9 +45,9 @@ public class DeathRat extends Rat {
                 if (currentKillCount >= 5){
                     this.setDestroyed(true);
                 }
-
             }
         }
+        super.checkCollisions();
     }
 
 
