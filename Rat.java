@@ -324,41 +324,6 @@ public class Rat extends VisibleObject {
         int elem = new Random().nextInt(Direction.values().length);
         return Direction.values()[elem];
     }
-    public void collisionType(){
-
-        switch(item.getItemName()) {
-            case "Bomb":
-
-                break;
-            case "Death Rat Item":
-
-                break;
-
-            case "FemaleSexChange":
-                if(this.getClass()!=DeathRat.class){
-
-                }
-                break;
-
-            case "Gas":
-
-                break;
-
-            case "MaleSexChange":
-
-                break;
-
-            case "NoEntrySign":
-
-                break;
-
-            case "Sterilisation":
-
-                break;
-
-        }
-
-    }
 
 
 

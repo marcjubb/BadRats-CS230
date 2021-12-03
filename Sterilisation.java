@@ -8,39 +8,53 @@ import javafx.scene.image.Image;
  */
 public class Sterilisation extends Item {
 
-    private int timeLeft;
-    private int distanceUp;
-    private int distanceDown;
-    private int distanceLeft;
-    private int distanceRight;
+    private int timer;
+    private final int SIZE_OF_EFFECT =2;
+
 
     public Sterilisation(int x, int y){
         super(x, y, "Sterilisation", "/resources/Images/Items/Sterilisation.png");
-        timeLeft = 3;
+        timer = 5;
     }
 
-    //    public void update() {
-//        timeLeft--;
-//        if (timeLeft <= 0) {
-//            destroySelf();
-//        }
-//    }
-    public void draw(GraphicsContext gc) {
-        if (timeLeft > 0){
-            gc.drawImage(new Image("resources/Sterilisation.png"), x, y);
-        }else{
-            //remove image.
+    public void sterilizeArea(){
+        for (int x = getX()-1; x < getX() +2; x++) {
+            for (int y = getY()-1; y < getY()+2; y++) {
+                for(Rat rat : Level.getRatList()){
+                    if (rat.getX() == x&&rat.getY() == y && rat instanceof PlayableRat){
+                        ((PlayableRat) rat).setSterile(true);
+                    }
+                }
+            }
         }
-
-//    public void updateDistance(){
-//          //TODO
-//        }
     }
-    public int getTimeLeft(){
-        return timeLeft;
+
+        public void update() {
+       timer--;
+       if (timer <= 0) {
+            destroySelf();
+        }
+    }
+    public void draw(GraphicsContext gc) {
+
+
+            for (int x = getX()-1; x < getX() +2; x++) {
+                for (int y = getY()-1; y < getY()+2; y++) {
+                    if (Level.getLevelLayout()[y][x] != 'G'){
+                        gc.drawImage(new Image("/resources/Images/Items/Sterilisation.png"), x*Level.getGridCellHeight(), y*Level.getGridCellHeight());
+                    }
+                }
+            }
+            sterilizeArea();
+
+
+
+    }
+    public int getTimer(){
+        return timer;
     }
     @Override
     public String toString() {
-        return super.toString() + ", " + timeLeft + "\n";
+        return super.toString() + ", " + timer + "\n";
     }
 }

@@ -23,10 +23,7 @@ public class Item extends VisibleObject{
     }
 
     public boolean collisionAt(int x, int y) {
-        if (x == this.x && y == this.y) {
-            return true;
-        }
-        return false;
+        return x == this.x && y == this.y;
     }
 
     protected void destroySelf() {
@@ -35,13 +32,20 @@ public class Item extends VisibleObject{
 
     protected boolean isInExplosion(ArrayList<Item> items) {
         for (Item item : items) {
-            if (item.getItemName() == "Bomb" && item.collisionAt(x, y)) {
+            if (Objects.equals(item.getItemName(), "Bomb") && item.collisionAt(x, y)) {
                 return true;
             }
         }
         return false;
     }
-
+   /* protected boolean isInSterilisation(ArrayList<Item> items) {
+        for (Item item : items) {
+            if (Objects.equals(item.getItemName(), "Sterilisation") && item.collisionAt(x, y)) {
+                return true;
+            }
+        }
+        return false;
+    }*/
     public void update() {
         if (isInExplosion(Level.getItemList())) {
             destroySelf();

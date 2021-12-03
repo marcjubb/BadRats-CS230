@@ -32,13 +32,11 @@ public class DeathRatItem extends Item {
     }
 
     private void checkCollision(){
-        Iterator<Rat> iterator = Level.getRatList().listIterator();
-        while (iterator.hasNext()) {
-            Rat rat = iterator.next();
+        for (Rat rat : Level.getRatList()) {
             if (rat.getX() == x && rat.getY() == y) {
                 rat.setDestroyed(true);
                 currentKillCount++;
-                if (currentKillCount >= 5){
+                if (currentKillCount >= 5) {
                     destroySelf();
                 }
 

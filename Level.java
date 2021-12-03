@@ -67,7 +67,7 @@ public class Level<e> extends Application {
     private boolean pauseGame = false;
     private boolean levelCompleted = false;
 
-    private static int sizeLevel, levelWidth, levelHeight, maxPopulation, ratPopulationRate, secExpected, time;
+    private static int sizeLevel, maxPopulation, ratPopulationRate, secExpected, time;
     private boolean completed;
 
 
@@ -79,11 +79,11 @@ public class Level<e> extends Application {
     //this is a hardcoded level layout only here for testing purposes
     private static char[][] levelLayout = {
             {'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G'},
-            {'G', 'P', 'P', 'T', 'T', 'T', 'T', 'T', 'P', 'T', 'T', 'G'},
-            {'G', 'P', 'G', 'G', 'T', 'G', 'P', 'G', 'T', 'G', 'T', 'G'},
-            {'G', 'P', 'P', 'T', 'T', 'T', 'T', 'P', 'P', 'T', 'T', 'G'},
-            {'G', 'P', 'G', 'G', 'T', 'G', 'P', 'G', 'T', 'G', 'T', 'G'},
-            {'G', 'P', 'P', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'T', 'G'},
+            {'G', 'P', 'P', 'P', 'P', 'T', 'T', 'T', 'P', 'P', 'P', 'G'},
+            {'G', 'P', 'G', 'G', 'T', 'G', 'P', 'G', 'P', 'G', 'P', 'G'},
+            {'G', 'P', 'P', 'P', 'T', 'P', 'P', 'P', 'P', 'T', 'P', 'G'},
+            {'G', 'P', 'G', 'G', 'T', 'G', 'P', 'G', 'P', 'G', 'P', 'G'},
+            {'G', 'P', 'P', 'P', 'P', 'P', 'P', 'P', 'P', 'P', 'P', 'G'},
             {'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G'}};
 
 
@@ -114,21 +114,15 @@ public class Level<e> extends Application {
     }
 
 
-    public static int getLevelHeight() {
-        return levelHeight;
-    }
+
 
     public static int getGridCellHeight() {
         return GRID_CELL_HEIGHT;
     }
 
-    public void setLevelHeight(int levelHeight) {
-        this.levelHeight = levelHeight;
-    }
 
-    public static int getLevelWidth() {
-        return levelWidth;
-    }
+
+
 
     public int getMaxPopulation() {
         return maxPopulation;
@@ -154,9 +148,7 @@ public class Level<e> extends Application {
         return GRID_CELL_WIDTH;
     }
 
-    public void setLevelWidth(Integer levelWidth) {
-        this.levelWidth = levelWidth;
-    }
+
 
     public void setMaxPopulation(Integer maxPopulation) {
         this.maxPopulation = maxPopulation;
@@ -606,7 +598,7 @@ public class Level<e> extends Application {
         scene.addEventFilter(KeyEvent.KEY_RELEASED, event -> processKeyEvent(event));
         // Register a tick method to be called periodically.
         // Make a new timeline with one keyframe that triggers the tick method every half a second.
-        tickTimeline = new Timeline(new KeyFrame(Duration.millis(250), event -> tick()));
+        tickTimeline = new Timeline(new KeyFrame(Duration.millis(400), event -> tick()));
         // Loop the timeline forever
         tickTimeline.setCycleCount(Animation.INDEFINITE);
         // We start the timeline upon a button press.

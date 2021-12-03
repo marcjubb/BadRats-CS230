@@ -65,6 +65,10 @@ public class PlayableRat extends Rat {
         return isPregnant;
     }
 
+    public void setSterile(boolean sterile) {
+        isSterile = sterile;
+    }
+
     public boolean isSterile() {
         return isSterile;
     }
@@ -177,11 +181,7 @@ public class PlayableRat extends Rat {
                 } else if (item instanceof FemaleSexChange && this.sex == Sex.FEMALE) {
                     changeSex();
                     item.destroySelf();
-                } else if (item instanceof Sterilisation) {
-                    isSterile = true;
-                    item.destroySelf();
                 }
-
             }
         }
         super.checkCollisions();

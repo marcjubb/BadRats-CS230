@@ -22,9 +22,9 @@ public class NoEntrySign extends Item {
     }
 
     public void draw(GraphicsContext gc) {
-       if (durability == 5) {
-           gc.drawImage(new Image("/resources/Images/Items/NoEntry.png"), x * tileSize, y * tileSize);
-       }else if (durability == 4) {
+        if (durability == 5) {
+            gc.drawImage(new Image("/resources/Images/Items/NoEntry.png"), x * tileSize, y * tileSize);
+        }else if (durability == 4) {
            gc.drawImage(new Image("/resources/Images/Items/NoEntry4.png"), x * tileSize, y * tileSize);
        }else if (durability == 3) {
            gc.drawImage(new Image("/resources/Images/Items/NoEntry3.png"), x * tileSize, y * tileSize);
