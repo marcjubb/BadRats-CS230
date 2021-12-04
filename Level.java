@@ -60,6 +60,8 @@ public class Level<e> extends Application {
 
     private Canvas canvas;
 
+    private Canvas canvasCounters;
+
     // Loaded images
     private static Image grass;
     private static Image path;
@@ -98,6 +100,10 @@ public class Level<e> extends Application {
     private static ArrayList<Rat> ratList = new ArrayList<>();
     private static ArrayList<Item> itemList = new ArrayList<>();
 
+    //The quantity of rats by sex.
+    private static int numOfMaleRats;
+    private static int numOfFemaleRats;
+
     //this is a hardcoded level layout only here for testing purposes
     private static Character[][] levelLayout = {
             {'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G'},
@@ -125,6 +131,18 @@ public class Level<e> extends Application {
 
     public static ArrayList<Item> getItemList() {
         return itemList;
+    }
+
+    public void getNumOfSex(){
+        numOfMaleRats = 0;
+        numOfFemaleRats = 0;
+        for(Rat rat: Level.getRatList()){
+            if((rat instanceof PlayableRat) && ((PlayableRat) rat).getSex() == PlayableRat.Sex.MALE ){
+                numOfMaleRats++;
+            }else if((rat instanceof PlayableRat) && ((PlayableRat) rat).getSex() == PlayableRat.Sex.FEMALE ){
+                numOfFemaleRats++;
+            }
+        }
     }
 
     public static Character[][] getLevelLayout() {
@@ -184,6 +202,16 @@ public class Level<e> extends Application {
             item.draw(gc);
         }
 
+    }
+
+    public void drawCounters() {
+        GraphicsContext gc = canvasCounters.getGraphicsContext2D();
+        getNumOfSex();
+
+        gc.clearRect(0, 0, canvasCounters.getWidth(), canvasCounters.getHeight());
+        gc.fillText("Rats Remaining: " + getRatListSize(), 64, 32);
+        gc.fillText("Males Remaining: " + numOfMaleRats, 64, 52);
+        gc.fillText("Females Remaining: " + numOfFemaleRats, 64, 72);
     }
 
     public void canvasDragDroppedOccured(DragEvent event) {
@@ -249,6 +277,9 @@ public class Level<e> extends Application {
         // We store this as a global variable so other methods can access it.
         canvas = new Canvas(CANVAS_WIDTH, CANVAS_HEIGHT);
         root.setCenter(canvas);
+
+        canvasCounters = new Canvas(CANVAS_WIDTH, 256);
+        root.setBottom(canvasCounters);
         // Create a toolbar with some nice padding and spacing
         HBox toolbar = new HBox();
         toolbar.setSpacing(10);
@@ -684,6 +715,7 @@ public class Level<e> extends Application {
             }
             // We then redraw the whole canvas.
             drawGame();
+            drawCounters();
         }
     }
     private void levelEndScreen() {

@@ -7,7 +7,7 @@ import java.util.Random;
 public class PlayableRat extends Rat {
 
     static final private int PREGNANCY_DURATION = 9;
-    private enum Sex {MALE, FEMALE}
+    public enum Sex {MALE, FEMALE}
     private Sex sex;
     private boolean isAdult;
     private boolean isPregnant;
