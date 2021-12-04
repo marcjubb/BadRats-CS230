@@ -31,7 +31,7 @@ public class Level<e> extends Application {
 
 
     // The dimensions of the window
-    private static final int WINDOW_WIDTH = 800;
+    private static final int WINDOW_WIDTH = 1000;
     private static final int WINDOW_HEIGHT = 600;
     private static final int GRID_WIDTH = 12;
     private static final int GRID_HEIGHT = 7;
@@ -607,17 +607,6 @@ public class Level<e> extends Application {
         }
 
 
-        /*Bomb test = new Bomb(1,1);
-      itemList.add(test);*/
-
-        /*  itemList.add(new MaleSexChange(1,2));*/
-
-/*      ratRight = new Image("resources/Images/Rat/MRatRight.png");
-        ratLeft = new Image("resources/Images/Rat/MRatLeft.png");
-        ratUp = new Image("resources/Images/Rat/RatUp.png");
-        ratDown = new Image("resources/Images/Rat/RatDown.png");*/
-
-
         grass = new Image("/resources/Images/Tiles/Grass.png");
         path = new Image("/resources/Images/Tiles/Path.png");
         tunnel = new Image("/resources/Images/Tiles/Tunnel.png");
@@ -674,11 +663,7 @@ public class Level<e> extends Application {
             if (tickCount % 10 == 0) {
                 addRandomItem();
             }
-//        if (levelCompleted){
-//            System.out.println("Game Won"); //not sure what we want to do when the game is won.
-//        } else if (ratList.size() >= MAX_RAT_POPULATIOn){
-//            System.out.println("Game Lost");
-//        }
+//
             tickCount++;
             // Here we move the player right one cell and teleport
             // them back to the left side when they reach the right side.
@@ -729,20 +714,11 @@ public class Level<e> extends Application {
                     iteratorItem.remove(); //destroys item
                 }
             }
-            drawGame();
-//        for (Item item : itemList){
-//            item.update(); //updates the tickcount
-//            if (item.isDestroyed()) { //checks if item should be destroyed
-//                itemList.remove(item); //destroys item
-//            }
-//        }
-
-
             // We then redraw the whole canvas.
-
-
+            drawGame();
         }
     }
+
     public void gameStatus()  {
         System.out.println(getRatListSize());
         if(ratList.size() == 0){
@@ -752,6 +728,7 @@ public class Level<e> extends Application {
             if(player.getMaxLevelCompleted() < this.currentLevel) {
                 player.setMaxLevelCompleted(currentLevel);
                 PlayerProfiles.save(player);
+                tickTimeline.stop();
             }
         }else if(this.getRatListSize() >= maxPopulation) {
             gameLost = true;
