@@ -1,3 +1,4 @@
+import com.sun.media.sound.RIFFInvalidDataException;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -265,13 +266,16 @@ public class Level<e> extends Application {
 
     }
 
+
+
     private void addRandomItem(){
         Random r = new Random();
         int i = r.nextInt(items.size());
         currentInventory.add(items.get(i));
     }
 
-    private void addToToolbar(HBox toolbar){}
+    private void addToToolbar(HBox toolbar){
+    }
 
 
     private Pane buildGUI() {
@@ -729,6 +733,7 @@ public class Level<e> extends Application {
                 player.setMaxLevelCompleted(currentLevel);
                 PlayerProfiles.save(player);
                 tickTimeline.stop();
+
             }
         }else if(this.getRatListSize() >= maxPopulation) {
             gameLost = true;
