@@ -9,8 +9,7 @@ import java.io.ObjectOutputStream;
 
 /**
  *Saves all data to a text file that can be loaded
- *
- * @author Aaron Davies
+ * @author Aaron Davies and Gonzalo
  * @version 0.0.1
  */
 
