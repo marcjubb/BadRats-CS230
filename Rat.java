@@ -7,7 +7,7 @@ import java.util.Random;
  */
 
 /*TODO Handle for edge cases in move method and find logic errors*/
-public class Rat extends VisibleObject {
+public abstract class Rat extends VisibleObject {
     static final protected int ADULT_SPEED = 2; //in ticks per square moved
     static final protected int BABY_SPEED = 1;
     protected int speed;
@@ -43,7 +43,8 @@ public class Rat extends VisibleObject {
     }
 
     /**
-     * Responsible
+     * Responsible for checking collisions that both death rats and playable rats have and effecting itself or what it
+     * is effecting accordingly.
      */
     public void checkCollisions() {
         for (Item item : Level.getItemList()) {
@@ -90,6 +91,9 @@ public class Rat extends VisibleObject {
         }
     }
 
+    /**
+     * Responsible for moving the rats in different directions, depending on the way they are facing.
+     */
     public void move() {
         int rnd;
 
@@ -113,6 +117,9 @@ public class Rat extends VisibleObject {
         }
     }
 
+    /**
+     * Performs the movement for a rat if it is facing North.
+     */
     public void moveForNorth(){
         int rnd;
         if ((Level.getLevelLayout()[y + 1][x] != 'G') && (Level.getLevelLayout()[y][x - 1] != 'G') && (Level.getLevelLayout()[y][x + 1] != 'G')) {
@@ -175,6 +182,9 @@ public class Rat extends VisibleObject {
         }
     }
 
+    /**
+     * Performs the movement for a rat if it is facing South.
+     */
     private void moveForSouth(){
         int rnd;
         if ((Level.getLevelLayout()[y - 1][x] != 'G') && (Level.getLevelLayout()[y][x - 1] != 'G') && (Level.getLevelLayout()[y][x + 1] != 'G')) {
@@ -233,6 +243,9 @@ public class Rat extends VisibleObject {
 
     }
 
+    /**
+     * Performs the movement for a rat if it is facing East.
+     */
     private void moveForEast(){
         int rnd;
         if ((Level.getLevelLayout()[y + 1][x] != 'G') && (Level.getLevelLayout()[y - 1][x] != 'G') && (Level.getLevelLayout()[y][x + 1] != 'G')) {
@@ -296,6 +309,9 @@ public class Rat extends VisibleObject {
 
     }
 
+    /**
+     * Performs the movement for a rat if it is facing West
+     */
     private void moveForWest(){
         int rnd;
         if ((Level.getLevelLayout()[y - 1][x] != 'G') && (Level.getLevelLayout()[y][x - 1] != 'G') && (Level.getLevelLayout()[y + 1][x] != 'G')) {
@@ -356,37 +372,62 @@ public class Rat extends VisibleObject {
     }
 
 
-    public void setImageDirection() {
+    /**
+     * Abstract method that is defined in classes that extend from this class.
+     */
+    public abstract void setImageDirection();
 
-    }
 
-
+    /**
+     * Increments the amount of ticks the instance has existed for.
+     */
     public void incrementTick() {
         ticksSinceCreation++;
     }
 
+    /**
+     * Moves the rat right by 1 square on the board.
+     */
     public void moveRight() {
         x = x + 1;
     }
 
+    /**
+     * Moves the rat left by 1 square on the board.
+     */
     public void moveLeft() {
         x = x - 1;
     }
 
+    /**
+     * Moves the rat down by 1 square on the board.
+     */
     public void moveDown() {
         y = y - 1;
     }
 
+
+    /**
+     * Moves the rat up by 1 square on the board.
+     */
     public void moveUp() {
         y = y + 1;
     }
 
+    /**
+     * Generates a random direction for the rat to face.
+     * @return the direction for the rat to face.
+     */
     protected Direction generateDirection() {
         int elem = new Random().nextInt(Direction.values().length);
         return Direction.values()[elem];
     }
 
 
+    /**
+     *
+     * @return data that would need to be saved to the file.
+     */
     public String toString() {
         return x + ", " + y + ticksSinceCreation;
     }
