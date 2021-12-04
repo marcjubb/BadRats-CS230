@@ -1,4 +1,3 @@
-import com.sun.javafx.tools.packager.MakeAllParams;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -9,9 +8,13 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContentDisplay;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -54,25 +57,31 @@ public class Level<e> extends Application {
     private static Image bomb;
     private static Image maleSexChange;
     private static Image femaleSexChange;
-    private static Image deathrat;
+    private static Image deathRat;
     private static Image gas;
     private static Image noEntry;
     private static Image poison;
     private static Image sterilisation;
+
     private static int tickCount;
     private static int score = 0;
+
 
     private Timeline tickTimeline;
 
     private Stage primaryStage;
-    private boolean pauseGame = false;
     private boolean levelCompleted = false;
+    private int currentLevel;
+    private boolean gameLost = false;
 
-    private static int sizeLevel, maxPopulation, ratPopulationRate, secExpected, time;
-    private boolean completed;
+    private static int sizeOfLevel;
+    private static int maxPopulation = 50;
+    private static int ratPopulationRate;
+    private static int secExpected;
+    private static int time;
+    BorderPane root;
 
-
-    PlayerProfile player;
+    PlayerProfile player = new PlayerProfile("bob",0);
     private String saveGame;
 
     private static ArrayList<Rat> ratList = new ArrayList<Rat>();
@@ -104,6 +113,14 @@ public class Level<e> extends Application {
         return itemList;
     }
 
+    public static int getSizeOfLevel() {
+        return sizeOfLevel;
+    }
+
+    public static void setSizeOfLevel(int sizeOfLevel) {
+        Level.sizeOfLevel = sizeOfLevel;
+    }
+
     protected void generateLevel() {
     }
 
@@ -122,8 +139,9 @@ public class Level<e> extends Application {
     }
 
 
-
-
+    public int getRatListSize(){
+        return ratList.size();
+    }
 
     public int getMaxPopulation() {
         return maxPopulation;
@@ -137,9 +155,6 @@ public class Level<e> extends Application {
         return secExpected;
     }
 
-    public int getSizeLevel() {
-        return sizeLevel;
-    }
 
     public int getTime() {
         return time;
@@ -163,17 +178,9 @@ public class Level<e> extends Application {
         this.secExpected = secExpected;
     }
 
-    public void setSizeLevel(Integer sizeLevel) {
-        this.sizeLevel = sizeLevel;
-    }
 
     public void setTime(Integer time) {
         this.time = time;
-    }
-
-
-    public boolean isCompleted() {
-        return this.completed;
     }
 
     public static void incrementScore(){
@@ -185,47 +192,36 @@ public class Level<e> extends Application {
         ratList.add(newBaby);
     }
 
-
     /**
      * Draw the game on the canvas.
      */
     public void drawGame() {
         // Get the Graphic Context of the canvas. This is what we draw on.
 
-        if (!pauseGame) {
-            GraphicsContext gc = canvas.getGraphicsContext2D();
+        GraphicsContext gc = canvas.getGraphicsContext2D();
 
-            // Clear canvas
-            gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+        // Draw row of dirt images
+        // We multiply by the cell width and height to turn a coordinate in our grid into a pixel coordinate.
 
-            // Set the background to gray.
-            gc.setFill(Color.GRAY);
-            gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
-            // Draw row of dirt images
-            // We multiply by the cell width and height to turn a coordinate in our grid into a pixel coordinate.
-            for (int x = 0; x < GRID_HEIGHT; x++) {
-                for (int y = 0; y < GRID_WIDTH; y++) {
-                    if (levelLayout[x][y] == 'G') {
-                        gc.drawImage(grass, y * GRID_CELL_WIDTH, x * GRID_CELL_HEIGHT);
-                    } else if (levelLayout[x][y] == 'T') {
-                        gc.drawImage(tunnel, y * GRID_CELL_WIDTH, x * GRID_CELL_HEIGHT);
-                    } else {
-                        gc.drawImage(path, y * GRID_CELL_WIDTH, x * GRID_CELL_HEIGHT);
-                    }
+        for (int x = 0; x < GRID_HEIGHT; x++) {
+            for (int y = 0; y < GRID_WIDTH; y++) {
+                if (levelLayout[x][y] == 'G') {
+                    gc.drawImage(grass, y * GRID_CELL_WIDTH, x * GRID_CELL_HEIGHT);
+                } else if (levelLayout[x][y] == 'T') {
+                    gc.drawImage(tunnel, y * GRID_CELL_WIDTH, x * GRID_CELL_HEIGHT);
+                } else {
+                    gc.drawImage(path, y * GRID_CELL_WIDTH, x * GRID_CELL_HEIGHT);
                 }
             }
+        }
 
-            for (Rat rat : ratList) {
-                rat.draw(gc);
-                /*gc.drawImage(rat.img, rat.getX() * GRID_CELL_WIDTH, rat.getY() * GRID_CELL_HEIGHT);*/
-            }
+        for (Rat rat : ratList) {
+            rat.draw(gc);
+            /*gc.drawImage(rat.img, rat.getX() * GRID_CELL_WIDTH, rat.getY() * GRID_CELL_HEIGHT);*/
+        }
 
-            for (Item item : itemList) {
-                item.draw(gc);
-            }
-
-        } else {
-            pauseGame();
+        for (Item item : itemList) {
+            item.draw(gc);
         }
 
     }
@@ -239,11 +235,8 @@ public class Level<e> extends Application {
 
         if (levelLayout[y][x] == 'P') {
             if (Objects.equals(event.getDragboard().getString(), "Bomb")) {
-
                 itemList.add(itemList.size(), new Bomb(x, y));
-
                 gc.drawImage(bomb, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
-
             } else if (Objects.equals(event.getDragboard().getString(), "MaleSexChange")) {
                 itemList.add(itemList.size(), new MaleSexChange(x, y));
                 gc.drawImage(maleSexChange, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
@@ -264,7 +257,7 @@ public class Level<e> extends Application {
                 gc.drawImage(sterilisation, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
             } else {
                 itemList.add(itemList.size(), new DeathRatItem(x, y));
-                gc.drawImage(deathrat, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
+                gc.drawImage(deathRat, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
 
 
             }
@@ -293,6 +286,8 @@ public class Level<e> extends Application {
         toolbar.setSpacing(10);
         toolbar.setPadding(new Insets(10, 10, 10, 10));
         root.setTop(toolbar);
+
+
         //Button to load the level
         Button btnLoadLevel = new Button("Load Level");
         //Button to save the layout running
@@ -304,6 +299,7 @@ public class Level<e> extends Application {
         toolbar.getChildren().addAll(startTickTimelineButton, stopTickTimelineButton, btnLoadLevel, btnSaveLevel);
         // Stop button is disabled by default
         stopTickTimelineButton.setDisable(true);
+
 
         // Setup the behaviour of the buttons.
         startTickTimelineButton.setOnAction(e -> {
@@ -422,7 +418,7 @@ public class Level<e> extends Application {
         dragNoEntry.setImage(noEntry);
         dragSterilisation.setImage(sterilisation);
         dragGas.setImage(gas);
-        dragDeathRat.setImage(deathrat);
+        dragDeathRat.setImage(deathRat);
 
 
         for (Item item:items) {
@@ -614,7 +610,7 @@ public class Level<e> extends Application {
 
         /*  itemList.add(new MaleSexChange(1,2));*/
 
-/*        ratRight = new Image("resources/Images/Rat/MRatRight.png");
+/*      ratRight = new Image("resources/Images/Rat/MRatRight.png");
         ratLeft = new Image("resources/Images/Rat/MRatLeft.png");
         ratUp = new Image("resources/Images/Rat/RatUp.png");
         ratDown = new Image("resources/Images/Rat/RatDown.png");*/
@@ -623,7 +619,7 @@ public class Level<e> extends Application {
         grass = new Image("/resources/Images/Tiles/Grass.png");
         path = new Image("/resources/Images/Tiles/Path.png");
         tunnel = new Image("/resources/Images/Tiles/Tunnel.png");
-        deathrat = new Image("/resources/Images/Rat/DeathRatR.png");
+        deathRat = new Image("/resources/Images/Rat/DeathRatR.png");
         bomb = new Image("/resources/Images/Items/Bomb.png");
         femaleSexChange = new Image("/resources/Images/Items/FemaleSexChange.png");
         maleSexChange = new Image("/resources/Images/Items/MaleSexChange.png");
@@ -644,15 +640,15 @@ public class Level<e> extends Application {
 
         Pane root = buildGUI();
         Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
-        scene.addEventFilter(KeyEvent.KEY_RELEASED, event -> processKeyEvent(event));
+
         // Register a tick method to be called periodically.
         // Make a new timeline with one keyframe that triggers the tick method every half a second.
         tickTimeline = new Timeline(new KeyFrame(Duration.millis(400), event -> tick()));
         // Loop the timeline forever
         tickTimeline.setCycleCount(Animation.INDEFINITE);
         // We start the timeline upon a button press.
-        
-        //Load menu
+
+        //L oad menu
         //drawMenu();
         drawGame();
         primaryStage.setScene(scene);
@@ -668,78 +664,70 @@ public class Level<e> extends Application {
      * over them all and calling their own tick method).
      */
     public void tick() {
-        System.out.println(score);
-        if (tickCount % 10 == 0){
-            addRandomItem();
-        }
+
+        gameStatus();
+
+        if (!levelCompleted) {
+            System.out.println(score);
+            if (tickCount % 10 == 0) {
+                addRandomItem();
+            }
 //        if (levelCompleted){
 //            System.out.println("Game Won"); //not sure what we want to do when the game is won.
 //        } else if (ratList.size() >= MAX_RAT_POPULATIOn){
 //            System.out.println("Game Lost");
 //        }
-        tickCount++;
-        // Here we move the player right one cell and teleport
-        // them back to the left side when they reach the right side.
+            tickCount++;
+            // Here we move the player right one cell and teleport
+            // them back to the left side when they reach the right side.
 
-        for (Rat rat: ratList) {
-            rat.checkCollisions();
-            if (tickCount % rat.getSpeed() == 0){
-
-                rat.move();
-            }
-            rat.incrementTick();
-        }
-        int ratListLength = ratList.size();
-        for (int i = 0; i <= ratListLength-1; i++) {
-            ratList.get(i).setImageDirection();
-            if (ratList.get(i) instanceof PlayableRat && ((PlayableRat) ratList.get(i)).getIsPregnant()){
-                ((PlayableRat) ratList.get(i)).incrementTickPregnant();
-                ((PlayableRat) ratList.get(i)).checkPregnancy();
-            }
-        }
-
-        Iterator<Rat> iteratorRat = ratList.listIterator();
-        while (iteratorRat.hasNext()) {
-            Rat rat = iteratorRat.next();
-            //the commented out bits was just something I was trying, Sam
-//            if (tickCount % rat.getSpeed() == 0) {
-//                rat.move();
-//            }
-//            rat.setImageDirection();
-//            rat.incrementTick();
-//            if (rat instanceof PlayableRat && ((PlayableRat) rat).getIsPregnant()) {
-//                ((PlayableRat) rat).incrementTickPregnant();
-//                ((PlayableRat) rat).checkPregnancy();
-//            }
-
-            //rat.checkCollisions();
-            if (rat.isDestroyed()) {
-                iteratorRat.remove();
-                if (rat instanceof PlayableRat){
-                    score += 10;
+            for (Rat rat : ratList) {
+                rat.checkCollisions();
+                if (tickCount % rat.getSpeed() == 0) {
+                    rat.move();
                 }
-
+                rat.incrementTick();
             }
-        }
 
-
-        Iterator<Rat> iteratorRat2 = ratList.listIterator();
-        while (iteratorRat2.hasNext()) {
-            Rat rat = iteratorRat2.next();
-            if (rat.isDestroyed()) { //checks if item should be destroyed
-                iteratorRat2.remove(); //destroys rat
+            int ratListLength = ratList.size();
+            for (int i = 0; i <= ratListLength - 1; i++) {
+                ratList.get(i).setImageDirection();
+                if (ratList.get(i) instanceof PlayableRat && ((PlayableRat) ratList.get(i)).getIsPregnant()) {
+                    ((PlayableRat) ratList.get(i)).incrementTickPregnant();
+                    ((PlayableRat) ratList.get(i)).checkPregnancy();
+                }
             }
-        }
 
-        Iterator<Item> iteratorItem = itemList.listIterator();
-        while (iteratorItem.hasNext()) {
-            Item item = iteratorItem.next();
-            item.update(); //updates the tickcount
-            if (item.isDestroyed()) { //checks if item should be destroyed
-                iteratorItem.remove(); //destroys item
+            Iterator<Rat> iteratorRat = ratList.listIterator();
+            while (iteratorRat.hasNext()) {
+                Rat rat = iteratorRat.next();
+                if (rat.isDestroyed()) {
+                    iteratorRat.remove();
+                    if (rat instanceof PlayableRat) {
+                        score += 10;
+                    }
+
+                }
             }
-        }
 
+
+            Iterator<Rat> iteratorRat2 = ratList.listIterator();
+            while (iteratorRat2.hasNext()) {
+                Rat rat = iteratorRat2.next();
+                if (rat.isDestroyed()) { //checks if item should be destroyed
+                    iteratorRat2.remove(); //destroys rat
+                }
+            }
+
+            Iterator<Item> iteratorItem = itemList.listIterator();
+            while (iteratorItem.hasNext()) {
+                Item item = iteratorItem.next();
+                item.update(); //updates the tickcount
+                if (item.isDestroyed()) { //checks if item should be destroyed
+                    iteratorItem.remove(); //destroys item
+                }
+            }
+            drawGame();
 //        for (Item item : itemList){
 //            item.update(); //updates the tickcount
 //            if (item.isDestroyed()) { //checks if item should be destroyed
@@ -748,88 +736,29 @@ public class Level<e> extends Application {
 //        }
 
 
-        // We then redraw the whole canvas.
-
-        drawGame();
-
-    }
-
-    public void pauseGame() {
-        Stage pauseStage = new Stage();
-
-        BorderPane root = new BorderPane();
-        canvas = new Canvas(CANVAS_WIDTH, CANVAS_WIDTH);
-        root.setCenter(canvas);
-
-        HBox toolbar = new HBox();
-        toolbar.setSpacing(100);
-        toolbar.setPadding(new Insets(10, 10, 10, 10));
-        root.setTop(toolbar);
+            // We then redraw the whole canvas.
 
 
-        Button continueBtn = new Button("Continue");
-        toolbar.getChildren().add(continueBtn);
-
-        Button saveGameBtn = new Button("Save");
-        toolbar.getChildren().add(saveGameBtn);
-
-        Button exitBtn = new Button("Exit");
-        toolbar.getChildren().add(exitBtn);
-
-        tickTimeline.stop();
-
-        continueBtn.setOnAction(e -> {
-            pauseGame = false;
-            pauseStage.close();
-            tickTimeline.play();
-
-        });
-
-        saveGameBtn.setOnAction(e -> {
-            try {
-                saveToFile();
-            } catch (Exception ex) {
-                System.out.println(ex);
-            }
-        });
-
-        exitBtn.setOnAction(e -> {
-            pauseStage.close();
-            primaryStage.close();
-        });
-        Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
-        pauseStage.setScene(scene);
-        pauseStage.show();
-
-    }
-
-    public void processKeyEvent(KeyEvent event) {
-
-        // Do nothing for all other keys.
-        if (event.getCode() == KeyCode.P) {
-            pauseGame = true;
-            System.out.println("work");
-        }
-        event.consume();
-    }
-
-    public void saveToFile() {
-        try {
-            FileWriter writer = new FileWriter(saveGame);
-            //writer.write(Tiles.toString());
-            writer.write(player.toString());
-            for (Rat ignored : ratList) {
-                writer.write(ratList.toString());
-            }
-            for (Item ignored : itemList) {
-                writer.write(itemList.toString());
-            }
-
-        } catch (IOException e) {
-            System.out.println(e);
         }
     }
-    
+    public void gameStatus()  {
+        System.out.println(getRatListSize());
+        if(ratList.size() == 0){
+            levelCompleted = true;
+            tickTimeline.stop();
+            System.out.println("Won");
+            if(player.getMaxLevelCompleted() < this.currentLevel) {
+                player.setMaxLevelCompleted(currentLevel);
+                PlayerProfiles.save(player);
+            }
+        }else if(this.getRatListSize() >= maxPopulation) {
+            gameLost = true;
+            System.out.println("Nub");
+            tickTimeline.stop();
+        }
+    }
+
+
 //    //Menu
 //    public void drawMenu() {
 //    }
@@ -844,7 +773,17 @@ public class Level<e> extends Application {
     //private void LevelSelect()
     //private String Load()
         
+    public void tempSave() throws IOException {
+       //Data persistence section, call in tick, dont get how were saving file.
+        Saver saver = new Saver();
+        String levelFormatted = Arrays.deepToString(levelLayout)
+               .replace(",", "")  //remove the commas
+               .replace("[", "")  //remove the right bracket
+               .replace("]", "\n") //remove the left bracket and lane break
+               .replace(" ", "");
+        saver.saveLevelFile(levelFormatted, new File("/resources/LevelFiles/tempFile.txt"));
 
+    }
     public static void main(String[] args) {
         launch(args);
     }

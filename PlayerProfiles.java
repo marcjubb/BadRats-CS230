@@ -1,4 +1,7 @@
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -38,11 +41,17 @@ public class PlayerProfiles {
         } else {
             PlayerProfile p = new PlayerProfile(username);
             PlayerProfiles.profiles.add(p);
-            PlayerProfiles.save();
+            PlayerProfiles.save(p);
             return p;
         }
     }
-
+    public static void deleteProfile(String username) {
+        for (PlayerProfile p : PlayerProfiles.profiles) {
+            if (p.getPlayerName().equals(username)){
+                remove(p);
+            }
+        }
+    }
 
     public static ArrayList<PlayerProfile> load() throws FileNotFoundException {
         File inputFile = new File(profilePath);
@@ -85,20 +94,18 @@ public class PlayerProfiles {
     }
 
 
-    public static void save() {
+    public static void save(PlayerProfile profile) {
         File file = new File(profilePath);
-        PrintWriter writer = null;
-
+        FileWriter fw = null;
         try{
-            writer = new PrintWriter(file);
-            for(PlayerProfile p : PlayerProfiles.profiles){
-                writer.println(p.toString());
-            }
+            fw.write(profile.toString());
+            fw.flush();
+            fw.close();
         }catch(Exception e){
             System.out.println("Couldn't save profile at " + profilePath);
         }
-        writer.close();
     }
+
 }
 
 
