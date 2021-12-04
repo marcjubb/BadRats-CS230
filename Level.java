@@ -4,6 +4,7 @@ import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.VPos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -19,6 +20,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -137,7 +139,7 @@ public class Level<e> extends Application {
     /**
      * Creates a new baby object at the position of the mother when it is called and adds it to the rats arraylist.
      * @param x The x-coordinate of the pregnant female rat.
-     * @param y The x-coordinate of the pregnant female rat.
+     * @param y The y-coordinate of the pregnant female rat.
      */
     public static void giveBirth(int x, int y) {
         PlayableRat newBaby = new PlayableRat(x, y);
@@ -183,10 +185,16 @@ public class Level<e> extends Application {
         GraphicsContext gc = canvas.getGraphicsContext2D();
         for (int i = 0; i < getGridWidth(); i++) {
             for (int j = 0; j < getGridHeight(); j++) {
-                gc.drawImage(tunnel, (i * GRID_CELL_WIDTH), (j * GRID_CELL_HEIGHT));
+                gc.drawImage(new Image("/resources/Images/WHITE.png"), (i * GRID_CELL_WIDTH), (j * GRID_CELL_HEIGHT));
             }
-
         }
+        gc.setTextAlign(TextAlignment.CENTER);
+        gc.setTextBaseline(VPos.CENTER);
+        gc.fillText(
+                "Congratulations you win!",
+                Math.round(canvas.getWidth()  / 2),
+                Math.round(canvas.getHeight() / 2)
+        );
     }
 
     public void canvasDragDroppedOccured(DragEvent event) {
