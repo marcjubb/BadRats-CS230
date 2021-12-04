@@ -216,36 +216,43 @@ public class Level<e> extends Application {
         int y = Math.floorDiv((int) event.getY(), 64);
         // Draw an icon at the dropped location.
         GraphicsContext gc = canvas.getGraphicsContext2D();
-
-        if (levelLayout[y][x] == 'P') {
-            if (Objects.equals(event.getDragboard().getString(), "Bomb")) {
-                itemList.add(itemList.size(), new Bomb(x, y));
-                gc.drawImage(bomb, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
-            } else if (Objects.equals(event.getDragboard().getString(), "MaleSexChange")) {
-                itemList.add(itemList.size(), new MaleSexChange(x, y));
-                gc.drawImage(maleSexChange, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
-            } else if (Objects.equals(event.getDragboard().getString(), "FemaleSexChange")) {
-                itemList.add(itemList.size(), new FemaleSexChange(x, y));
-                gc.drawImage(femaleSexChange, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
-            } else if (Objects.equals(event.getDragboard().getString(), "Gas")) {
-                itemList.add(itemList.size(), new Gas(x, y));
-                gc.drawImage(gas, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
-            } else if (Objects.equals(event.getDragboard().getString(), "Poison")) {
-                itemList.add(itemList.size(), new Poison(x, y));
-                gc.drawImage(poison, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
-            } else if (Objects.equals(event.getDragboard().getString(), "NoEntry")) {
-                itemList.add(itemList.size(), new NoEntrySign(x, y));
-                gc.drawImage(noEntry, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
-            } else if (Objects.equals(event.getDragboard().getString(), "Sterilisation")) {
-                itemList.add(itemList.size(), new Sterilisation(x, y));
-                gc.drawImage(sterilisation, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
-            } else {
-                itemList.add(itemList.size(), new DeathRatItem(x, y));
-                gc.drawImage(deathRat, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
-
-
+        boolean itemAlreadyPlaced = false;
+        for (Item item : itemList) {
+            if (item.getX() == x && item.getY() == y){
+                itemAlreadyPlaced = true;
             }
         }
+
+        if (!itemAlreadyPlaced){
+            if (levelLayout[y][x] == 'P') {
+                if (Objects.equals(event.getDragboard().getString(), "Bomb")) {
+                    itemList.add(itemList.size(), new Bomb(x, y));
+                    gc.drawImage(bomb, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
+                } else if (Objects.equals(event.getDragboard().getString(), "MaleSexChange")) {
+                    itemList.add(itemList.size(), new MaleSexChange(x, y));
+                    gc.drawImage(maleSexChange, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
+                } else if (Objects.equals(event.getDragboard().getString(), "FemaleSexChange")) {
+                    itemList.add(itemList.size(), new FemaleSexChange(x, y));
+                    gc.drawImage(femaleSexChange, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
+                } else if (Objects.equals(event.getDragboard().getString(), "Gas")) {
+                    itemList.add(itemList.size(), new Gas(x, y));
+                    gc.drawImage(gas, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
+                } else if (Objects.equals(event.getDragboard().getString(), "Poison")) {
+                    itemList.add(itemList.size(), new Poison(x, y));
+                    gc.drawImage(poison, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
+                } else if (Objects.equals(event.getDragboard().getString(), "NoEntry")) {
+                    itemList.add(itemList.size(), new NoEntrySign(x, y));
+                    gc.drawImage(noEntry, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
+                } else if (Objects.equals(event.getDragboard().getString(), "Sterilisation")) {
+                    itemList.add(itemList.size(), new Sterilisation(x, y));
+                    gc.drawImage(sterilisation, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
+                } else {
+                    itemList.add(itemList.size(), new DeathRatItem(x, y));
+                    gc.drawImage(deathRat, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
+                }
+            }
+        }
+
 
     }
 
@@ -720,7 +727,7 @@ public class Level<e> extends Application {
             levelEndScreen();
             if (player.getMaxLevelCompleted() < this.currentLevel) {
                 player.setMaxLevelCompleted(currentLevel);
-                PlayerProfiles.save(player);
+                //PlayerProfiles.save(player);
             }
         } else if (totalNumOfRats >= maxPopulation) {
             gameLost = true;
