@@ -85,7 +85,7 @@ public class Level<e> extends Application {
     private boolean gameLost = false;
 
     private static int sizeOfLevel;
-    private static int maxPopulation = 50;
+    private static int maxPopulation = 4;
     private static int ratPopulationRate;
     private static int secExpected;
     private static int time;
@@ -185,31 +185,6 @@ public class Level<e> extends Application {
         }
 
     }
-
-    private void levelEndScreen() {
-        GraphicsContext gc = canvas.getGraphicsContext2D();
-        for (int i = 0; i < getGridWidth(); i++) {
-            for (int j = 0; j < getGridHeight(); j++) {
-                if (levelCompleted) {
-                    gc.drawImage(new Image("/resources/Images/WHITE.png"), (i * GRID_CELL_WIDTH), (j * GRID_CELL_HEIGHT));
-                } else if (gameLost) {
-                    gc.drawImage(new Image("/resources/Images/RED.png"), (i * GRID_CELL_WIDTH), (j * GRID_CELL_HEIGHT));
-                }
-            }
-        }
-        gc.setTextAlign(TextAlignment.CENTER);
-        gc.setTextBaseline(VPos.CENTER);
-        if (levelCompleted) {
-            gc.setFont(new Font(25));
-            gc.fillText("Congratulations you win!", Math.round(canvas.getWidth() / 2), Math.round(canvas.getHeight() / 2));
-        } else if (gameLost) {
-            System.out.println("not complete");
-            gc.setFont(new Font(25));
-            gc.fillText("Congratulations you win!", Math.round(canvas.getWidth() / 2), Math.round(canvas.getHeight() / 2));
-        }
-
-    }
-
 
     public void canvasDragDroppedOccured(DragEvent event) {
         int x = Math.floorDiv((int) event.getX(), 64);
@@ -647,71 +622,94 @@ public class Level<e> extends Application {
     public void tick() {
 
         gameStatus();
-
-        if (tickCount % 10 == 0) {
-            addRandomItem();
-        }
+        if(!levelCompleted && !gameLost) {
+            if (tickCount % 10 == 0) {
+                addRandomItem();
+            }
 //
-        tickCount++;
-        // Here we move the player right one cell and teleport
-        // them back to the left side when they reach the right side.
+            tickCount++;
+            // Here we move the player right one cell and teleport
+            // them back to the left side when they reach the right side.
 
-        for (Rat rat : ratList) {
-            rat.checkCollisions();
-            if (tickCount % rat.getSpeed() == 0) {
-                rat.move();
+            for (Rat rat : ratList) {
+                rat.checkCollisions();
+                if (tickCount % rat.getSpeed() == 0) {
+                    rat.move();
+                }
+                rat.incrementTick();
             }
-            rat.incrementTick();
-        }
 
-        int ratListLength = ratList.size();
-        for (int i = 0; i <= ratListLength - 1; i++) {
-            ratList.get(i).setImageDirection();
-            if (ratList.get(i) instanceof PlayableRat && ((PlayableRat) ratList.get(i)).getIsPregnant()) {
-                ((PlayableRat) ratList.get(i)).incrementTickPregnant();
-                ((PlayableRat) ratList.get(i)).checkPregnancy();
+            int ratListLength = ratList.size();
+            for (int i = 0; i <= ratListLength - 1; i++) {
+                ratList.get(i).setImageDirection();
+                if (ratList.get(i) instanceof PlayableRat && ((PlayableRat) ratList.get(i)).getIsPregnant()) {
+                    ((PlayableRat) ratList.get(i)).incrementTickPregnant();
+                    ((PlayableRat) ratList.get(i)).checkPregnancy();
+                }
             }
-        }
 
-        Iterator<Rat> iteratorRat = ratList.listIterator();
-        while (iteratorRat.hasNext()) {
-            Rat rat = iteratorRat.next();
-            if (rat.isDestroyed()) {
-                iteratorRat.remove();
-                if (rat instanceof PlayableRat) {
-                    if (((PlayableRat) rat).getIsPregnant()) {
-                        score += 20;
-                    } else {
-                        score += 10;
+            Iterator<Rat> iteratorRat = ratList.listIterator();
+            while (iteratorRat.hasNext()) {
+                Rat rat = iteratorRat.next();
+                if (rat.isDestroyed()) {
+                    iteratorRat.remove();
+                    if (rat instanceof PlayableRat) {
+                        if (((PlayableRat) rat).getIsPregnant()) {
+                            score += 20;
+                        } else {
+                            score += 10;
+                        }
+
                     }
 
                 }
+            }
 
+
+            Iterator<Rat> iteratorRat2 = ratList.listIterator();
+            while (iteratorRat2.hasNext()) {
+                Rat rat = iteratorRat2.next();
+                if (rat.isDestroyed()) { //checks if item should be destroyed
+                    iteratorRat2.remove(); //destroys rat
+                }
+            }
+
+            Iterator<Item> iteratorItem = itemList.listIterator();
+            while (iteratorItem.hasNext()) {
+                Item item = iteratorItem.next();
+                item.update(); //updates the tickcount
+                if (item.isDestroyed()) { //checks if item should be destroyed
+                    iteratorItem.remove(); //destroys item
+                }
+            }
+            // We then redraw the whole canvas.
+            drawGame();
+        }
+    }
+    private void levelEndScreen() {
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+        for (int i = 0; i < getGridWidth(); i++) {
+            for (int j = 0; j < getGridHeight(); j++) {
+                if (levelCompleted) {
+                    gc.drawImage(new Image("/resources/Images/WHITE.png"), (i * GRID_CELL_WIDTH), (j * GRID_CELL_HEIGHT));
+                } else if (gameLost) {
+                    gc.drawImage(new Image("/resources/Images/RED.png"), (i * GRID_CELL_WIDTH), (j * GRID_CELL_HEIGHT));
+                }
             }
         }
-
-
-        Iterator<Rat> iteratorRat2 = ratList.listIterator();
-        while (iteratorRat2.hasNext()) {
-            Rat rat = iteratorRat2.next();
-            if (rat.isDestroyed()) { //checks if item should be destroyed
-                iteratorRat2.remove(); //destroys rat
-            }
+        gc.setTextAlign(TextAlignment.CENTER);
+        gc.setTextBaseline(VPos.CENTER);
+        if (levelCompleted) {
+            System.out.println("not complete");
+            gc.setFont(new Font(25));
+            gc.fillText("Congratulations you win!", Math.round(canvas.getWidth() / 2), Math.round(canvas.getHeight() / 2));
+        } else if (gameLost) {
+            System.out.println("game lost");
+            gc.setFont(new Font(25));
+            gc.fillText("Congratulations you Suck!", Math.round(canvas.getWidth() / 2), Math.round(canvas.getHeight() / 2));
         }
-
-        Iterator<Item> iteratorItem = itemList.listIterator();
-        while (iteratorItem.hasNext()) {
-            Item item = iteratorItem.next();
-            item.update(); //updates the tickcount
-            if (item.isDestroyed()) { //checks if item should be destroyed
-                iteratorItem.remove(); //destroys item
-            }
-        }
-        // We then redraw the whole canvas.
-        drawGame();
 
     }
-
     public void gameStatus() {
         int numberOfDeathRatItems = 0;
         for (Item item : itemList) {
@@ -721,7 +719,7 @@ public class Level<e> extends Application {
         }
         int totalNumOfRats = ratList.size() + numberOfDeathRatItems;
         System.out.println(totalNumOfRats);
-        if (totalNumOfRats == 0) {
+        if (totalNumOfRats <= 0) {
             levelCompleted = true;
             tickTimeline.stop();
             levelEndScreen();
@@ -729,7 +727,7 @@ public class Level<e> extends Application {
                 player.setMaxLevelCompleted(currentLevel);
                 //PlayerProfiles.save(player);
             }
-        } else if (totalNumOfRats >= maxPopulation) {
+        } else if (totalNumOfRats > maxPopulation) {
             gameLost = true;
             levelEndScreen();
             tickTimeline.stop();
