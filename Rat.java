@@ -93,252 +93,268 @@ public class Rat extends VisibleObject {
     public void move() {
         int rnd;
 
-
         //I have not put anything to stop it from going off the side of the game yet.
         switch (direction) {
             case NORTH:
-                if ((Level.getLevelLayout()[y + 1][x] != 'G') && (Level.getLevelLayout()[y][x - 1] != 'G') && (Level.getLevelLayout()[y][x + 1] != 'G')) {
-                    rnd = new Random().nextInt(3);
-                    if (rnd == 0) {
-                        moveUp();
-                    } else if (rnd == 1) {
-                        moveLeft();
-                        direction = Direction.WEST;
-                    } else {
-                        moveRight();
-                        direction = Direction.EAST;
-                    }
-                    ;
-                } else if ((Level.getLevelLayout()[y + 1][x] != 'G') && (Level.getLevelLayout()[y][x - 1] != 'G')) {
-                    rnd = new Random().nextInt(2);
-                    if (rnd == 1) {
-                        moveLeft();
-                        direction = Direction.WEST;
-                    } else {
-                        moveUp();
-                    }
-
-                } else if ((Level.getLevelLayout()[y + 1][x] != 'G') && (Level.getLevelLayout()[y][x + 1] != 'G')) {
-                    rnd = new Random().nextInt(2);
-                    if (rnd == 1) {
-                        moveRight();
-                        direction = Direction.EAST;
-                    } else {
-                        moveUp();
-                    }
-
-                } else if ((Level.getLevelLayout()[y + 1][x] != 'G')) {
-                    moveUp();
-                } else {
-
-                    if (Level.getLevelLayout()[y + 1][x] != 'G') {
-                        moveUp();
-                    } else {
-                        if ((Level.getLevelLayout()[y][x - 1] != 'G') && (Level.getLevelLayout()[y][x + 1] != 'G')) {
-                            if (new Random().nextInt(2) == 1) {
-                                moveLeft();
-                                direction = Direction.WEST;
-                            } else {
-                                moveRight();
-                                direction = Direction.EAST;
-                            }
-                            ;
-                        } else if (Level.getLevelLayout()[y][x - 1] != 'G') {
-                            moveLeft();
-                            direction = Direction.WEST;
-                        } else if (Level.getLevelLayout()[y][x + 1] != 'G') {
-                            moveRight();
-                            direction = Direction.EAST;
-                        } else {
-                            moveDown();
-                            direction = Direction.SOUTH;
-                        }
-                    }
-                }
+                moveForNorth();
                 break;
-
 
             case SOUTH:
-
-                if ((Level.getLevelLayout()[y - 1][x] != 'G') && (Level.getLevelLayout()[y][x - 1] != 'G') && (Level.getLevelLayout()[y][x + 1] != 'G')) {
-                    rnd = new Random().nextInt(3);
-                    if (rnd == 0) {
-                        moveDown();
-                    } else if (rnd == 1) {
-                        moveLeft();
-                        direction = Direction.WEST;
-                    } else {
-                        moveRight();
-                        direction = Direction.EAST;
-                    }
-                    ;
-                } else if ((Level.getLevelLayout()[y - 1][x] != 'G') && (Level.getLevelLayout()[y][x - 1] != 'G')) {
-                    rnd = new Random().nextInt(2);
-                    if (rnd == 1) {
-                        moveLeft();
-                        direction = Direction.WEST;
-                    } else {
-                        moveDown();
-                    }
-
-                } else if ((Level.getLevelLayout()[y - 1][x] != 'G') && (Level.getLevelLayout()[y][x + 1] != 'G')) {
-                    rnd = new Random().nextInt(2);
-                    if (rnd == 1) {
-                        moveRight();
-                        direction = Direction.EAST;
-                    } else {
-                        moveDown();
-                    }
-                } else if ((Level.getLevelLayout()[y - 1][x] != 'G')) {
-                    moveDown();
-                } else {
-
-                    if ((Level.getLevelLayout()[y][x - 1] != 'G') && (Level.getLevelLayout()[y][x + 1] != 'G')) {
-                        if (new Random().nextInt(2) == 1) {
-                            moveLeft();
-                            direction = Direction.WEST;
-                        } else {
-                            moveRight();
-                            direction = Direction.EAST;
-                        }
-                        ;
-                    } else if (Level.getLevelLayout()[y][x + 1] != 'G') {
-                        moveRight();
-                        direction = Direction.EAST;
-                    } else if (Level.getLevelLayout()[y][x - 1] != 'G') {
-                        moveLeft();
-                        direction = Direction.WEST;
-                    } else {
-                        moveUp();
-                        direction = Direction.NORTH;
-                    }
-                }
+                moveForSouth();
                 break;
 
-
             case EAST:
-
-                if ((Level.getLevelLayout()[y + 1][x] != 'G') && (Level.getLevelLayout()[y - 1][x] != 'G') && (Level.getLevelLayout()[y][x + 1] != 'G')) {
-                    rnd = new Random().nextInt(3);
-                    if (rnd == 0) {
-                        moveRight();
-                    } else if (rnd == 1) {
-                        moveDown();
-                        direction = Direction.SOUTH;
-                    } else {
-                        moveUp();
-                        direction = Direction.NORTH;
-                    }
-                    ;
-
-                } else if ((Level.getLevelLayout()[y][x + 1] != 'G') && (Level.getLevelLayout()[y - 1][x] != 'G')) {
-
-                    rnd = new Random().nextInt(2);
-                    if (rnd == 1) {
-                        moveDown();
-                        direction = Direction.SOUTH;
-                    } else {
-                        moveRight();
-                    }
-                } else if ((Level.getLevelLayout()[y][x + 1] != 'G') && (Level.getLevelLayout()[y + 1][x] != 'G')) {
-
-                    rnd = new Random().nextInt(2);
-                    if (rnd == 1) {
-                        moveUp();
-                        direction = Direction.NORTH;
-                    } else {
-                        moveRight();
-                    }
-
-                } else if ((Level.getLevelLayout()[y][x + 1] != 'G')) {
-                    moveRight();
-                } else {
-
-
-                    if ((Level.getLevelLayout()[y + 1][x] != 'G') && (Level.getLevelLayout()[y - 1][x] != 'G')) {
-                        if (new Random().nextInt(2) == 1) {
-                            moveUp();
-                            direction = Direction.NORTH;
-                        } else {
-                            moveDown();
-                            direction = Direction.SOUTH;
-                        }
-                        ;
-                    } else if (Level.getLevelLayout()[y + 1][x] != 'G') {
-                        moveUp();
-                        direction = Direction.NORTH;
-                    } else if (Level.getLevelLayout()[y - 1][x] != 'G') {
-                        moveDown();
-                        direction = Direction.SOUTH;
-                    } else {
-                        moveLeft();
-                        direction = Direction.WEST;
-                    }
-
-                }
+                moveForEast();
                 break;
 
             case WEST:
+                moveForWest();
+                break;
+        }
+    }
 
-                if ((Level.getLevelLayout()[y - 1][x] != 'G') && (Level.getLevelLayout()[y][x - 1] != 'G') && (Level.getLevelLayout()[y + 1][x] != 'G')) {
-                    rnd = new Random().nextInt(3);
-                    if (rnd == 0) {
+    public void moveForNorth(){
+        int rnd;
+        if ((Level.getLevelLayout()[y + 1][x] != 'G') && (Level.getLevelLayout()[y][x - 1] != 'G') && (Level.getLevelLayout()[y][x + 1] != 'G')) {
+            rnd = new Random().nextInt(3);
+            if (rnd == 0) {
+                moveUp();
+            } else if (rnd == 1) {
+                moveLeft();
+                direction = Direction.WEST;
+            } else {
+                moveRight();
+                direction = Direction.EAST;
+            }
+            ;
+        } else if ((Level.getLevelLayout()[y + 1][x] != 'G') && (Level.getLevelLayout()[y][x - 1] != 'G')) {
+            rnd = new Random().nextInt(2);
+            if (rnd == 1) {
+                moveLeft();
+                direction = Direction.WEST;
+            } else {
+                moveUp();
+            }
+
+        } else if ((Level.getLevelLayout()[y + 1][x] != 'G') && (Level.getLevelLayout()[y][x + 1] != 'G')) {
+            rnd = new Random().nextInt(2);
+            if (rnd == 1) {
+                moveRight();
+                direction = Direction.EAST;
+            } else {
+                moveUp();
+            }
+
+        } else if ((Level.getLevelLayout()[y + 1][x] != 'G')) {
+            moveUp();
+        } else {
+
+            if (Level.getLevelLayout()[y + 1][x] != 'G') {
+                moveUp();
+            } else {
+                if ((Level.getLevelLayout()[y][x - 1] != 'G') && (Level.getLevelLayout()[y][x + 1] != 'G')) {
+                    if (new Random().nextInt(2) == 1) {
                         moveLeft();
-                    } else if (rnd == 1) {
-                        moveDown();
-                        direction = Direction.SOUTH;
-                    } else {
-                        moveUp();
-                        direction = Direction.NORTH;
-                    }
-                    ;
-
-                } else if ((Level.getLevelLayout()[y + 1][x] != 'G') && (Level.getLevelLayout()[y][x - 1] != 'G')) {
-                    rnd = new Random().nextInt(2);
-                    if (rnd == 1) {
-                        moveUp();
-                        direction = Direction.NORTH;
-                    } else {
-                        moveLeft();
-                    }
-                } else if ((Level.getLevelLayout()[y - 1][x] != 'G') && (Level.getLevelLayout()[y][x - 1] != 'G')) {
-                    rnd = new Random().nextInt(2);
-                    if (rnd == 1) {
-                        moveDown();
-                        direction = Direction.SOUTH;
-                    } else {
-                        moveLeft();
-                    }
-
-                } else if ((Level.getLevelLayout()[y][x - 1] != 'G')) {
-                    moveLeft();
-                } else {
-                    if ((Level.getLevelLayout()[y + 1][x] != 'G') && (Level.getLevelLayout()[y - 1][x] != 'G')) {
-                        if (new Random().nextInt(2) == 1) {
-                            moveUp();
-                            direction = Direction.NORTH;
-                        } else {
-                            moveDown();
-                            direction = Direction.SOUTH;
-                        }
-                        ;
-                    } else if (Level.getLevelLayout()[y - 1][x] != 'G') {
-                        moveDown();
-                        direction = Direction.SOUTH;
-                    } else if (Level.getLevelLayout()[y + 1][x] != 'G') {
-                        moveUp();
-                        direction = Direction.NORTH;
-
+                        direction = Direction.WEST;
                     } else {
                         moveRight();
                         direction = Direction.EAST;
-
                     }
+                    ;
+                } else if (Level.getLevelLayout()[y][x - 1] != 'G') {
+                    moveLeft();
+                    direction = Direction.WEST;
+                } else if (Level.getLevelLayout()[y][x + 1] != 'G') {
+                    moveRight();
+                    direction = Direction.EAST;
+                } else {
+                    moveDown();
+                    direction = Direction.SOUTH;
                 }
-                break;
-
+            }
         }
     }
+
+    private void moveForSouth(){
+        int rnd;
+        if ((Level.getLevelLayout()[y - 1][x] != 'G') && (Level.getLevelLayout()[y][x - 1] != 'G') && (Level.getLevelLayout()[y][x + 1] != 'G')) {
+            rnd = new Random().nextInt(3);
+            if (rnd == 0) {
+                moveDown();
+            } else if (rnd == 1) {
+                moveLeft();
+                direction = Direction.WEST;
+            } else {
+                moveRight();
+                direction = Direction.EAST;
+            }
+            ;
+        } else if ((Level.getLevelLayout()[y - 1][x] != 'G') && (Level.getLevelLayout()[y][x - 1] != 'G')) {
+            rnd = new Random().nextInt(2);
+            if (rnd == 1) {
+                moveLeft();
+                direction = Direction.WEST;
+            } else {
+                moveDown();
+            }
+
+        } else if ((Level.getLevelLayout()[y - 1][x] != 'G') && (Level.getLevelLayout()[y][x + 1] != 'G')) {
+            rnd = new Random().nextInt(2);
+            if (rnd == 1) {
+                moveRight();
+                direction = Direction.EAST;
+            } else {
+                moveDown();
+            }
+        } else if ((Level.getLevelLayout()[y - 1][x] != 'G')) {
+            moveDown();
+        } else {
+
+            if ((Level.getLevelLayout()[y][x - 1] != 'G') && (Level.getLevelLayout()[y][x + 1] != 'G')) {
+                if (new Random().nextInt(2) == 1) {
+                    moveLeft();
+                    direction = Direction.WEST;
+                } else {
+                    moveRight();
+                    direction = Direction.EAST;
+                }
+                ;
+            } else if (Level.getLevelLayout()[y][x + 1] != 'G') {
+                moveRight();
+                direction = Direction.EAST;
+            } else if (Level.getLevelLayout()[y][x - 1] != 'G') {
+                moveLeft();
+                direction = Direction.WEST;
+            } else {
+                moveUp();
+                direction = Direction.NORTH;
+            }
+        }
+
+    }
+
+    private void moveForEast(){
+        int rnd;
+        if ((Level.getLevelLayout()[y + 1][x] != 'G') && (Level.getLevelLayout()[y - 1][x] != 'G') && (Level.getLevelLayout()[y][x + 1] != 'G')) {
+            rnd = new Random().nextInt(3);
+            if (rnd == 0) {
+                moveRight();
+            } else if (rnd == 1) {
+                moveDown();
+                direction = Direction.SOUTH;
+            } else {
+                moveUp();
+                direction = Direction.NORTH;
+            }
+            ;
+
+        } else if ((Level.getLevelLayout()[y][x + 1] != 'G') && (Level.getLevelLayout()[y - 1][x] != 'G')) {
+
+            rnd = new Random().nextInt(2);
+            if (rnd == 1) {
+                moveDown();
+                direction = Direction.SOUTH;
+            } else {
+                moveRight();
+            }
+        } else if ((Level.getLevelLayout()[y][x + 1] != 'G') && (Level.getLevelLayout()[y + 1][x] != 'G')) {
+
+            rnd = new Random().nextInt(2);
+            if (rnd == 1) {
+                moveUp();
+                direction = Direction.NORTH;
+            } else {
+                moveRight();
+            }
+
+        } else if ((Level.getLevelLayout()[y][x + 1] != 'G')) {
+            moveRight();
+        } else {
+
+
+            if ((Level.getLevelLayout()[y + 1][x] != 'G') && (Level.getLevelLayout()[y - 1][x] != 'G')) {
+                if (new Random().nextInt(2) == 1) {
+                    moveUp();
+                    direction = Direction.NORTH;
+                } else {
+                    moveDown();
+                    direction = Direction.SOUTH;
+                }
+                ;
+            } else if (Level.getLevelLayout()[y + 1][x] != 'G') {
+                moveUp();
+                direction = Direction.NORTH;
+            } else if (Level.getLevelLayout()[y - 1][x] != 'G') {
+                moveDown();
+                direction = Direction.SOUTH;
+            } else {
+                moveLeft();
+                direction = Direction.WEST;
+            }
+
+        }
+
+    }
+
+    private void moveForWest(){
+        int rnd;
+        if ((Level.getLevelLayout()[y - 1][x] != 'G') && (Level.getLevelLayout()[y][x - 1] != 'G') && (Level.getLevelLayout()[y + 1][x] != 'G')) {
+            rnd = new Random().nextInt(3);
+            if (rnd == 0) {
+                moveLeft();
+            } else if (rnd == 1) {
+                moveDown();
+                direction = Direction.SOUTH;
+            } else {
+                moveUp();
+                direction = Direction.NORTH;
+            }
+            ;
+
+        } else if ((Level.getLevelLayout()[y + 1][x] != 'G') && (Level.getLevelLayout()[y][x - 1] != 'G')) {
+            rnd = new Random().nextInt(2);
+            if (rnd == 1) {
+                moveUp();
+                direction = Direction.NORTH;
+            } else {
+                moveLeft();
+            }
+        } else if ((Level.getLevelLayout()[y - 1][x] != 'G') && (Level.getLevelLayout()[y][x - 1] != 'G')) {
+            rnd = new Random().nextInt(2);
+            if (rnd == 1) {
+                moveDown();
+                direction = Direction.SOUTH;
+            } else {
+                moveLeft();
+            }
+
+        } else if ((Level.getLevelLayout()[y][x - 1] != 'G')) {
+            moveLeft();
+        } else {
+            if ((Level.getLevelLayout()[y + 1][x] != 'G') && (Level.getLevelLayout()[y - 1][x] != 'G')) {
+                if (new Random().nextInt(2) == 1) {
+                    moveUp();
+                    direction = Direction.NORTH;
+                } else {
+                    moveDown();
+                    direction = Direction.SOUTH;
+                }
+                ;
+            } else if (Level.getLevelLayout()[y - 1][x] != 'G') {
+                moveDown();
+                direction = Direction.SOUTH;
+            } else if (Level.getLevelLayout()[y + 1][x] != 'G') {
+                moveUp();
+                direction = Direction.NORTH;
+
+            } else {
+                moveRight();
+                direction = Direction.EAST;
+
+            }
+        }
+    }
+
 
     public void setImageDirection() {
 
