@@ -325,13 +325,6 @@ public class Level<e> extends Application {
             GraphicsContext gc = canvas.getGraphicsContext2D();
             FileChooser fileChooser = new FileChooser();
 
-            // Clear canvas
-            gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-
-            // Set the background to gray.
-            gc.setFill(Color.GRAY);
-            gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
-
             //Set extension filter
             FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
             fileChooser.getExtensionFilters().add(extFilter);
@@ -339,16 +332,22 @@ public class Level<e> extends Application {
             //Show save file dialog
             File file = fileChooser.showOpenDialog(primaryStage);
 
-            if (file != null) {
+            if(file != null){
                 try {
+
                     // create a reader instance
                     BufferedReader br = new BufferedReader(new FileReader(file));
-                    //Scanner sc = new Scanner(file);
 
+                    //Collect size of the layout
+                    Scanner sc = new Scanner(file);
+                    String [] dataLevelFile = sc.nextLine().split(",");
+                    int gridHeight = Integer.parseInt(dataLevelFile[1]);
+                    int gridWidth = Integer.parseInt(dataLevelFile[0]);
+
+                    //Collect the tiles variables
                     ArrayList<ArrayList<Character>> levelLayout = new ArrayList<>();
                     String line;
-
-                    br.readLine(); //skip first line, uncomment if you load map with height/width
+                    br.readLine(); //skip first line
                     // read until end of file
                     while ((line = br.readLine()) != null) {
                         //System.out.println(line);
@@ -359,12 +358,13 @@ public class Level<e> extends Application {
                         levelLayout.add(chars);
                     }
 
-                    //System.out.print(levelLayout);
-                    System.out.print(levelLayout.get(0));
+                    //Create a canvas after collecting the data from .txt
+                    gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight()); //Clear canvas
+                    gc.setFill(Color.GRAY); // Set the background to gray.
+                    gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
-                    for (int x = 0; x < GRID_HEIGHT; x++) {
-                        for (int y = 0; y < GRID_WIDTH; y++) {
-
+                    for (int x = 0; x < gridHeight; x++) {
+                        for (int y = 0; y < gridWidth; y++) {
                             if (levelLayout.get(x).get(y) == 'G') {
                                 gc.drawImage(grass, y * GRID_CELL_WIDTH, x * GRID_CELL_HEIGHT);
 
