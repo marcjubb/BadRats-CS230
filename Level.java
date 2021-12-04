@@ -695,7 +695,12 @@ public class Level<e> extends Application {
                 if (rat.isDestroyed()) {
                     iteratorRat.remove();
                     if (rat instanceof PlayableRat) {
-                        score += 10;
+                        if (((PlayableRat) rat).getIsPregnant()){
+                            score += 20;
+                        } else{
+                            score += 10;
+                        }
+
                     }
 
                 }
