@@ -1,4 +1,3 @@
-import com.sun.media.sound.RIFFInvalidDataException;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -27,7 +26,11 @@ import javafx.util.Duration;
 import java.io.*;
 import java.util.*;
 
-
+/**
+ * This class is responsible for running the GUI for the rats game and storing the relevant values to be called.
+ * @param <e>
+ * @author Samuel Griffin, Marc Jubb, Ryan Wake, Gonzalo Mandrión Flores, Aaron Davies,
+ */
 public class Level<e> extends Application {
 
 
@@ -85,8 +88,10 @@ public class Level<e> extends Application {
     PlayerProfile player = new PlayerProfile("bob",0);
     private String saveGame;
 
-    private static ArrayList<Rat> ratList = new ArrayList<Rat>();
-    private static ArrayList<Item> itemList = new ArrayList<Item>();
+    //Arrays that store the objects on the game board.
+    private static ArrayList<Rat> ratList = new ArrayList<>();
+    private static ArrayList<Item> itemList = new ArrayList<>();
+
     //this is a hardcoded level layout only here for testing purposes
     private static Character[][] levelLayout = {
             {'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G'},
@@ -97,6 +102,8 @@ public class Level<e> extends Application {
             {'G', 'P', 'P', 'P', 'P', 'P', 'P', 'P', 'P', 'P', 'P', 'G'},
             {'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G'}};
 
+
+    //getters
 
     public static int getGridHeight() {
         return GRID_HEIGHT;
@@ -114,79 +121,24 @@ public class Level<e> extends Application {
         return itemList;
     }
 
-    public static int getSizeOfLevel() {
-        return sizeOfLevel;
-    }
-
-    public static void setSizeOfLevel(int sizeOfLevel) {
-        Level.sizeOfLevel = sizeOfLevel;
-    }
-
-    protected void generateLevel() {
-    }
-
-    private void loadLevel(String path) {
-    }
-
     public static Character[][] getLevelLayout() {
         return levelLayout;
     }
-
-
-
 
     public static int getGridCellHeight() {
         return GRID_CELL_HEIGHT;
     }
 
-
-    public int getRatListSize(){
+    public static int getRatListSize(){
         return ratList.size();
     }
 
-    public int getMaxPopulation() {
-        return maxPopulation;
-    }
 
-    public int getRatPopulationRate() {
-        return ratPopulationRate;
-    }
-
-    public int getSecExpected() {
-        return secExpected;
-    }
-
-
-    public int getTime() {
-        return time;
-    }
-
-    public int getGridCellWidth() {
-        return GRID_CELL_WIDTH;
-    }
-
-
-
-    public void setMaxPopulation(Integer maxPopulation) {
-        this.maxPopulation = maxPopulation;
-    }
-
-    public void setRatPopulationRate(Integer ratPopulationRate) {
-        this.ratPopulationRate = ratPopulationRate;
-    }
-
-    public void setSecExpected(Integer secExpected) {
-        this.secExpected = secExpected;
-    }
-
-
-    public void setTime(Integer time) {
-        this.time = time;
-    }
-
-    public static void incrementScore(){
-        score += 10;
-    }
+    /**
+     * Creates a new baby object at the position of the mother when it is called and adds it to the rats arraylist.
+     * @param x The x-coordinate of the pregnant female rat.
+     * @param y The x-coordinate of the pregnant female rat.
+     */
     public static void giveBirth(int x, int y) {
         PlayableRat newBaby = new PlayableRat(x, y);
         newBaby.setImageDirection();
@@ -227,6 +179,15 @@ public class Level<e> extends Application {
 
     }
 
+    public void victoryScreen(){
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+        for (int i = 0; i < getGridWidth(); i++) {
+            for (int j = 0; j < getGridHeight(); j++) {
+                gc.drawImage(tunnel, (i * GRID_CELL_WIDTH), (j * GRID_CELL_HEIGHT));
+            }
+
+        }
+    }
 
     public void canvasDragDroppedOccured(DragEvent event) {
         int x = Math.floorDiv((int) event.getX(), 64);
@@ -729,18 +690,25 @@ public class Level<e> extends Application {
     }
 
     public void gameStatus()  {
-        System.out.println(getRatListSize());
-        if(ratList.size() == 0){
+        int numberOfDeathRatItems = 0;
+        for (Item item: itemList) {
+            if (item instanceof DeathRatItem){
+                numberOfDeathRatItems++;
+            }
+        }
+        int totalNumOfRats = ratList.size() + numberOfDeathRatItems;
+        if(totalNumOfRats == 0){
             levelCompleted = true;
             tickTimeline.stop();
             System.out.println("Won");
+            victoryScreen();
             if(player.getMaxLevelCompleted() < this.currentLevel) {
                 player.setMaxLevelCompleted(currentLevel);
                 PlayerProfiles.save(player);
                 tickTimeline.stop();
 
             }
-        }else if(this.getRatListSize() >= maxPopulation) {
+        }else if(totalNumOfRats >= maxPopulation) {
             gameLost = true;
             System.out.println("Nub");
             tickTimeline.stop();

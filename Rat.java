@@ -3,12 +3,12 @@ import java.util.Random;
 /**
  * This Class represents a rat in the game.
  *
- * @author samgriffin, Ryan Wake, Marc Jubb
+ * @author Samuel Griffin, Ryan Wake, Marc Jubb
  */
 
 /*TODO Handle for edge cases in move method and find logic errors*/
 public class Rat extends VisibleObject {
-    static final protected int ADULT_SPEED = 2;
+    static final protected int ADULT_SPEED = 2; //in ticks per square moved
     static final protected int BABY_SPEED = 1;
     protected int speed;
     private int ticksInGas;
@@ -17,19 +17,10 @@ public class Rat extends VisibleObject {
 
     protected Direction direction; //this should probably randomly generated in the constructor1--=-=
     protected Item item;
-
-    private enum LeftOrRight {LEFT, RIGHT}
-
     protected int ticksSinceCreation;
 
-    public Rat() {
 
-    }
-
-    //I Don't think you need an empty
-    public Rat(int x, int y) {
-        super(x, y);
-    }
+    //getters
 
     public String getDirection() {
         return direction.toString();
@@ -39,14 +30,21 @@ public class Rat extends VisibleObject {
         return speed;
     }
 
-    public void incrementTicksInGas() {
-        ticksInGas++;
-    }
-
     public int getTicksInGas() {
         return ticksInGas;
     }
 
+
+    /**
+     * Increments the amount of time the rat has been in the gas
+     */
+    public void incrementTicksInGas() {
+        ticksInGas++;
+    }
+
+    /**
+     * Responsible
+     */
     public void checkCollisions() {
         for (Item item : Level.getItemList()) {
             if (item instanceof NoEntrySign) {
