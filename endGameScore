@@ -1,0 +1,14 @@
+/*
+public class endGameScore {
+    //Whenever the players game ends this message will pop up to tell the player their score
+    // And whether they beat the current high score
+    if (score > highScore)
+    {
+        System.out.println("Congratulations you have the new high score! Your score was " + score + "The previous high scoren was " + highScore);
+    }else if (score == highScore) {
+        System.out.println("You tied the high score!, your score was " + score);
+    }else {
+        System.out.println("You scored " + score + ", the current high score is " + highScore);
+    }
+}
+*/
