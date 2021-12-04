@@ -42,7 +42,7 @@ public class Level<e> extends Application {
 
     // The dimensions of the window
     private static final int WINDOW_WIDTH = 1000;
-    private static final int WINDOW_HEIGHT = 600;
+    private static final int WINDOW_HEIGHT = 700;
     private static final int GRID_WIDTH = 12;
     private static final int GRID_HEIGHT = 7;
     // The dimensions of the canvas
@@ -209,9 +209,10 @@ public class Level<e> extends Application {
         getNumOfSex();
 
         gc.clearRect(0, 0, canvasCounters.getWidth(), canvasCounters.getHeight());
-        gc.fillText("Rats Remaining: " + getRatListSize(), 64, 32);
-        gc.fillText("Males Remaining: " + numOfMaleRats, 64, 52);
-        gc.fillText("Females Remaining: " + numOfFemaleRats, 64, 72);
+        gc.fillText("Score: " + score, 80, 30);
+        gc.fillText("Rats Remaining: " + getRatListSize(), 80, 50);
+        gc.fillText("Males Remaining: " + numOfMaleRats, 80, 70);
+        gc.fillText("Females Remaining: " + numOfFemaleRats, 80, 90);
     }
 
     public void canvasDragDroppedOccured(DragEvent event) {
