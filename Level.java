@@ -732,7 +732,6 @@ public class Level<e> extends Application {
         gc.setTextAlign(TextAlignment.CENTER);
         gc.setTextBaseline(VPos.CENTER);
         if (levelCompleted) {
-            System.out.println("not complete");
             gc.setFont(new Font(25));
             gc.fillText("Congratulations you win!", Math.round(canvas.getWidth() / 2), Math.round(canvas.getHeight() / 2));
         } else if (gameLost) {
@@ -750,7 +749,6 @@ public class Level<e> extends Application {
             }
         }
         int totalNumOfRats = ratList.size() + numberOfDeathRatItems;
-        System.out.println(totalNumOfRats);
         if (totalNumOfRats <= 0) {
             levelCompleted = true;
             tickTimeline.stop();
