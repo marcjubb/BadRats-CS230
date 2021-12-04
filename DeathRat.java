@@ -5,24 +5,13 @@ import java.util.Iterator;
 
 /**
  * This Class represents a DeathRat in the game.
- * @author samgriffin and Ryan Wake
+ * @author Samuel Griffin and Ryan Wake
  */
  
 public class DeathRat extends Rat {
     private int numCollisions = 0;
-    //static final private int ADULT_SPEED = 2;
     static final private int MAX_KILL_COUNT = 5;
     private int currentKillCount;
-    //private int ticksSinceCreation;
-
-
-
-    public DeathRat() {
-        super.speed = ADULT_SPEED;
-        super.ticksSinceCreation = 0;
-        super.direction = generateDirection();
-        currentKillCount = 0;
-    }
 
     public DeathRat(int x, int y, int currentKillCount) {
         super.x = x;
