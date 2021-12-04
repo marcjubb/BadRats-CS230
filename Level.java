@@ -311,7 +311,7 @@ public class Level<e> extends Application {
                     br.readLine(); //skip first line
                     // read until end of file
                     while ((line = br.readLine()) != null) {
-                        //System.out.println(line);
+
                         ArrayList<Character> chars = new ArrayList<Character>();
                         for (char c : line.toCharArray()) {
                             chars.add(c);
@@ -624,7 +624,7 @@ public class Level<e> extends Application {
         gameStatus();
 
         if (!levelCompleted) {
-            System.out.println(score);
+
             if (tickCount % 10 == 0) {
                 addRandomItem();
             }
@@ -698,6 +698,7 @@ public class Level<e> extends Application {
         }
         int totalNumOfRats = ratList.size() + numberOfDeathRatItems;
         if(totalNumOfRats == 0){
+
             levelCompleted = true;
             tickTimeline.stop();
             System.out.println("Won");
