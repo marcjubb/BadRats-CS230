@@ -87,7 +87,7 @@ public class Level<e> extends Application {
     private static ArrayList<Rat> ratList = new ArrayList<Rat>();
     private static ArrayList<Item> itemList = new ArrayList<Item>();
     //this is a hardcoded level layout only here for testing purposes
-    private static char[][] levelLayout = {
+    private static Character[][] levelLayout = {
             {'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G'},
             {'G', 'P', 'P', 'P', 'P', 'T', 'T', 'T', 'P', 'P', 'P', 'G'},
             {'G', 'P', 'G', 'G', 'P', 'G', 'G', 'G', 'P', 'G', 'P', 'G'},
@@ -127,7 +127,7 @@ public class Level<e> extends Application {
     private void loadLevel(String path) {
     }
 
-    public static char[][] getLevelLayout() {
+    public static Character[][] getLevelLayout() {
         return levelLayout;
     }
 
@@ -341,7 +341,7 @@ public class Level<e> extends Application {
                     int gridWidth = Integer.parseInt(dataLevelFile[0]);
 
                     //Collect the tiles variables
-                    ArrayList<ArrayList<Character>> levelLayout = new ArrayList<>();
+                    ArrayList<ArrayList<Character>> fileLevelLayout = new ArrayList<>();
                     String line;
                     br.readLine(); //skip first line
                     // read until end of file
@@ -351,8 +351,10 @@ public class Level<e> extends Application {
                         for (char c : line.toCharArray()) {
                             chars.add(c);
                         }
-                        levelLayout.add(chars);
+                        fileLevelLayout.add(chars);
                     }
+                    //levelLayout = fileLevelLayout.toArray();
+                    levelLayout = fileLevelLayout.stream().map(u -> u.toArray(new Character[0])).toArray(Character[][]::new);
 
                     //Create a canvas after collecting the data from .txt
                     gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight()); //Clear canvas
@@ -361,10 +363,10 @@ public class Level<e> extends Application {
 
                     for (int x = 0; x < gridHeight; x++) {
                         for (int y = 0; y < gridWidth; y++) {
-                            if (levelLayout.get(x).get(y) == 'G') {
+                            if (levelLayout[x][y] == 'G') {
                                 gc.drawImage(grass, y * GRID_CELL_WIDTH, x * GRID_CELL_HEIGHT);
 
-                            } else if (levelLayout.get(x).get(y) == 'T') {
+                            } else if (levelLayout[x][y] == 'T') {
                                 gc.drawImage(tunnel, y * GRID_CELL_WIDTH, x * GRID_CELL_HEIGHT);
 
                             } else {
