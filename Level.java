@@ -721,7 +721,7 @@ private Text nbOfRats = new Text("Number of Rats Alive: "+ Level.getNumOfFemaleR
         tickTimeline.setCycleCount(Animation.INDEFINITE);
         // We start the timeline upon a button press.
 
-        //L oad menu
+        //Load menu
         //drawMenu();
         drawGame();
         primaryStage.setScene(scene);
