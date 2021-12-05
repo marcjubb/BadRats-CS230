@@ -930,8 +930,7 @@ public class Level<e> extends Application {
                 .replace("[", "")  //remove the right bracket
                 .replace("]", "\n") //remove the left bracket and lane break
                 .replace(" ", "");
-        saver.saveLevelFile(levelFormatted, new File("/resources/LevelFiles/tempFile.txt"));
-
+        //saver.saveLevelFile(levelFormatted, new File("/resources/LevelFiles/tempFile.txt"));
     }
 
     /**
