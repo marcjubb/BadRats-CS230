@@ -5,7 +5,6 @@ import javafx.scene.image.Image;
  * @author Samuel Griffin and Ryan Wake
  */
 public class DeathRat extends Rat {
-    private int numCollisions = 0;
     static final private int MAX_KILL_COUNT = 7;
     private int currentKillCount;
 
@@ -22,6 +21,36 @@ public class DeathRat extends Rat {
         super.ticksSinceCreation = 0;
         super.direction = generateDirection();
         this.currentKillCount = currentKillCount;
+    }
+
+
+    /**
+     * Creates a death rat at some coordinates, setting its current kill count, the ticks since it h
+     * @param x The x coordinate for where the rat object should be created.
+     * @param y The y coordinate for where the rat object should be created.
+     * @param currentKillCount
+     * @param ticksSinceCreation
+     * @param direction
+     */
+    public DeathRat(int x, int y, int currentKillCount, int ticksSinceCreation, String direction){
+        super.x = x;
+        super.y = y;
+        super.speed = ADULT_SPEED;
+        super.ticksSinceCreation = ticksSinceCreation;
+        this.currentKillCount = currentKillCount;
+        switch(direction){
+            case "NORTH":
+                this.direction = Direction.NORTH;
+                break;
+            case "SOUTH":
+                this.direction = Direction.SOUTH;
+                break;
+            case "EAST":
+                this.direction = Direction.EAST;
+                break;
+            case "WEST":
+                this.direction = Direction.WEST;
+        }
     }
 
     /**
@@ -68,6 +97,6 @@ public class DeathRat extends Rat {
 
     @Override
     public String toString() {
-        return super.toString() + ", " + numCollisions + ", " + currentKillCount;
+        return super.toString() + ", " + currentKillCount;
     }
 }

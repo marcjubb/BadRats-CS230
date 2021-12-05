@@ -15,7 +15,7 @@ public abstract class Rat extends VisibleObject {
 
     protected enum Direction {NORTH, SOUTH, EAST, WEST}
 
-    protected Direction direction; //this should probably randomly generated in the constructor1--=-=
+    protected Direction direction;
     protected Item item;
     protected int ticksSinceCreation;
 
