@@ -1,8 +1,5 @@
 import javafx.scene.image.Image;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-
 /**
  * This Class represents a DeathRat in the game.
  * @author Samuel Griffin and Ryan Wake
@@ -13,10 +10,10 @@ public class DeathRat extends Rat {
     private int currentKillCount;
 
     /**
-     * Creates a rat object
-     * @param x
-     * @param y
-     * @param currentKillCount
+     * Creates a DeathRat object at some coordinates, setting its current kill count as well.
+     * @param x The x coordinate for where the rat object should be created.
+     * @param y The y coordinate for where the rat object should be created.
+     * @param currentKillCount The number of kills the death rat has already got.
      */
     public DeathRat(int x, int y, int currentKillCount) {
         super.x = x;
@@ -27,6 +24,10 @@ public class DeathRat extends Rat {
         this.currentKillCount = currentKillCount;
     }
 
+    /**
+     * Checks whether the rat collides with other rats and kills them as well as checking for the collisions that happen
+     * to all rats.
+     */
     public void checkCollisions() {
         for (Rat rat : Level.getRatList()) {
             if (rat.getX() == x && rat.getY() == y && rat != this) {
@@ -41,8 +42,9 @@ public class DeathRat extends Rat {
     }
 
 
-
-
+    /**
+     * Sets the image to one that faces in the direction of the rat and if it is in a tunnel it changes to a blank png.
+     */
     public void setImageDirection() {
         if (Level.getLevelLayout()[y][x] != 'T') {
             switch (getDirection()) {
