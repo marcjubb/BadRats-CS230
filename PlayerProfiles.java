@@ -1,3 +1,4 @@
+/*
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.TextInputDialog;
 
@@ -6,30 +7,35 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.Scanner;
 
+*/
 /**
  * Class deals with manipulation of player profiles data (e.g. Save)
  * that exist in the game.
  * @author ryanwake
  * @author Aaron Davies
  * @version 2.0
- */
+ *//*
+
 
 
 public class PlayerProfiles {
     private static final String PATH = "source/profiles.ser";
     private static ArrayList<PlayerProfile> profiles = new ArrayList<>();
 
-    /**
+    */
+/**
      * Adds a profile to the list of profiles and then refreshes
      *
      * @param profile Profile you want to add
-     */
+     *//*
+
     public static void add(PlayerProfile profile) {
         profiles.add(profile);
         refresh();
     }
     ///////////// Commented out javafx stuff for now not too sure what to do with it
-    /*
+    */
+/*
     /**
      * Shows and controls the Create a Profile dialog.
 
@@ -83,10 +89,13 @@ public class PlayerProfiles {
             dialog.close();
         }
     }
+    *//*
+
     */
-    /**
+/**
      * Calls save() and then load(), refreshing the available profiles
-     */
+     *//*
+
     public static void refresh() {
         if (!profiles.isEmpty()) {
             save();
@@ -94,19 +103,23 @@ public class PlayerProfiles {
         load();
     }
 
-    /**
+    */
+/**
      * Removes a profile from the list of profiles then refreshes
      *
      * @param profile Profile you want to remove
-     */
+     *//*
+
     public static void remove(PlayerProfile profile) {
         profiles.remove(profile);
         refresh();
     }
 
-    /**
+    */
+/**
      * Loads all profiles from profiles.ser
-     */
+     *//*
+
     @SuppressWarnings("unchecked")
     public static void load() {
         try {
@@ -115,13 +128,17 @@ public class PlayerProfiles {
             profiles = (ArrayList<PlayerProfile>) objIn.readObject();
         } catch (Exception e) {
             e.printStackTrace();
-            StageController.showError(ErrorMessage.PROFILE_READ_ERROR, Title.ERROR, false);
+            */
+/*StageController.showError(ErrorMessage.PROFILE_READ_ERROR, Title.ERROR, false);*//*
+
         }
     }
 
-    /**
+    */
+/**
      * Saves all the profiles to profiles.ser
-     */
+     *//*
+
     public static void save() {
         try {
             FileOutputStream fileOut = new FileOutputStream(PATH);
@@ -135,22 +152,26 @@ public class PlayerProfiles {
         }
     }
 
-    /**
+    */
+/**
      * Checks if a profile of the same name already exists in the list of profiles
      *
      * @param profile Profile you want to check
      * @return If it exists or not
-     */
+     *//*
+
     public static boolean exists(PlayerProfile profile) {
         refresh();
         return profiles.stream().anyMatch(p -> p.equals(profile));
     }
 
-    /**
+    */
+/**
      * Gets the list of profiles
      *
      * @return List of profiles
-     */
+     *//*
+
     public static ArrayList<PlayerProfile> getProfiles() {
         refresh();
         return profiles;
@@ -159,7 +180,8 @@ public class PlayerProfiles {
 
 
 }
-    /*
+    */
+/*
     private static ArrayList<PlayerProfile> profiles = new ArrayList<PlayerProfile>();
     private static String profilePath = "resources/playerprofiles.txt";
 
@@ -249,5 +271,7 @@ public class PlayerProfiles {
         writer.close();
     }
 }
-*/
+*//*
 
+
+*/

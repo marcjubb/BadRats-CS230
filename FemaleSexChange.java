@@ -5,7 +5,8 @@ import javafx.scene.image.Image;
  * @author Michael Pokorski
  */
 
-public class FemaleSexChange extends Collectable {
+
+public class FemaleSexChange extends Item{
 
     /**
      * Create FemaleSexChange at a specified coordinate.

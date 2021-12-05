@@ -5,7 +5,9 @@ import javafx.scene.image.Image;
  * @author Marc Jubb
  */
 
-public class Poison extends Collectable {
+
+public class Poison extends Item{
+
 
     /**
      * Create Poison at a specified coordinate.

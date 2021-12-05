@@ -7,9 +7,9 @@ import java.util.Random;
  * @author Samuel Griffin
  */
 public class PlayableRat extends Rat {
-
-    static final private int PREGNANCY_DURATION = 9;
     public enum Sex {MALE, FEMALE}
+    static final private int PREGNANCY_DURATION = 9;
+
     private Sex sex;
     private boolean isAdult;
     private boolean isPregnant;
@@ -111,6 +111,7 @@ public class PlayableRat extends Rat {
     /**
      * Increments the tick counter in rat and checks whether it should become an adult yet depending on how long it has existed.
      */
+
     public void incrementTick() {
         if (super.ticksSinceCreation > 4) {
             becomeAdult();
@@ -266,6 +267,7 @@ public class PlayableRat extends Rat {
             pregnantTick = 0;
         }
     }
+
 
 
     /**

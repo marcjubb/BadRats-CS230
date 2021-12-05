@@ -5,7 +5,9 @@ import java.util.Objects;
 
 /**
  * This Class represents a typical item in the game.
- * @author ryanwake, Michael Pokorski.
+
+ *
+ * @author ryanwake, Michael Pokorski
  */
 
 public class Item extends VisibleObject {
@@ -26,8 +28,10 @@ public class Item extends VisibleObject {
     }
 
     /**
+
      * Get the items name.
      * @return The itemname.
+
      */
     public String getItemName() {
         return itemName;
@@ -38,22 +42,29 @@ public class Item extends VisibleObject {
      * @param x The x coordinate.
      * @param y The y coordinate.
      * @return True if collision occurred else false.
+
      */
     public boolean collisionAt(int x, int y) {
         return x == this.x && y == this.y;
     }
 
     /**
+
+     * Destroy self.
+
      * Sets the item as destroyed
+
      */
     protected void destroySelf() {
         destroyed = true;
     }
 
     /**
+
      * Will check if an item is in an explosion of a Bomb.
      * @param items The list of items currently being used/placed in the Game.
      * @return True if item is in the explosion else false.
+
      */
     protected boolean isInExplosion(ArrayList<Item> items) {
         for (Item item : items) {
@@ -75,8 +86,14 @@ public class Item extends VisibleObject {
     }
 
     /**
+
+     * Sets item name.
+     *
+     * @param itemName the item name
+
      * Set the name of the Item.
      * @param itemName the new item name.
+
      */
     public void setItemName(String itemName) {
         this.itemName = itemName;
