@@ -29,8 +29,12 @@ import java.util.*;
 /**
  * This class is responsible for running the GUI for the rats game and storing the relevant values to be called.
  *
+
  *
  * @author Samuel Griffin, Marc Jubb, Ryan Wake, Gonzalo Mandrión Flores, Aaron Davies,
+
+ * @author Samuel Griffin, Marc Jubb, Ryan Wake, Gonzalo Mandrión Flores, Aaron Davies, Alex Walker
+
  */
 public class Level extends Application {
 
