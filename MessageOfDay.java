@@ -1,17 +1,14 @@
-/**
- * Opens the cswebcat site, decrpyts the message out puts the Message of the Day
- * @author Aaron Davies and Marc Jubb
- * @version 0.0.1
- */
-
-
-
 import java.io.Console;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.Scanner;
 import java.net.URL;
 
+/**
+ * Opens the cswebcat site, decrpyts the message out puts the Message of the Day
+ * @author Aaron Davies and Marc Jubb
+ * @version 0.0.1
+ */
 public class MessageOfDay {
     public static void main(String[] args) {
         generateMessage();
@@ -73,9 +70,6 @@ public class MessageOfDay {
      * @return Decrypted text
      */
 
-
-
-   // }
     private static String decrypt(String text){
         StringBuilder s = new StringBuilder();
         int len = text.length();
@@ -85,6 +79,12 @@ public class MessageOfDay {
         return s.toString();
     }
 
+    /**
+     *
+     * @param charToShift
+     * @param shiftN
+     * @return
+     */
     private static char shiftChar(char charToShift, int shiftN){
         char temp;
         if (shiftN % 2 == 1 ){

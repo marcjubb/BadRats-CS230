@@ -6,7 +6,7 @@ import javafx.scene.image.Image;
  */
 
 
-public class FemaleSexChange extends Item{
+public class FemaleSexChange extends Item {
 
     /**
      * Create FemaleSexChange at a specified coordinate.

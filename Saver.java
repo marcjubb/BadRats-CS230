@@ -19,7 +19,7 @@ public class Saver {
      *
      */
     // not sure what data actually needs to be saved or how to save it
-    public static void save(){
+    public static void save() {
 
     }
     
