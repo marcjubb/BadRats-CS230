@@ -511,7 +511,8 @@ public class Level<e> extends Application {
                         .replace("[", "")  //remove the right bracket
                         .replace("]", "\n") //remove the left bracket and lane break
                         .replace(" ", "");
-                saveLevel.saveLevelFile(levelFormatted, file);
+                //needs to include rats/items data and get the correct seconds expected
+                saveLevel.saveLevelFile(GRID_WIDTH + "," + GRID_HEIGHT, 10, maxPopulation, levelFormatted, file);
             }
         });
 
