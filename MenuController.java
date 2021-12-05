@@ -4,12 +4,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.Objects;
 
-public class FXMLController {
+public class MenuController {
 
         @FXML
         private Button Leaderboard;
@@ -29,6 +30,12 @@ public class FXMLController {
         void loadLeaderboard(ActionEvent event) {
 
         }
+    @FXML
+    private Text messageOfDay;
+    @FXML
+    public void initialize(){
+        messageOfDay.setText(MessageOfDay.getMessage());
+    }
 
 
     @FXML

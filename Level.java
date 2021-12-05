@@ -344,10 +344,6 @@ private Text nbOfRats = new Text("Number of Rats Alive: "+ Level.getNumOfFemaleR
         currentInventory.add(items.get(i));
     }
 
-    private void addToToolbar(HBox toolbar) {
-    }
-
-
     private Pane buildGUI() {
         // Create top-level panel that will hold all GUI nodes.
 
@@ -355,7 +351,6 @@ private Text nbOfRats = new Text("Number of Rats Alive: "+ Level.getNumOfFemaleR
 
         // Create the canvas that we will draw on.
         // We store this as a global variable so other methods can access it
-
 
 
 
@@ -369,7 +364,7 @@ private Text nbOfRats = new Text("Number of Rats Alive: "+ Level.getNumOfFemaleR
         toolbar.setSpacing(10);
         toolbar.setPadding(new Insets(10, 10, 10, 10));
         root.setTop(toolbar);
-  
+
 
         //Button to load the level
         Button btnLoadLevel = new Button("Load Level");
