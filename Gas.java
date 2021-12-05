@@ -28,6 +28,19 @@ public class Gas extends Item {
     }
 
     /**
+     * Create Gas at a specified coordinate with certain properties.
+     * @param x The x coordinate.
+     * @param y The y coordinate.
+     * @param timer The time since placed.
+     * @param isDissipating Whether or not the gas is shrinking.
+     */
+    public Gas(int x, int y, int timer, boolean isDissipating) {
+        super(x, y, "Gas", "/resources/Images/Items/Gas.png");
+        this.timer = timer;
+        this.isDissipating = isDissipating;
+    }
+
+    /**
      * Calculates the area of effect of Gas and the effect on rats.
      */
    public void gasArea() {
@@ -124,6 +137,14 @@ public class Gas extends Item {
                 y > 0 && x > 0;
     }
 
+    /**
+     * Get the data of the gas.
+     * @return the gas's data.
+     */
+    @Override
+    public String toString(){
+        return super.toString() + ", " + timer + ", " + isDissipating;
+    }
 }
 
 

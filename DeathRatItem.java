@@ -21,6 +21,19 @@ public class DeathRatItem extends Item {
     }
 
     /**
+     * Create DeathRat item at a specified coordinate with certain attributes.
+     * @param x The x coordinate.
+     * @param y The y coordinate.
+     * @param ticksSinceCreation Number of ticks since created.
+     * @param currentKillCount Number of rats killed.
+     */
+    public DeathRatItem(int x, int y, int ticksSinceCreation, int currentKillCount){
+        super(x,y, "DeathRat", "/resources/Images/Rat/DeathRatR.png");
+        this.ticksSinceCreation = ticksSinceCreation;
+        this.currentKillCount = currentKillCount;
+    }
+
+    /**
      * Destory DeathRatItem after timer is up and create new (playable)DeathRat which
      * will be created at same coordinates.
      */
@@ -66,7 +79,7 @@ public class DeathRatItem extends Item {
      */
     @Override
     public String toString() {
-        return super.toString() + ", " + ticksSinceCreation + "\n";
+        return super.toString() + ", " + ticksSinceCreation + ", " + currentKillCount;
     }
 
 }

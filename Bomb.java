@@ -37,11 +37,11 @@ public class Bomb extends Item {
      * Create a Bomb at a specified coordinate with a particular timer state.
      * @param x The x coordinate.
      * @param y The y coordinate.
-     * @param t The timer value.
+     * @param timer The timer value.
      */
-    public Bomb(int x, int y, int t) {
+    public Bomb(int x, int y, int timer) {
         super (x, y, "Bomb", "/resources/Images/Items/Bomb.png");
-        timer = t;
+        this.timer = timer;
         updateDistance();
     }
 
@@ -133,8 +133,9 @@ public class Bomb extends Item {
      * Get the data of the bomb.
      * @return the Bombs data.
      */
-    public String toString() {
-        return super.toString() + ", " + timer + "\n";
+    @Override
+    public String toString(){
+        return super.toString() + ", " + timer;
     }
 
 }

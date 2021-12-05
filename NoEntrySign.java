@@ -22,11 +22,11 @@ public class NoEntrySign extends Item {
      * Creates No entry sign at specified coordinate with a particular durability.
      * @param x The x coordinate.
      * @param y The y coordinate.
-     * @param d the durability value.
+     * @param durability The durability value.
      */
-    public NoEntrySign(int x, int y, int d) {
+    public NoEntrySign(int x, int y, int durability) {
         super(x, y, "NoEntrySign", "/resources/Images/Items/NoEntry.png");
-        durability = d;
+        this.durability = durability;
     }
 
     /**
@@ -62,7 +62,8 @@ public class NoEntrySign extends Item {
      * Get the data of the sign.
      * @return the sign's data.
      */
+    @Override
     public String toString(){
-        return super.toString() + ", " + durability + "\n";
+        return super.toString() + ", " + durability;
     }
 }
