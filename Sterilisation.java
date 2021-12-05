@@ -3,7 +3,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
 /**
- * This Class represents the Items.Sterilisation item in the game.
+ * This Class represents the item, Sterilisation, in the game.
  * @author ryanwake
  */
 public class Sterilisation extends Item {
@@ -11,12 +11,19 @@ public class Sterilisation extends Item {
     private int timer;
     private final int SIZE_OF_EFFECT =2;
 
-
+    /**
+     * Create Sterilisation at a specified coordinate.
+     * @param x The x coordinate.
+     * @param y The y coordinate.
+     */
     public Sterilisation(int x, int y){
         super(x, y, "Sterilisation", "/resources/Images/Items/Sterilisation.png");
         timer = 5;
     }
 
+    /**
+     * Create an area where if the rats enter then they become sterile
+     */
     public void sterilizeArea(){
         for (int x = getX()-1; x < getX() +2; x++) {
             for (int y = getY()-1; y < getY()+2; y++) {
@@ -29,35 +36,37 @@ public class Sterilisation extends Item {
         }
     }
 
-        public void update() {
-            timer--;
-            if (timer <= 0) {
-                destroySelf();
-            }
+    /**
+     * Will update the timer every tick until timer runs out and sterilisation item will be destroyed.
+     */
+    public void update() {
+        timer--;
+        if (timer <= 0) {
+            destroySelf();
         }
-    //    public void update() {
-//        timeLeft--;
-//        if (timeLeft <= 0) {
-//            destroySelf();
-//        }
-//
+    }
 
+    /**
+     * Draw the item on the canvas.
+     * @param gc The GraphicsContext in which we will draw on
+     */
     public void draw(GraphicsContext gc) {
-
-
-            for (int x = getX()-1; x < getX() +2; x++) {
-                for (int y = getY()-1; y < getY()+2; y++) {
-                    if (Level.getLevelLayout()[y][x] != 'G'){
-                        gc.drawImage(new Image("/resources/Images/Items/Sterilisation.png"), x*Level.getGridCellHeight(), y*Level.getGridCellHeight());
-                    }
+        for (int x = getX()-1; x < getX() +2; x++) {
+            for (int y = getY()-1; y < getY()+2; y++) {
+                if (Level.getLevelLayout()[y][x] != 'G'){
+                    gc.drawImage(new Image("/resources/Images/Items/Sterilisation.png"), x*Level.getGridCellHeight(), y*Level.getGridCellHeight());
                 }
             }
-            sterilizeArea();
+        }
+        sterilizeArea();
 
 
 
     }
-
+    /**
+     * Get the data of the bomb.
+     * @return the formatted Sterilisation data.
+     */
     @Override
     public String toString() {
         return super.toString() + ", " + timer + "\n";
