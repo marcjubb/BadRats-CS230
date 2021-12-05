@@ -12,6 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -33,6 +34,7 @@ import java.util.*;
 public class Level<e> extends Application {
 
 
+
     // The dimensions of the window
 
     private static  int GRID_WIDTH = 12;
@@ -51,15 +53,10 @@ public class Level<e> extends Application {
     // The width and height (in pixels) of each cell that makes up the game.
 
 
-    private static ArrayList<Item> items = new ArrayList<>();
-    private static ArrayList<Item> currentInventory = new ArrayList<>();
-
     // The width of the grid in number of cells.
 
     private Canvas canvas;
     private Canvas canvasCounters;
-    private Canvas sidebarCanvas;
-    private HBox toolbar;
 
     // Loaded images
     private static Image grass;
@@ -86,10 +83,13 @@ public class Level<e> extends Application {
     private boolean gameLost = false;
     private static int numOfMaleRats;
     private static int numOfFemaleRats;
+    private static int frequencyOfNewItem = 5;
 
 
     private static int maxPopulation = 10;
     private static Inventory inv = new Inventory();
+    private static int ticksExpected;
+    private static BorderPane root;
 
 
 
@@ -114,6 +114,27 @@ public class Level<e> extends Application {
             {'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G'}};
 
 
+//    public Level(int width, int height, Character[][] levelLayout, int ticksExpected, BorderPane root, ArrayList<Rat> ratList){
+//        GRID_WIDTH = width;
+//        GRID_HEIGHT = height;
+//        Level.levelLayout = levelLayout;
+//        Level.ticksExpected = ticksExpected;
+//        Level.root = root;
+//        Level.ratList = ratList;
+//
+//    }
+
+//    public Level(int width, int height, Character[][] levelLayout, int ticksExpected, BorderPane root, ArrayList<Rat> ratList, ArrayList<Item> itemList){
+//        GRID_WIDTH = width;
+//        GRID_HEIGHT = height;
+//        Level.levelLayout = levelLayout;
+//        Level.ticksExpected = ticksExpected;
+//        Level.root = root;
+//        Level.ratList = ratList;
+//        Level.itemList = itemList;
+//
+//
+//    }
     /**
      * Gets num of male rats.
      *
@@ -363,14 +384,6 @@ public class Level<e> extends Application {
     }
 
 
-    private void addRandomItem() {
-//        Random r = new Random();
-//        int i = r.nextInt(items.size());
-//        currentInventory.add(items.get(i));
-
-
-    }
-
     private void drawToolbar(){
 
     }
@@ -378,7 +391,7 @@ public class Level<e> extends Application {
     private Pane buildGUI() {
         // Create top-level panel that will hold all GUI nodes.
 
-        BorderPane root = new BorderPane();
+        root = new BorderPane();
 
         // Create the canvas that we will draw on.
         // We store this as a global variable so other methods can access it
@@ -779,13 +792,9 @@ public class Level<e> extends Application {
     public void tick() {
         gameStatus();
 
-        gameStatus();
         if(!levelCompleted && !gameLost) {
-            if (tickCount % 10 == 0) {
-                addRandomItem();
-            }
 
-            if((tickCount % 5) == 0){
+            if((tickCount % frequencyOfNewItem) == 0){
                inv.addItem();
             }
 //
@@ -890,6 +899,7 @@ public class Level<e> extends Application {
         if (totalNumOfRats <= 0) {
             levelCompleted = true;
             tickTimeline.stop();
+            score += ticksExpected - tickCount;
             levelEndScreen();
             if (player.getMaxLevelCompleted() < this.currentLevel) {
                 player.setMaxLevelCompleted(currentLevel);
