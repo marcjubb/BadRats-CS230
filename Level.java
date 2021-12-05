@@ -338,10 +338,6 @@ public class Level<e> extends Application {
         currentInventory.add(items.get(i));
     }
 
-    private void addToToolbar(HBox toolbar) {
-    }
-
-
     private Pane buildGUI() {
         // Create top-level panel that will hold all GUI nodes.
 
@@ -349,6 +345,7 @@ public class Level<e> extends Application {
 
         // Create the canvas that we will draw on.
         // We store this as a global variable so other methods can access it
+
 
         canvas = new Canvas(CANVAS_WIDTH, CANVAS_HEIGHT);
         root.setCenter(canvas);
@@ -360,7 +357,7 @@ public class Level<e> extends Application {
         toolbar.setSpacing(10);
         toolbar.setPadding(new Insets(10, 10, 10, 10));
         root.setTop(toolbar);
-  
+
 
         //Button to load the level
         Button btnLoadLevel = new Button("Load Level");
@@ -716,7 +713,7 @@ public class Level<e> extends Application {
         tickTimeline.setCycleCount(Animation.INDEFINITE);
         // We start the timeline upon a button press.
 
-        //L oad menu
+        //Load menu
         //drawMenu();
         drawGame();
         primaryStage.setScene(scene);

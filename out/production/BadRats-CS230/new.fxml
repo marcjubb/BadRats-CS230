@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
@@ -102,5 +103,11 @@
             </LinearGradient>
          </textFill>
       </Button>
+      <Text fx:id="messageOfDay" layoutX="14.0" layoutY="307.0" strokeType="OUTSIDE" strokeWidth="0.0" text="This will be message of the da" wrappingWidth="533.1484375">
+         <font>
+            <Font name="System Bold" size="22.0" />
+         </font>
+      </Text>
+      <Label layoutX="54.0" layoutY="266.0" text="Label" />
    </children>
 </Pane>

@@ -10,9 +10,6 @@ import java.net.URL;
  * @version 0.0.1
  */
 public class MessageOfDay {
-    public static void main(String[] args) {
-        generateMessage();
-    }
 
     private static String message = null;
 
@@ -45,7 +42,6 @@ public class MessageOfDay {
             while (inurl.hasNext()){
                 message += inurl.next() + " ";
             }
-            System.out.println(message);
         } catch (IOException e) {
             e.printStackTrace();
         }
