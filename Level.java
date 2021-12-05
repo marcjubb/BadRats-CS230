@@ -369,7 +369,7 @@ private Text nbOfRats = new Text("Number of Rats Alive: "+ Level.getNumOfFemaleR
         toolbar.setSpacing(10);
         toolbar.setPadding(new Insets(10, 10, 10, 10));
         root.setTop(toolbar);
-        root.setBottom(addHBox());
+  
 
         //Button to load the level
         Button btnLoadLevel = new Button("Load Level");
@@ -662,16 +662,7 @@ private Text nbOfRats = new Text("Number of Rats Alive: "+ Level.getNumOfFemaleR
         });
         return root;
     }
-    private HBox addHBox() {
-        HBox hbox = new HBox();
-        hbox.setPadding(new Insets(15, 12, 15, 12));
-        hbox.setSpacing(10);
 
-        nbOfRats.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-        hbox.getChildren().add(nbOfRats);
-
-        return hbox;
-    }
     private void drawMap(GraphicsContext gc, int gridHeight, int gridWidth) {
         for (int x = 0; x < gridHeight; x++) {
             for (int y = 0; y < gridWidth; y++) {
