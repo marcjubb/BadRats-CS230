@@ -676,7 +676,7 @@ private Text nbOfRats = new Text("Number of Rats Alive: "+ Level.getNumOfFemaleR
 
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
         primaryStage.setTitle("Bad Rats");
 
         tickCount = 0;
@@ -859,6 +859,9 @@ private Text nbOfRats = new Text("Number of Rats Alive: "+ Level.getNumOfFemaleR
 
         }
     }
+   /* public void loadLevel(int levelNumber){
+        start();
+    }*/
 
 
 //    //Menu
