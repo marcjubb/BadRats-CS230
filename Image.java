@@ -19,7 +19,7 @@ class ItemImage {
     protected static Image NoEntry;
     protected static Image Sterilisation;
 
-    static{
+    static {
 
         Bomb4 = new Image("resources/Bomb4.png");
         Bomb3 = new Image("resources/Bomb3.png");

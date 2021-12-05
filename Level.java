@@ -57,7 +57,6 @@ public class Level<e> extends Application {
     // The width of the grid in number of cells.
 
     private Canvas canvas;
-
     private Canvas canvasCounters;
 
     // Loaded images
@@ -89,15 +88,12 @@ public class Level<e> extends Application {
 
     private static int maxPopulation = 4;
 
-    BorderPane root;
 
 
-    /**
-     * The Player.
-     */
     PlayerProfile player = new PlayerProfile("bob", 0);
     private String saveGame;
-private Text nbOfRats = new Text("Number of Rats Alive: "+ Level.getNumOfFemaleRats() + Level.getNumOfMaleRats());
+
+    private Text nbOfRats = new Text("Number of Rats Alive: "+ Level.getNumOfFemaleRats() + Level.getNumOfMaleRats());
     //Arrays that store the objects on the game board.
     private static ArrayList<Rat> ratList = new ArrayList<>();
     private static ArrayList<Item> itemList = new ArrayList<>();
@@ -178,7 +174,7 @@ private Text nbOfRats = new Text("Number of Rats Alive: "+ Level.getNumOfFemaleR
      * @return the character [ ] [ ]
      */
 
-    public void getNumOfSex(){
+    public void getNumOfSex() {
         numOfMaleRats = 0;
         numOfFemaleRats = 0;
         for(Rat rat: Level.getRatList()){
@@ -226,12 +222,12 @@ private Text nbOfRats = new Text("Number of Rats Alive: "+ Level.getNumOfFemaleR
     /**
      * Compute num of sex.
      */
-    public void computeNumOfSex(){
-        for(Rat rat: Level.getRatList()){
+    public void computeNumOfSex() {
+        for(Rat rat: Level.getRatList()) {
             if((rat instanceof PlayableRat) && ((PlayableRat) rat).getSex() == PlayableRat.Sex.MALE ){
                 System.out.println("hit");
                 numOfMaleRats++;
-            }else if((rat instanceof PlayableRat) && ((PlayableRat) rat).getSex() == PlayableRat.Sex.FEMALE ){
+            }else if((rat instanceof PlayableRat) && ((PlayableRat) rat).getSex() == PlayableRat.Sex.FEMALE ) {
                 numOfFemaleRats++;
             }
         }
@@ -239,7 +235,6 @@ private Text nbOfRats = new Text("Number of Rats Alive: "+ Level.getNumOfFemaleR
 
     /**
      * Creates a new baby object at the position of the mother when it is called and adds it to the rats arraylist.
-     *
      * @param x The x-coordinate of the pregnant female rat.
      * @param y The y-coordinate of the pregnant female rat.
      */
@@ -288,7 +283,6 @@ private Text nbOfRats = new Text("Number of Rats Alive: "+ Level.getNumOfFemaleR
 
     /**
      * Canvas drag dropped occured.
-     *
      * @param event the event
      */
 
@@ -353,7 +347,6 @@ private Text nbOfRats = new Text("Number of Rats Alive: "+ Level.getNumOfFemaleR
         // We store this as a global variable so other methods can access it
 
 
-
         canvas = new Canvas(CANVAS_WIDTH, CANVAS_HEIGHT);
         root.setCenter(canvas);
 
@@ -377,7 +370,6 @@ private Text nbOfRats = new Text("Number of Rats Alive: "+ Level.getNumOfFemaleR
         toolbar.getChildren().addAll(startTickTimelineButton, stopTickTimelineButton, btnLoadLevel, btnSaveLevel);
         // Stop button is disabled by default
         stopTickTimelineButton.setDisable(true);
-
 
 
 
@@ -739,7 +731,7 @@ private Text nbOfRats = new Text("Number of Rats Alive: "+ Level.getNumOfFemaleR
     public void tick() {
 
 
-
+        gameStatus();
         if(!levelCompleted && !gameLost) {
             if (tickCount % 10 == 0) {
                 addRandomItem();
@@ -803,12 +795,6 @@ private Text nbOfRats = new Text("Number of Rats Alive: "+ Level.getNumOfFemaleR
             drawCounters();
         }
 
-
-        System.out.println("count" + Level.getNumOfMaleRats());
-        nbOfRats = new Text("Number of Rats Alive: "+ Level.getNumOfMaleRats() + Level.getNumOfMaleRats());
-        // We then redraw the whole canvas.
-        drawGame();
-
     }
     private void levelEndScreen() {
         GraphicsContext gc = canvas.getGraphicsContext2D();
@@ -856,7 +842,6 @@ private Text nbOfRats = new Text("Number of Rats Alive: "+ Level.getNumOfFemaleR
             gameLost = true;
             levelEndScreen();
             tickTimeline.stop();
-
         }
     }
    /* public void loadLevel(int levelNumber){
@@ -897,7 +882,6 @@ private Text nbOfRats = new Text("Number of Rats Alive: "+ Level.getNumOfFemaleR
 
     /**
      * The entry point of application.
-     *
      * @param args the input arguments
      */
     public static void main(String[] args) {

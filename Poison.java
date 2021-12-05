@@ -6,7 +6,7 @@ import javafx.scene.image.Image;
  */
 
 
-public class Poison extends Item{
+public class Poison extends Item {
 
 
     /**
