@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.RadialGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.202" fx:controller="FXMLController" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ImageView fitHeight="406.0" fitWidth="607.0" layoutX="-2.0" layoutY="-2.0" pickOnBounds="true">
+         <image>
+            <Image url="/resources/Images/Background/alex.jpg" />
+         </image>
+      </ImageView>
+      <Text layoutX="14.0" layoutY="63.0" smooth="false" strokeType="OUTSIDE" strokeWidth="3.0" text="Bad Rats" wrappingWidth="437.640625">
+         <font>
+            <Font name="Goudy Old Style Italic" size="55.0" />
+         </font>
+         <fill>
+            <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="0.44736841320991516" green="0.27546295523643494" blue="0.27546295523643494" />
+                     </color>
+                  </Stop>
+               </stops>
+            </RadialGradient>
+         </fill>
+      </Text>
+      <Button fx:id="lvlSelectBtn" layoutY="76.0" mnemonicParsing="false"  onAction="#lvlSelect" prefHeight="56.0" prefWidth="230.0" style="-fx-background-color: transparent;" text="Level Select">
+         <font>
+            <Font name="System Bold" size="26.0" />
+         </font>
+         <textFill>
+            <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="0.5657894611358643" green="0.2724171578884125" blue="0.2724171578884125" />
+                     </color>
+                  </Stop>
+               </stops>
+            </RadialGradient>
+         </textFill>
+      </Button>
+      <Button layoutX="14.0" layoutY="132.0" mnemonicParsing="false" prefHeight="57.0" prefWidth="230.0" style="-fx-background-color: transparent;" text="Leaderboards">
+         <font>
+            <Font name="System Bold" size="27.0" />
+         </font>
+         <textFill>
+            <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="0.4868420958518982" green="0.2434210479259491" blue="0.2434210479259491" />
+                     </color>
+                  </Stop>
+               </stops>
+            </RadialGradient>
+         </textFill>
+      </Button>
+      <Button layoutX="14.0" layoutY="189.0" mnemonicParsing="false" prefHeight="57.0" prefWidth="195.0" style="-fx-background-color: transparent;" text="Load">
+         <font>
+            <Font name="System Bold" size="27.0" />
+         </font>
+         <textFill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="0.5263158082962036" green="0.2631579041481018" blue="0.2631579041481018" />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </textFill>
+      </Button>
+   </children>
+</Pane>

@@ -5,7 +5,7 @@ import javafx.scene.image.Image;
  * @author Marc Jubb
  */
 
-public class Poison extends Collectable{
+public class Poison extends Item{
 
     public Poison(int x, int y) {
         super(x, y, "Poison", "/resources/Images/Items/Poison.png");

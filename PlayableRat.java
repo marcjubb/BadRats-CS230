@@ -1,20 +1,17 @@
 import javafx.scene.image.Image;
 
-import java.util.Iterator;
 import java.util.Random;
 
 /* */
 public class PlayableRat extends Rat {
-
+    public enum Sex {MALE, FEMALE}
     static final private int PREGNANCY_DURATION = 9;
-    private enum Sex {MALE, FEMALE}
+
     private Sex sex;
     private boolean isAdult;
     private boolean isPregnant;
     private boolean isSterile;
     private int pregnantTick;
-    private static int numOfMaleRats;
-    private static int numOfFemaleRats;
 
     //3 constructors 1 for new babies at start of game, 1 for new babies after given birth and the other for existed loaded in rats
 
@@ -59,7 +56,6 @@ public class PlayableRat extends Rat {
     public Sex getSex() {
         return sex;
     }
-
     public boolean getIsPregnant() {
         return isPregnant;
     }
@@ -72,13 +68,7 @@ public class PlayableRat extends Rat {
         return isSterile;
     }
 
-    public static int getNumOfMaleRats() {
-        return numOfMaleRats;
-    }
 
-    public static int getNumOfFemaleRats() {
-        return numOfFemaleRats;
-    }
 
     public void incrementTick() {
         if (super.ticksSinceCreation > 4) {
@@ -214,15 +204,7 @@ public class PlayableRat extends Rat {
         }
     }
 
-    public void getNumOfSex(){
-        for(Rat rat: Level.getRatList()){
-            if((rat instanceof PlayableRat) && ((PlayableRat) rat).getSex() == PlayableRat.Sex.MALE ){
-                numOfMaleRats++;
-            }else if((rat instanceof PlayableRat) && ((PlayableRat) rat).getSex() == Sex.FEMALE ){
-                numOfFemaleRats++;
-            }
-        }
-    }
+
 
     @Override
     public String toString() {

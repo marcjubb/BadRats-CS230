@@ -9,21 +9,14 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
-import javafx.scene.control.ContentDisplay;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontPosture;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.TextAlignment;
+import javafx.scene.text.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -34,24 +27,27 @@ import java.util.*;
 /**
  * This class is responsible for running the GUI for the rats game and storing the relevant values to be called.
  *
- * @param <e>
+ * @param <e> the type parameter
  * @author Samuel Griffin, Marc Jubb, Ryan Wake, Gonzalo Mandrión Flores, Aaron Davies,
  */
 public class Level<e> extends Application {
 
 
     // The dimensions of the window
-    private static final int WINDOW_WIDTH = 1000;
-    private static final int WINDOW_HEIGHT = 600;
-    private static final int GRID_WIDTH = 12;
-    private static final int GRID_HEIGHT = 7;
-    // The dimensions of the canvas
-    private static final int CANVAS_WIDTH = 64 * GRID_WIDTH;
-    private static final int CANVAS_HEIGHT = 64 * GRID_HEIGHT;
-
-    // The width and height (in pixels) of each cell that makes up the game.
+    private static  int GRID_WIDTH = 12;
+    private static  int GRID_HEIGHT = 7;
     private static final int GRID_CELL_WIDTH = 64;
     private static final int GRID_CELL_HEIGHT = 64;
+    private static final int CANVAS_WIDTH = GRID_CELL_WIDTH * GRID_WIDTH;
+    private static final int CANVAS_HEIGHT = GRID_CELL_HEIGHT * GRID_HEIGHT;
+    private static final int WINDOW_WIDTH = 400 + CANVAS_WIDTH;
+    private static final int WINDOW_HEIGHT = 200 + CANVAS_HEIGHT;
+
+    // The dimensions of the canvas
+
+
+    // The width and height (in pixels) of each cell that makes up the game.
+
 
     private static ArrayList<Item> items = new ArrayList<>();
     private static ArrayList<Item> currentInventory = new ArrayList<>();
@@ -83,17 +79,17 @@ public class Level<e> extends Application {
     private boolean levelCompleted = false;
     private int currentLevel;
     private boolean gameLost = false;
+    private static int numOfMaleRats;
+    private static int numOfFemaleRats;
 
-    private static int sizeOfLevel;
+
     private static int maxPopulation = 50;
-    private static int ratPopulationRate;
-    private static int secExpected;
-    private static int time;
-    BorderPane root;
-
+    /**
+     * The Player.
+     */
     PlayerProfile player = new PlayerProfile("bob", 0);
     private String saveGame;
-
+private Text nbOfRats = new Text("Number of Rats Alive: "+ Level.getNumOfFemaleRats() + Level.getNumOfMaleRats());
     //Arrays that store the objects on the game board.
     private static ArrayList<Rat> ratList = new ArrayList<>();
     private static ArrayList<Item> itemList = new ArrayList<>();
@@ -109,36 +105,111 @@ public class Level<e> extends Application {
             {'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G'}};
 
 
-    //getters
+    /**
+     * Gets num of male rats.
+     *
+     * @return the num of male rats
+     */
+//getters
+    public static int getNumOfMaleRats() {
+        return numOfMaleRats;
+    }
 
+    /**
+     * Gets num of female rats.
+     *
+     * @return the num of female rats
+     */
+    public static int getNumOfFemaleRats() {
+        return numOfFemaleRats;
+    }
+
+    /**
+     * Gets grid height.
+     *
+     * @return the grid height
+     */
     public static int getGridHeight() {
         return GRID_HEIGHT;
     }
 
+    /**
+     * Gets grid width.
+     *
+     * @return the grid width
+     */
     public static int getGridWidth() {
         return GRID_WIDTH;
     }
 
+    /**
+     * Gets rat list.
+     *
+     * @return the rat list
+     */
     public static ArrayList<Rat> getRatList() {
         return ratList;
     }
 
+    /**
+     * Gets item list.
+     *
+     * @return the item list
+     */
     public static ArrayList<Item> getItemList() {
         return itemList;
     }
 
+    /**
+     * Get level layout character [ ] [ ].
+     *
+     * @return the character [ ] [ ]
+     */
     public static Character[][] getLevelLayout() {
         return levelLayout;
     }
 
+    /**
+     * Gets grid cell height.
+     *
+     * @return the grid cell height
+     */
     public static int getGridCellHeight() {
         return GRID_CELL_HEIGHT;
     }
 
+    /**
+     * Gets rat list size.
+     *
+     * @return the rat list size
+     */
     public static int getRatListSize() {
         return ratList.size();
     }
 
+    /**
+     * Gets playable rat list size.
+     *
+     * @return the playable rat list size
+     */
+    public static int getPlayableRatListSize() {
+
+        return ratList.size();
+    }
+
+    /**
+     * Compute num of sex.
+     */
+    public void computeNumOfSex(){
+        for(Rat rat: Level.getRatList()){
+            if((rat instanceof PlayableRat) && ((PlayableRat) rat).getSex() == PlayableRat.Sex.MALE ){
+                System.out.println("hit");
+                numOfMaleRats++;
+            }else if((rat instanceof PlayableRat) && ((PlayableRat) rat).getSex() == PlayableRat.Sex.FEMALE ){
+                numOfFemaleRats++;
+            }
+        }
+    }
 
     /**
      * Creates a new baby object at the position of the mother when it is called and adds it to the rats arraylist.
@@ -163,17 +234,7 @@ public class Level<e> extends Application {
         // Draw row of dirt images
         // We multiply by the cell width and height to turn a coordinate in our grid into a pixel coordinate.
 
-        for (int x = 0; x < GRID_HEIGHT; x++) {
-            for (int y = 0; y < GRID_WIDTH; y++) {
-                if (levelLayout[x][y] == 'G') {
-                    gc.drawImage(grass, y * GRID_CELL_WIDTH, x * GRID_CELL_HEIGHT);
-                } else if (levelLayout[x][y] == 'T') {
-                    gc.drawImage(tunnel, y * GRID_CELL_WIDTH, x * GRID_CELL_HEIGHT);
-                } else {
-                    gc.drawImage(path, y * GRID_CELL_WIDTH, x * GRID_CELL_HEIGHT);
-                }
-            }
-        }
+        drawMap(gc, GRID_HEIGHT, GRID_WIDTH);
 
         for (Rat rat : ratList) {
             rat.draw(gc);
@@ -211,6 +272,11 @@ public class Level<e> extends Application {
     }
 
 
+    /**
+     * Canvas drag dropped occured.
+     *
+     * @param event the event
+     */
     public void canvasDragDroppedOccured(DragEvent event) {
         int x = Math.floorDiv((int) event.getX(), 64);
         int y = Math.floorDiv((int) event.getY(), 64);
@@ -262,9 +328,15 @@ public class Level<e> extends Application {
 
     private Pane buildGUI() {
         // Create top-level panel that will hold all GUI nodes.
+
         BorderPane root = new BorderPane();
+
         // Create the canvas that we will draw on.
-        // We store this as a global variable so other methods can access it.
+        // We store this as a global variable so other methods can access it
+
+
+
+
         canvas = new Canvas(CANVAS_WIDTH, CANVAS_HEIGHT);
         root.setCenter(canvas);
         // Create a toolbar with some nice padding and spacing
@@ -272,7 +344,7 @@ public class Level<e> extends Application {
         toolbar.setSpacing(10);
         toolbar.setPadding(new Insets(10, 10, 10, 10));
         root.setTop(toolbar);
-
+        root.setBottom(addHBox());
 
         //Button to load the level
         Button btnLoadLevel = new Button("Load Level");
@@ -285,6 +357,8 @@ public class Level<e> extends Application {
         toolbar.getChildren().addAll(startTickTimelineButton, stopTickTimelineButton, btnLoadLevel, btnSaveLevel);
         // Stop button is disabled by default
         stopTickTimelineButton.setDisable(true);
+
+
 
 
         // Setup the behaviour of the buttons.
@@ -347,19 +421,7 @@ public class Level<e> extends Application {
                     gc.setFill(Color.GRAY); // Set the background to gray.
                     gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
-                    for (int x = 0; x < gridHeight; x++) {
-                        for (int y = 0; y < gridWidth; y++) {
-                            if (levelLayout[x][y] == 'G') {
-                                gc.drawImage(grass, y * GRID_CELL_WIDTH, x * GRID_CELL_HEIGHT);
-
-                            } else if (levelLayout[x][y] == 'T') {
-                                gc.drawImage(tunnel, y * GRID_CELL_WIDTH, x * GRID_CELL_HEIGHT);
-
-                            } else {
-                                gc.drawImage(path, y * GRID_CELL_WIDTH, x * GRID_CELL_HEIGHT);
-                            }
-                        }
-                    }
+                    drawMap(gc, gridHeight, gridWidth);
                     br.close();
                 } catch (IOException ex) {
                     System.out.print("Error");
@@ -576,15 +638,42 @@ public class Level<e> extends Application {
         });
         return root;
     }
+    private HBox addHBox() {
+        HBox hbox = new HBox();
+        hbox.setPadding(new Insets(15, 12, 15, 12));
+        hbox.setSpacing(10);
+
+        nbOfRats.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+        hbox.getChildren().add(nbOfRats);
+
+        return hbox;
+    }
+    private void drawMap(GraphicsContext gc, int gridHeight, int gridWidth) {
+        for (int x = 0; x < gridHeight; x++) {
+            for (int y = 0; y < gridWidth; y++) {
+                if (levelLayout[x][y] == 'G') {
+                    gc.drawImage(grass, y * GRID_CELL_WIDTH, x * GRID_CELL_HEIGHT);
+
+                } else if (levelLayout[x][y] == 'T') {
+                    gc.drawImage(tunnel, y * GRID_CELL_WIDTH, x * GRID_CELL_HEIGHT);
+
+                } else {
+                    gc.drawImage(path, y * GRID_CELL_WIDTH, x * GRID_CELL_HEIGHT);
+                }
+            }
+        }
+    }
 
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        primaryStage.setTitle("Bad Rats");
+
         tickCount = 0;
         for (int i = 0; i < 4; i++) {
             ratList.add(new PlayableRat());
         }
-
+        computeNumOfSex();
         for (Rat rat : ratList) {
             rat.setImageDirection();
         }
@@ -639,6 +728,7 @@ public class Level<e> extends Application {
      */
     public void tick() {
 
+
         gameStatus();
 
         if (tickCount % 10 == 0) {
@@ -684,14 +774,10 @@ public class Level<e> extends Application {
         }
 
 
-        Iterator<Rat> iteratorRat2 = ratList.listIterator();
-        while (iteratorRat2.hasNext()) {
-            Rat rat = iteratorRat2.next();
-            if (rat.isDestroyed()) { //checks if item should be destroyed
-                iteratorRat2.remove(); //destroys rat
-            }
-        }
 
+            //checks if item should be destroyed
+            //destroys rat
+            ratList.removeIf(VisibleObject::isDestroyed);
         Iterator<Item> iteratorItem = itemList.listIterator();
         while (iteratorItem.hasNext()) {
             Item item = iteratorItem.next();
@@ -700,11 +786,17 @@ public class Level<e> extends Application {
                 iteratorItem.remove(); //destroys item
             }
         }
+
+        System.out.println("count" + Level.getNumOfMaleRats());
+        nbOfRats = new Text("Number of Rats Alive: "+ Level.getNumOfMaleRats() + Level.getNumOfMaleRats());
         // We then redraw the whole canvas.
         drawGame();
 
     }
 
+    /**
+     * Game status.
+     */
     public void gameStatus() {
         int numberOfDeathRatItems = 0;
         for (Item item : itemList) {
@@ -720,7 +812,7 @@ public class Level<e> extends Application {
             levelEndScreen();
             if (player.getMaxLevelCompleted() < this.currentLevel) {
                 player.setMaxLevelCompleted(currentLevel);
-                PlayerProfiles.save(player);
+              /*  PlayerProfiles.save(player);*/
             }
         } else if (totalNumOfRats >= maxPopulation) {
             gameLost = true;
@@ -745,6 +837,11 @@ public class Level<e> extends Application {
     //private void LevelSelect()
     //private String Load()
 
+    /**
+     * Temp save.
+     *
+     * @throws IOException the io exception
+     */
     public void tempSave() throws IOException {
         //Data persistence section, call in tick, dont get how were saving file.
         Saver saver = new Saver();
@@ -757,6 +854,11 @@ public class Level<e> extends Application {
 
     }
 
+    /**
+     * The entry point of application.
+     *
+     * @param args the input arguments
+     */
     public static void main(String[] args) {
         launch(args);
     }

@@ -5,7 +5,7 @@ import javafx.scene.image.Image;
  * @author Michael Pokorski
  */
 
-public class MaleSexChange extends Collectable{
+public class MaleSexChange extends Item{
 
     public MaleSexChange(int x, int y) {
         super(x, y, "MaleSexChange", "/resources/Images/Items/MaleSexChange.png");
