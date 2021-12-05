@@ -87,7 +87,7 @@ public class Level extends Application {
 
     private static int maxPopulation = 10;
     private static Inventory inv = new Inventory();
-    private static int ticksExpected;
+    private static int ticksExpected = 100;
     private static BorderPane root;
 
 
@@ -303,6 +303,46 @@ public class Level extends Application {
 
     }
 
+    public static void saveGame(){
+        File outputFile = new File ("level"+currentLevel+".txt");
+        try {
+            outputFile.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        PrintWriter out = null;
+        try{
+            out = new PrintWriter(outputFile);
+        } catch (FileNotFoundException e){
+            System.out.println("Problem opening file");
+            System.exit(0);
+        }
+        out.println(gridWidth + ", " + gridHeight);
+        String levelLayoutAsString = Arrays.deepToString(levelLayout);
+
+        levelLayoutAsString = levelLayoutAsString
+                .replace(",", "")  //remove the commas
+                .replace("[", "")  //remove the right bracket
+                .replace("]", "\n") //remove the left bracket and lane break
+                .replace(" ", "");
+
+        out.println(levelLayoutAsString);
+        out.println(ticksExpected);
+        out.println(tickCount);
+        for (Rat rat: ratList) {
+            out.println(rat.toString());
+
+        }
+        for (Item item: itemList) {
+            out.println(item.toString());
+        }
+        out.println(frequencyOfNewItem);
+        out.println(maxPopulation);
+
+
+        out.close();
+    }
+
 
     /**
      * Canvas drag dropped occured.
@@ -415,7 +455,9 @@ public class Level extends Application {
             startTickTimelineButton.setDisable(false);
         });
 
-
+        btnSaveLevel.setOnAction(e ->{
+            saveGame();
+        });
 
         // Setup a draggable image.
         ImageView dragBomb = new ImageView();
@@ -593,14 +635,11 @@ public class Level extends Application {
         FileReader fr = new FileReader(txtFile);
         System.out.println(txtFile);
         try {
-            System.out.println(gridWidth);
             // create a reader instance
             BufferedReader br = new BufferedReader(fr);
-            System.out.println("n");
             //Collect size of the layout
             Scanner sc = new Scanner(txtFile);
             String[] dataLevelFile = sc.nextLine().split(",");
-            System.out.println("f");
             //Start counting seconds once game is loaded
             //TimeSeconds time = new TimeSeconds();
             //time.StartCount();
