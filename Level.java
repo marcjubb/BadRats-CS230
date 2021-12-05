@@ -426,13 +426,36 @@ public class Level<e> extends Application {
                     //Collect size of the layout
                     Scanner sc = new Scanner(file);
                     String[] dataLevelFile = sc.nextLine().split(",");
+                   
+                    //Start counting seconds once game is loaded
+                    //TimeSeconds time = new TimeSeconds();
+                    //time.StartCount();
+                    
+                    int secondsExpected = 0;
+                    int maxPopulationRats= 0;
+                    while (sc.hasNextInt()) {
+                        secondsExpected = sc.nextInt();
+                        maxPopulationRats = sc.nextInt();
+                    }
                     int gridHeight = Integer.parseInt(dataLevelFile[1]);
                     int gridWidth = Integer.parseInt(dataLevelFile[0]);
+                    System.out.println(gridWidth);
+                    System.out.println(gridHeight);
+                    System.out.println(secondsExpected);
+                    System.out.println(maxPopulationRats);
+                    
+                    //PlayableRat dataRatLevel = new PlayableRat();
+                    //String t = dataRatLevel.toString();
+                    //System.out.println(t);
+                    //giveBirth(1, 2);
+                    //dataRatLevel.checkPregnancy();
 
                     //Collect the tiles variables
                     ArrayList<ArrayList<Character>> fileLevelLayout = new ArrayList<>();
                     String line;
-                    br.readLine(); //skip first line
+                    br.readLine(); // skip first line
+                    br.readLine(); // skip second line
+                    br.readLine(); // skip third line
                     // read until end of file
                     while ((line = br.readLine()) != null) {
 
