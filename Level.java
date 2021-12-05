@@ -303,6 +303,73 @@ public class Level extends Application {
 
     }
 
+    public static void loadExisting(){
+        String filename = "level1.txt";
+        File inputFile = new File(filename);
+        Scanner in = null;
+        try{
+            in = new Scanner(inputFile);
+        } catch (FileNotFoundException e) {
+            System.out.println("Cannot open " + filename);
+            System.exit(0);
+        }
+
+
+        String line = (in.nextLine());
+        String[] widthAndHeight = line.split(", ");
+        gridWidth = Integer.parseInt(widthAndHeight[0]);
+        gridHeight = Integer.parseInt(widthAndHeight[1]);
+        ArrayList<ArrayList<Character>> fileLevelLayout = new ArrayList<>();
+        ArrayList<Character> chars = new ArrayList<Character>();
+        while (!in.nextLine().equals("")) {
+            for (char c : in.nextLine().toCharArray()) {
+                chars.add(c);
+            }
+            fileLevelLayout.add(chars);
+        }
+        levelLayout = fileLevelLayout.stream().map(u -> u.toArray(new Character[0])).toArray(Character[][]::new);
+        System.out.println(Arrays.deepToString(fileLevelLayout.stream().map(u -> u.toArray(new Character[0])).toArray(Character[][]::new)));
+        in.nextLine();
+        in.nextLine();
+        line = in.nextLine();
+        Scanner lineReader = new Scanner(line);
+        lineReader.useDelimiter(";");
+        while (lineReader.hasNext()){
+            String[] ratData = lineReader.next().split(", ");
+            if (ratData[0].equals("PlayableRat")){
+                int x = Integer.parseInt(ratData[1]);
+                int y = Integer.parseInt(ratData[2]);
+                int ticksSinceCreation = Integer.parseInt(ratData[3]);
+                Rat.Direction direction = Rat.Direction.valueOf(ratData[4]);
+                PlayableRat.Sex sex = PlayableRat.Sex.valueOf((ratData[5]));
+                boolean isAdult = Boolean.parseBoolean(ratData[6]);
+                boolean isPregnant = Boolean.parseBoolean(ratData[7]);
+                int pregnantTick = Integer.parseInt(ratData[8]);
+                boolean isSterile = Boolean.parseBoolean(ratData[9]);
+                //ratList.add(new PlayableRat(x, y, isAdult, isPregnant, sex, ticksSinceCreation, direction, pregnantTick, isSterile));
+                Rat rat = new PlayableRat(x, y, isAdult, isPregnant, sex, ticksSinceCreation, direction, pregnantTick, isSterile);
+                System.out.println(rat.toString());
+            } else if(ratData[0].equals("DeathRat")){
+                int x = Integer.parseInt(ratData[1]);
+                int y = Integer.parseInt(ratData[2]);
+                int ticksSinceCreation = Integer.parseInt(ratData[3]);
+                Rat.Direction direction = Rat.Direction.valueOf(ratData[4]);
+                int currentKillCount = Integer.parseInt(ratData[5]);
+                DeathRat rat = new DeathRat(x, y, ticksSinceCreation, currentKillCount, direction);
+                System.out.println(rat.toString());
+            }
+
+        }
+
+
+
+
+
+
+
+
+    }
+
     public static void saveGame(){
         File outputFile = new File ("level"+currentLevel+".txt");
         try {
@@ -330,12 +397,13 @@ public class Level extends Application {
         out.println(ticksExpected);
         out.println(tickCount);
         for (Rat rat: ratList) {
-            out.println(rat.toString());
-
+            out.print(rat.toString()+ ";");
         }
+        out.println();
         for (Item item: itemList) {
-            out.println(item.toString());
+            out.print(item.toString()+ ";");
         }
+        out.println();
         out.println(frequencyOfNewItem);
         out.println(maxPopulation);
 
@@ -458,6 +526,11 @@ public class Level extends Application {
         btnSaveLevel.setOnAction(e ->{
             saveGame();
         });
+
+        btnLoadLevel.setOnAction(e ->{
+            loadExisting();
+        });
+
 
         //Save the variables board into a .txt file 
 //        btnSaveLevel.setOnAction(e -> {

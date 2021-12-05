@@ -13,7 +13,7 @@ public abstract class Rat extends VisibleObject {
     protected int speed;
     private int ticksInGas;
 
-    protected enum Direction {NORTH, SOUTH, EAST, WEST}
+    public enum Direction {NORTH, SOUTH, EAST, WEST}
 
     protected Direction direction;
     protected Item item;
@@ -429,6 +429,6 @@ public abstract class Rat extends VisibleObject {
      * @return data that would need to be saved to the file.
      */
     public String toString() {
-        return x + ", " + y + ", "+ ticksSinceCreation;
+        return x + ", " + y + ", "+ ticksSinceCreation + ", " + direction;
     }
 }
