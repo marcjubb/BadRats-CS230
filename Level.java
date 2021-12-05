@@ -276,6 +276,7 @@ public class Level<e> extends Application {
         getNumOfSex();
 
         gc.clearRect(0, 0, canvasCounters.getWidth(), canvasCounters.getHeight());
+        gc.fillText("Max number of rats: " + maxPopulation, 80, 10);
         gc.fillText("Score: " + score, 80, 30);
         gc.fillText("Rats Remaining: " + getRatListSize(), 80, 50);
         gc.fillText("Males Remaining: " + numOfMaleRats, 80, 70);
@@ -285,21 +286,21 @@ public class Level<e> extends Application {
 
         GraphicsContext gc = canvasCounters.getGraphicsContext2D();
         gc.fillText("Number of Bomb Items: " + inv.getNumOfBombItems(),
-                80, 110 );
+                80, 120 );
         gc.fillText("Number of Male Sex Change Items: " + inv.getNumOfMaleSexChangeItems(),
-                80 , 130 );
+                80 , 140 );
         gc.fillText("Number of Female Sex Change Items: " + inv.getNumOfFemaleSexChangeItems(),
-                80 , 150 );
+                80 , 160 );
         gc.fillText("Number of Gas Items: " + inv.getNumOfGasItems(),
-                80, 170);
+                80, 180);
         gc.fillText("Number of Poison Items: " + inv.getNumOfPoisonItems(),
-                80,190);
+                80,200);
         gc.fillText("Number of Sterilise Items: " + inv.getNumOfSterilisationItems(),
-                80, 210 );
+                80, 220 );
         gc.fillText("Number of Death Rat Items: " + inv.getNumOfDeathRatItems(),
-                80, 230 );
+                80, 240 );
         gc.fillText("Number of No Entry Sign Items: " + inv.getNumOfNoEntrySignItems(),
-                80, 250 );
+                80, 260 );
 
 
     }
