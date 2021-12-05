@@ -11,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
@@ -18,6 +19,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.*;
+import javafx.stage.PopupWindow;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -28,6 +30,7 @@ import java.util.*;
  * This class is responsible for running the GUI for the rats game and storing the relevant values to be called.
  *
  * @author Samuel Griffin, Marc Jubb, Ryan Wake, Gonzalo Mandrión Flores, Aaron Davies, Alex Walker
+ *
  */
 public class Level extends Application {
 
@@ -43,8 +46,8 @@ public class Level extends Application {
     private static final int CANVAS_HEIGHT = GRID_CELL_HEIGHT * gridHeight;
     private static final int WINDOW_WIDTH = 400 + CANVAS_WIDTH;
     private static final int WINDOW_HEIGHT = 200 + CANVAS_HEIGHT;
-    private static Stage primaryStage;
     private static Canvas canvas;
+
 
 
     // The dimensions of the canvas
@@ -89,7 +92,9 @@ public class Level extends Application {
     private static Inventory inv = new Inventory();
     private static int ticksExpected;
     private static BorderPane root;
-
+    private static Stage loginStage = new Stage();
+    private static Stage createUserStage = new Stage();
+    private static Stage menuStage = new Stage();
 
 
 
@@ -702,9 +707,10 @@ public class Level extends Application {
         tickTimeline.setCycleCount(Animation.INDEFINITE);
         // We start the timeline upon a button press.
 
-        //Load menu
+        //Load menu]
 
-        drawMenu();
+        drawLogin();
+       /* drawMenu();*/
         buildGUI();
         drawGame();
         drawCounters();
@@ -743,6 +749,19 @@ public class Level extends Application {
         secondaryStage.setScene(scene);
         secondaryStage.show();
         loadLevelFile(4);
+    }
+    public static void createAccountWindow() throws IOException {
+        Parent rooter = FXMLLoader.load(Objects.requireNonNull(Level.class.getResource("CreateAccount.fxml")));
+        Scene createUser = new Scene(rooter);
+        createUserStage.setScene(createUser);
+        createUserStage.show();
+    }
+    public static void closeLogin(){
+        loginStage.hide();
+    }
+
+    public static void closeCreateUser(){
+        createUserStage.hide();
     }
 
     /**
@@ -859,7 +878,7 @@ public class Level extends Application {
             tickTimeline.stop();
             score += ticksExpected - tickCount;
             levelEndScreen();
-            if (player.getMaxLevelCompleted() < this.currentLevel) {
+            if (player.getMaxLevelCompleted() < currentLevel) {
                 player.setMaxLevelCompleted(currentLevel);
             }
         } else if (totalNumOfRats > maxPopulation) {
@@ -869,13 +888,18 @@ public class Level extends Application {
         }
     }
 
-
-    public void drawMenu() throws IOException {
-        Parent rooter = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Menu.fxml")));
+    public static void drawMenu() throws IOException {
+        Parent rooter = FXMLLoader.load(Objects.requireNonNull(Level.class.getResource("Menu.fxml")));
         Scene menu = new Scene(rooter);
-        Stage menuStage = new Stage();
         menuStage.setScene(menu);
         menuStage.show();
+    }
+    public void drawLogin() throws IOException {
+        Parent loginRoot = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Login.fxml")));
+        Scene login = new Scene(loginRoot);
+
+        loginStage.setScene(login);
+        loginStage.show();
     }
 
     /**
