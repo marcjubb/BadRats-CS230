@@ -278,7 +278,24 @@ public class Level<e> extends Application {
         gc.fillText("Males Remaining: " + numOfMaleRats, 80, 70);
         gc.fillText("Females Remaining: " + numOfFemaleRats, 80, 90);
     }
+    public void drawInv() {
+        Inventory inv = new Inventory();
+        GraphicsContext gc = canvasCounters.getGraphicsContext2D();
 
+        gc.fillText("Number of Bomb Items:" + inv.getNumOfBombItems(),
+                CANVAS_WIDTH - 300, CANVAS_HEIGHT - 250 );
+        gc.fillText("Number of Bomb Items:" + inv.getNumOfBombItems(),
+                CANVAS_WIDTH - 300, CANVAS_HEIGHT - 250 );
+        gc.fillText("Number of Bomb Items:" + inv.getNumOfBombItems(),
+                CANVAS_WIDTH - 300, CANVAS_HEIGHT - 250 );
+        gc.fillText("Number of Bomb Items:" + inv.getNumOfBombItems(),
+                CANVAS_WIDTH - 300, CANVAS_HEIGHT - 250 );
+        gc.fillText("Number of Bomb Items:" + inv.getNumOfBombItems(),
+                CANVAS_WIDTH - 300, CANVAS_HEIGHT - 250 );
+        gc.fillText("Number of Bomb Items:" + inv.getNumOfBombItems(),
+                CANVAS_WIDTH - 300, CANVAS_HEIGHT - 250 );
+
+    }
 
 
     /**
