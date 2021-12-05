@@ -7,12 +7,17 @@ import java.util.Iterator;
  * This Class represents a DeathRat in the game.
  * @author Samuel Griffin and Ryan Wake
  */
- 
 public class DeathRat extends Rat {
     private int numCollisions = 0;
-    static final private int MAX_KILL_COUNT = 5;
+    static final private int MAX_KILL_COUNT = 7;
     private int currentKillCount;
 
+    /**
+     * Creates a rat object
+     * @param x
+     * @param y
+     * @param currentKillCount
+     */
     public DeathRat(int x, int y, int currentKillCount) {
         super.x = x;
         super.y = y;
@@ -22,16 +27,12 @@ public class DeathRat extends Rat {
         this.currentKillCount = currentKillCount;
     }
 
-//i was thinking it might be better to remove rats like we do items - just set them as to be destroyed and then just remove those
     public void checkCollisions() {
-        Iterator<Rat> iterator = Level.getRatList().listIterator();
-        while (iterator.hasNext()) {
-            Rat rat = iterator.next();
+        for (Rat rat : Level.getRatList()) {
             if (rat.getX() == x && rat.getY() == y && rat != this) {
-                //iterator.remove();
                 rat.setDestroyed(true);
                 currentKillCount++;
-                if (currentKillCount >= MAX_KILL_COUNT){
+                if (currentKillCount >= MAX_KILL_COUNT) {
                     this.setDestroyed(true);
                 }
             }
