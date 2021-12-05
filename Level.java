@@ -491,6 +491,7 @@ public class Level<e> extends Application {
                     br.readLine(); // skip first line
                     br.readLine(); // skip second line
                     br.readLine(); // skip third line
+                    //br.readLine(); // skip line
                     // read until end of file
                     while ((line = br.readLine()) != null) {
 
@@ -546,8 +547,23 @@ public class Level<e> extends Application {
                         .replace("[", "")  //remove the right bracket
                         .replace("]", "\n") //remove the left bracket and lane break
                         .replace(" ", "");
-                //needs to include rats/items data and get the correct seconds expected
-                saveLevel.saveLevelFile(GRID_WIDTH + "," + GRID_HEIGHT, 10, maxPopulation, levelFormatted, file);
+                String babyRatsFormatted = ratList.toString()
+                        .replace("PlayableRat", "")
+                        .replace(",", " ")
+                        .replace("[", "")
+                        .replace("]", "\n")
+                        .replace("false", "")
+                        .replace("true", "")
+                        .replace(" ", "");
+                String itemsFormatted = itemList.toString()
+                        .replace("[", "")
+                        .replace(", ", " ")
+                        .replace("]", "");
+                //needs to include rats/items data correctly formatted and get the correct seconds expected
+                saveLevel.saveLevelFile(GRID_WIDTH + "," + GRID_HEIGHT, 10, maxPopulation, babyRatsFormatted, itemsFormatted, levelFormatted, file);
+                System.out.println(ratList.toString());
+                System.out.println(itemsFormatted);
+                System.out.println(itemList.toString());
             }
         });
 
