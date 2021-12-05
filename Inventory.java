@@ -123,6 +123,8 @@ public class Inventory {
         numberOfEachItem();
         int rnd = new Random().nextInt(numAvaliable);
 
+        //I don't think you can use the itemList as it would mess with collisions if you are adding things to it
+        //unless this is how they are placed on the board?
         Iterator<Item> iteratorItem = Level.getItemList().listIterator();
         while (iteratorItem.hasNext()) {
             Item item = iteratorItem.next();

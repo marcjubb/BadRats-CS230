@@ -90,6 +90,7 @@ public class Level<e> extends Application {
 
 
     private static int maxPopulation = 4;
+    private static Inventory inv = new Inventory();
 
 
 
@@ -228,7 +229,6 @@ public class Level<e> extends Application {
     public void computeNumOfSex() {
         for(Rat rat: Level.getRatList()) {
             if((rat instanceof PlayableRat) && ((PlayableRat) rat).getSex() == PlayableRat.Sex.MALE ){
-                System.out.println("hit");
                 numOfMaleRats++;
             }else if((rat instanceof PlayableRat) && ((PlayableRat) rat).getSex() == PlayableRat.Sex.FEMALE ) {
                 numOfFemaleRats++;
@@ -282,21 +282,24 @@ public class Level<e> extends Application {
         gc.fillText("Females Remaining: " + numOfFemaleRats, 80, 90);
     }
     public void drawInv() {
-        Inventory inv = new Inventory();
-        GraphicsContext gc = canvasCounters.getGraphicsContext2D();
 
-        gc.fillText("Number of Bomb Items:" + inv.getNumOfBombItems(),
-                CANVAS_WIDTH - 300, CANVAS_HEIGHT - 250 );
-        gc.fillText("Number of Bomb Items:" + inv.getNumOfBombItems(),
-                CANVAS_WIDTH - 300, CANVAS_HEIGHT - 250 );
-        gc.fillText("Number of Bomb Items:" + inv.getNumOfBombItems(),
-                CANVAS_WIDTH - 300, CANVAS_HEIGHT - 250 );
-        gc.fillText("Number of Bomb Items:" + inv.getNumOfBombItems(),
-                CANVAS_WIDTH - 300, CANVAS_HEIGHT - 250 );
-        gc.fillText("Number of Bomb Items:" + inv.getNumOfBombItems(),
-                CANVAS_WIDTH - 300, CANVAS_HEIGHT - 250 );
-        gc.fillText("Number of Bomb Items:" + inv.getNumOfBombItems(),
-                CANVAS_WIDTH - 300, CANVAS_HEIGHT - 250 );
+        GraphicsContext gc = canvasCounters.getGraphicsContext2D();
+        gc.fillText("Number of Bomb Items: " + inv.getNumOfBombItems(),
+                80, 110 );
+        gc.fillText("Number of Male Sex Change Items: " + inv.getNumOfMaleSexChangeItems(),
+                80 , 130 );
+        gc.fillText("Number of Female Sex Change Items: " + inv.getNumOfFemaleSexChangeItems(),
+                80 , 150 );
+        gc.fillText("Number of Gas Items: " + inv.getNumOfGasItems(),
+                80, 170);
+        gc.fillText("Number of Poison Items: " + inv.getNumOfPoisonItems(),
+                80,190);
+        gc.fillText("Number of Sterilise Items: " + inv.getNumOfSterilisationItems(),
+                80, 210 );
+        gc.fillText("Number of Death Rat Items: " + inv.getNumOfDeathRatItems(),
+                80, 230 );
+        gc.fillText("Number of No Entry Sign Items: " + inv.getNumOfNoEntrySignItems(),
+                80, 250 );
 
 
     }
@@ -354,9 +357,13 @@ public class Level<e> extends Application {
 
 
     private void addRandomItem() {
-        Random r = new Random();
-        int i = r.nextInt(items.size());
-        currentInventory.add(items.get(i));
+//        Random r = new Random();
+//        int i = r.nextInt(items.size());
+//        currentInventory.add(items.get(i));
+
+
+
+
     }
 
     private Pane buildGUI() {
@@ -374,7 +381,7 @@ public class Level<e> extends Application {
         canvasCounters = new Canvas(CANVAS_WIDTH, 256);
         root.setBottom(canvasCounters);
 
-        sidebarCanvas = new Canvas(0, 0);
+        sidebarCanvas = new Canvas(200, 200);
         root.setLeft(sidebarCanvas);
 
         // Create a toolbar with some nice padding and spacing
@@ -855,7 +862,7 @@ public class Level<e> extends Application {
             // We then redraw the whole canvas.
             drawGame();
             drawCounters();
-            //drawItemSideBar();
+            drawInv();
         }
 
 
