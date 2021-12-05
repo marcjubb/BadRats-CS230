@@ -324,29 +324,37 @@ public class Level<e> extends Application {
 
         if (!itemAlreadyPlaced){
             if (levelLayout[y][x] == 'P') {
-                if (Objects.equals(event.getDragboard().getString(), "Bomb")) {
+                if (Objects.equals(event.getDragboard().getString(), "Bomb") && inv.getNumOfBombItems()> 0)  {
                     itemList.add(itemList.size(), new Bomb(x, y));
+                    inv.decrementBomb();
                     gc.drawImage(bomb, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
-                } else if (Objects.equals(event.getDragboard().getString(), "MaleSexChange")) {
+                } else if (Objects.equals(event.getDragboard().getString(), "MaleSexChange") && inv.getNumOfMaleSexChangeItems() > 0) {
                     itemList.add(itemList.size(), new MaleSexChange(x, y));
+                    inv.decrementMaleSexChange();
                     gc.drawImage(maleSexChange, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
-                } else if (Objects.equals(event.getDragboard().getString(), "FemaleSexChange")) {
+                } else if (Objects.equals(event.getDragboard().getString(), "FemaleSexChange") && inv.getNumOfFemaleSexChangeItems() > 0) {
                     itemList.add(itemList.size(), new FemaleSexChange(x, y));
+                    inv.decrementFemaleSexChange();
                     gc.drawImage(femaleSexChange, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
-                } else if (Objects.equals(event.getDragboard().getString(), "Gas")) {
+                } else if (Objects.equals(event.getDragboard().getString(), "Gas") && inv.getNumOfGasItems() > 0) {
                     itemList.add(itemList.size(), new Gas(x, y));
+                    inv.decrementGas();
                     gc.drawImage(gas, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
-                } else if (Objects.equals(event.getDragboard().getString(), "Poison")) {
+                } else if (Objects.equals(event.getDragboard().getString(), "Poison") && inv.getNumOfPoisonItems() > 0) {
                     itemList.add(itemList.size(), new Poison(x, y));
+                    inv.decrementPoison();
                     gc.drawImage(poison, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
-                } else if (Objects.equals(event.getDragboard().getString(), "NoEntry")) {
+                } else if (Objects.equals(event.getDragboard().getString(), "NoEntry") && inv.getNumOfNoEntrySignItems() > 0) {
                     itemList.add(itemList.size(), new NoEntrySign(x, y));
+                    inv.decrementNoEntrySign();
                     gc.drawImage(noEntry, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
-                } else if (Objects.equals(event.getDragboard().getString(), "Sterilisation")) {
+                } else if (Objects.equals(event.getDragboard().getString(), "Sterilisation") && inv.getNumOfSterilisationItems() > 0) {
                     itemList.add(itemList.size(), new Sterilisation(x, y));
+                    inv.decrementSterilisation();
                     gc.drawImage(sterilisation, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
-                } else {
+                } else if (Objects.equals(event.getDragboard().getString(), "DeathRat") && inv.getNumOfDeathRatItems() > 0){
                     itemList.add(itemList.size(), new DeathRatItem(x, y));
+                    inv.decrementDeathRat();
                     gc.drawImage(deathRat, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
                 }
             }
@@ -755,6 +763,8 @@ public class Level<e> extends Application {
         //Load menu
         //drawMenu();
         drawGame();
+        drawCounters();
+        drawInv();
         primaryStage.setScene(scene);
         primaryStage.show();
         //drawGame moved to Play
@@ -775,8 +785,14 @@ public class Level<e> extends Application {
             if (tickCount % 10 == 0) {
                 addRandomItem();
             }
+
+            if((tickCount % 5) == 0){
+               inv.addItem();
+            }
 //
             tickCount++;
+
+
             // Here we move the player right one cell and teleport
             // them back to the left side when they reach the right side.
 
