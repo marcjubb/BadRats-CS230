@@ -1,8 +1,13 @@
-import java.util.Iterator;
 import java.util.Random;
 //Might be useful
+
+/**
+ * This class represents the items the player has in their inventory.
+ * @author Samuel Griffin, Ryan Wake
+ */
 public class Inventory {
 
+    private static final int MAX_OF_ITEM = 4;
     private int numOfDeathRatItems;
     private int numOfGasItems;
     private int numOfPoisonItems;
@@ -148,7 +153,7 @@ public class Inventory {
         }
     }
     public void addItem() {
-        numberOfEachItem();
+       // numberOfEachItem();
         int rnd = new Random().nextInt(numAvaliable);
 
         //I don't think you can use the itemList as it would mess with collisions if you are adding things to it
