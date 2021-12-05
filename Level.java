@@ -459,6 +459,38 @@ public class Level extends Application {
             saveGame();
         });
 
+        //Save the variables board into a .txt file 
+//        btnSaveLevel.setOnAction(e -> {
+//            Saver saveLevel = new Saver(); //Get save function from Saver class
+//            FileChooser fileChooser = new FileChooser();
+//
+//            //Set extension filter for text files
+//            FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
+//            fileChooser.getExtensionFilters().add(extFilter);
+//
+//            String levelFormatted = Arrays.deepToString(levelLayout)
+//                    .replace(",", "")  //remove the commas
+//                    .replace("[", "")  //remove the right bracket
+//                    .replace("]", "\n") //remove the left bracket and lane break
+//                    .replace(" ", "");
+//            String babyRatsFormatted = ratList.toString()
+//                    .replace("[PlayableRat, ", "")
+//                    .replace("PlayableRat,", "")
+//                    .replace("]", "\n");
+//            String itemsFormatted = itemList.toString()
+//                    .replace("[", "")
+//                    .replace(", ", " ")
+//                    .replace("]", "");
+//
+//            //needs to include items data correctly formatted
+//            saveLevel.saveLevelFile(gridHeight + "," + gridWidth, tickCount, maxPopulation, babyRatsFormatted, itemsFormatted, levelFormatted);
+//            System.out.println("Saved");
+//            //System.out.println(ratList.toString());
+//            //System.out.println(itemsFormatted);
+//            //System.out.println(itemList.toString());
+//        });
+
+
         // Setup a draggable image.
         ImageView dragBomb = new ImageView();
         ImageView dragMaleGender = new ImageView();
