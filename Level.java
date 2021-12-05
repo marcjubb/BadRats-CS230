@@ -90,7 +90,7 @@ public class Level extends Application {
 
     private static int maxPopulation = 10;
     private static Inventory inv = new Inventory();
-    private static int ticksExpected;
+    private static int ticksExpected = 100;
     private static BorderPane root;
     private static Stage loginStage = new Stage();
     private static Stage createUserStage = new Stage();
@@ -308,6 +308,46 @@ public class Level extends Application {
 
     }
 
+    public static void saveGame(){
+        File outputFile = new File ("level"+currentLevel+".txt");
+        try {
+            outputFile.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        PrintWriter out = null;
+        try{
+            out = new PrintWriter(outputFile);
+        } catch (FileNotFoundException e){
+            System.out.println("Problem opening file");
+            System.exit(0);
+        }
+        out.println(gridWidth + ", " + gridHeight);
+        String levelLayoutAsString = Arrays.deepToString(levelLayout);
+
+        levelLayoutAsString = levelLayoutAsString
+                .replace(",", "")  //remove the commas
+                .replace("[", "")  //remove the right bracket
+                .replace("]", "\n") //remove the left bracket and lane break
+                .replace(" ", "");
+
+        out.println(levelLayoutAsString);
+        out.println(ticksExpected);
+        out.println(tickCount);
+        for (Rat rat: ratList) {
+            out.println(rat.toString());
+
+        }
+        for (Item item: itemList) {
+            out.println(item.toString());
+        }
+        out.println(frequencyOfNewItem);
+        out.println(maxPopulation);
+
+
+        out.close();
+    }
+
 
     /**
      * Canvas drag dropped occured.
@@ -420,6 +460,40 @@ public class Level extends Application {
             startTickTimelineButton.setDisable(false);
         });
 
+        btnSaveLevel.setOnAction(e ->{
+            saveGame();
+        });
+
+        //Save the variables board into a .txt file 
+//        btnSaveLevel.setOnAction(e -> {
+//            Saver saveLevel = new Saver(); //Get save function from Saver class
+//            FileChooser fileChooser = new FileChooser();
+//
+//            //Set extension filter for text files
+//            FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
+//            fileChooser.getExtensionFilters().add(extFilter);
+//
+//            String levelFormatted = Arrays.deepToString(levelLayout)
+//                    .replace(",", "")  //remove the commas
+//                    .replace("[", "")  //remove the right bracket
+//                    .replace("]", "\n") //remove the left bracket and lane break
+//                    .replace(" ", "");
+//            String babyRatsFormatted = ratList.toString()
+//                    .replace("[PlayableRat, ", "")
+//                    .replace("PlayableRat,", "")
+//                    .replace("]", "\n");
+//            String itemsFormatted = itemList.toString()
+//                    .replace("[", "")
+//                    .replace(", ", " ")
+//                    .replace("]", "");
+//
+//            //needs to include items data correctly formatted
+//            saveLevel.saveLevelFile(gridHeight + "," + gridWidth, tickCount, maxPopulation, babyRatsFormatted, itemsFormatted, levelFormatted);
+//            System.out.println("Saved");
+//            //System.out.println(ratList.toString());
+//            //System.out.println(itemsFormatted);
+//            //System.out.println(itemList.toString());
+//        });
 
 
         // Setup a draggable image.
@@ -598,14 +672,11 @@ public class Level extends Application {
         FileReader fr = new FileReader(txtFile);
         System.out.println(txtFile);
         try {
-            System.out.println(gridWidth);
             // create a reader instance
             BufferedReader br = new BufferedReader(fr);
-            System.out.println("n");
             //Collect size of the layout
             Scanner sc = new Scanner(txtFile);
             String[] dataLevelFile = sc.nextLine().split(",");
-            System.out.println("f");
             //Start counting seconds once game is loaded
             //TimeSeconds time = new TimeSeconds();
             //time.StartCount();

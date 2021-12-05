@@ -9,7 +9,7 @@ import javafx.scene.image.Image;
 public class Sterilisation extends Item {
 
     private int timer;
-    private final int SIZE_OF_EFFECT =2;
+    private final int SIZE_OF_EFFECT = 2;
 
     /**
      * Create Sterilisation at a specified coordinate.
@@ -19,6 +19,17 @@ public class Sterilisation extends Item {
     public Sterilisation(int x, int y){
         super(x, y, "Sterilisation", "/resources/Images/Items/Sterilisation.png");
         timer = 5;
+    }
+
+    /**
+     * Create Sterilisation at a specified coordinate and timer value.
+     * @param x The x coordinate.
+     * @param y The y coordinate.
+     * @param timer The timer value.
+     */
+    public Sterilisation(int x, int y, int timer){
+        super(x, y, "Sterilisation", "/resources/Images/Items/Sterilisation.png");
+        this.timer = timer;
     }
 
     /**
@@ -61,13 +72,14 @@ public class Sterilisation extends Item {
         sterilizeArea();
 
     }
+
     /**
      * Get the data of the bomb.
      * @return the formatted Sterilisation data.
      */
     @Override
     public String toString() {
-        return super.toString() + ", " + timer + "\n";
+        return super.toString() + ", " + timer;
     }
 }
 

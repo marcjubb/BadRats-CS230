@@ -19,6 +19,17 @@ public class NoEntrySign extends Item {
     }
 
     /**
+     * Creates No entry sign at specified coordinate with a particular durability.
+     * @param x The x coordinate.
+     * @param y The y coordinate.
+     * @param durability The durability value.
+     */
+    public NoEntrySign(int x, int y, int durability) {
+        super(x, y, "NoEntrySign", "/resources/Images/Items/NoEntry.png");
+        this.durability = durability;
+    }
+
+    /**
      * Will destroy the No Entry Sign after specified number of collisions
      */
     public void damage() {
@@ -45,5 +56,14 @@ public class NoEntrySign extends Item {
        }else {
            gc.drawImage(new Image("/resources/Images/Items/NoEntry1.png"), x * tileSize, y * tileSize);
        }
+    }
+
+    /**
+     * Get the data of the sign.
+     * @return the sign's data.
+     */
+    @Override
+    public String toString(){
+        return super.toString() + ", " + durability;
     }
 }

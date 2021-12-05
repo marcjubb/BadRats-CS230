@@ -26,6 +26,18 @@ public class Bomb extends Item {
     }
 
     /**
+     * Create a Bomb at a specified coordinate with a particular timer state.
+     * @param x The x coordinate.
+     * @param y The y coordinate.
+     * @param timer The timer value.
+     */
+    public Bomb(int x, int y, int timer) {
+        super (x, y, "Bomb", "/resources/Images/Items/Bomb.png");
+        this.timer = timer;
+        updateDistance();
+    }
+
+    /**
      * Will update the timer every tick until the timer runs out and bomb will be destroyed.
      */
     public void update() {
@@ -78,7 +90,7 @@ public class Bomb extends Item {
     }
 
     /**
-     * Determines the distance from current position until end of board in each direction.
+     * Determines the distance from current position until a solid tile in each direction.
      */
     private void updateDistance() {
         distanceUp = 0;
@@ -104,7 +116,8 @@ public class Bomb extends Item {
      * Get the data of the bomb.
      * @return the Bombs data.
      */
+    @Override
     public String toString(){
-        return super.toString() + ", " + timer + "\n";
+        return super.toString() + ", " + timer;
     }
 }
