@@ -3,8 +3,10 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.VPos;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -12,7 +14,6 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -28,10 +29,10 @@ import java.util.*;
 /**
  * This class is responsible for running the GUI for the rats game and storing the relevant values to be called.
  *
- * @param <e> the type parameter
+ *
  * @author Samuel Griffin, Marc Jubb, Ryan Wake, Gonzalo Mandrión Flores, Aaron Davies,
  */
-public class Level<e> extends Application {
+public class Level extends Application {
 
 
 
@@ -114,15 +115,17 @@ public class Level<e> extends Application {
             {'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G'}};
 
 
-//    public Level(int width, int height, Character[][] levelLayout, int ticksExpected, BorderPane root, ArrayList<Rat> ratList){
-//        GRID_WIDTH = width;
-//        GRID_HEIGHT = height;
-//        Level.levelLayout = levelLayout;
-//        Level.ticksExpected = ticksExpected;
-//        Level.root = root;
-//        Level.ratList = ratList;
-//
-//    }
+  /*  public Level(int width, int height, Character[][] levelLayout, int ticksExpected, ArrayList<Rat> ratList){
+        GRID_WIDTH = width;
+        GRID_HEIGHT = height;
+        Level.levelLayout = levelLayout;
+        Level.ticksExpected = ticksExpected;
+        Level.root = root;
+        Level.ratList = ratList;
+    }
+    public void level(){
+
+    }*/
 
 //    public Level(int width, int height, Character[][] levelLayout, int ticksExpected, BorderPane root, ArrayList<Rat> ratList, ArrayList<Item> itemList){
 //        GRID_WIDTH = width;
@@ -753,7 +756,7 @@ public class Level<e> extends Application {
 
 
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) throws IOException {
         primaryStage.setTitle("Bad Rats");
 
         tickCount = 0;
@@ -791,6 +794,7 @@ public class Level<e> extends Application {
 
         //Load menu
         //drawMenu();
+        drawMenu();
         drawGame();
         drawCounters();
         drawInv();
@@ -932,16 +936,21 @@ public class Level<e> extends Application {
     }*/
 
 
-//    //Menu
-//    public void drawMenu() {
-//    }
-//
-//    private void Play() {
-//        //Delete menu
-//        drawGame();
-//        primaryStage.setScene(scene);
-//        //primaryStage.show();
-//    }
+
+    public void drawMenu() throws IOException {
+        Parent rooter = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Menu.fxml")));
+        Scene menu = new Scene(rooter);
+        Stage menuStage = new Stage();
+        menuStage.setScene(menu);
+        menuStage.show();
+    }
+
+ /*   private void Play() {
+        //Delete menu
+        drawGame();
+        primaryStage.setScene(scene);
+        //primaryStage.show();
+    }*/
 
     //private void LevelSelect()
     //private String Load()
@@ -966,8 +975,8 @@ public class Level<e> extends Application {
      * The entry point of application.
      * @param args the input arguments
      */
-    public static void main(String[] args) {
-        launch(args);
-    }
+ public static void main(String[] args) {
+     launch(args);
+}
 
 }
