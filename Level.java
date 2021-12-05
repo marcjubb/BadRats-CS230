@@ -15,7 +15,6 @@ import javafx.scene.input.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.*;
 import javafx.stage.FileChooser;
@@ -89,7 +88,7 @@ public class Level<e> extends Application {
     private static int numOfFemaleRats;
 
 
-    private static int maxPopulation = 4;
+    private static int maxPopulation = 10;
     private static Inventory inv = new Inventory();
 
 
@@ -97,7 +96,6 @@ public class Level<e> extends Application {
     PlayerProfile player = new PlayerProfile("bob", 0);
     private String saveGame;
 
-    private Text nbOfRats = new Text("Number of Rats Alive: "+ Level.getNumOfFemaleRats() + Level.getNumOfMaleRats());
     //Arrays that store the objects on the game board.
     private static ArrayList<Rat> ratList = new ArrayList<>();
     private static ArrayList<Item> itemList = new ArrayList<>();
@@ -389,7 +387,7 @@ public class Level<e> extends Application {
         canvas = new Canvas(CANVAS_WIDTH, CANVAS_HEIGHT);
         root.setCenter(canvas);
 
-        canvasCounters = new Canvas(300, 200);
+        canvasCounters = new Canvas(300, 270);
         root.setLeft(canvasCounters);
 
 
