@@ -337,8 +337,9 @@ public class Level<e> extends Application {
         GraphicsContext gc = canvas.getGraphicsContext2D();
         boolean itemAlreadyPlaced = false;
         for (Item item : itemList) {
-            if (item.getX() == x && item.getY() == y){
+            if (item.getX() == x && item.getY() == y && !item.destroyed) {
                 itemAlreadyPlaced = true;
+                break;
             }
         }
 
