@@ -14,12 +14,20 @@ public class Bomb extends Item {
     private int distanceLeft;
     private int distanceRight;
 
+    /**
+     * Create a Bomb at a specified coordinate.
+     * @param x The x coordinate.
+     * @param y The y coordinate.
+     */
     public Bomb(int x, int y) {
         super (x, y, "Bomb", "/resources/Images/Items/Bomb.png");
         timer = 5;
         updateDistance();
     }
 
+    /**
+     * Will update the timer every tick until the timer runs out and bomb will be destroyed.
+     */
     public void update() {
         timer--;
         if (timer <= -2) {
@@ -27,6 +35,10 @@ public class Bomb extends Item {
         }
     }
 
+    /**
+     * Draw the item on the canvas.
+     * @param gc The GraphicsContext in which we will draw on
+     */
     public void draw(GraphicsContext gc) {
 
         if (timer > 0) {
@@ -48,6 +60,12 @@ public class Bomb extends Item {
         }
     }
 
+    /**
+     * Check if a collision has occurred at specific coordinates.
+     * @param x The x coordinate.
+     * @param y The y coordinate.
+     * @return True if collision has occurred else False.
+     */
     public boolean collisionAt(int x, int y) {
         if (timer > 0) {
             return false;
@@ -59,6 +77,9 @@ public class Bomb extends Item {
         }
     }
 
+    /**
+     * Determines the distance from current position until end of board in each direction.
+     */
     private void updateDistance() {
         distanceUp = 0;
         distanceDown = 0;
@@ -77,5 +98,13 @@ public class Bomb extends Item {
         while (Level.getLevelLayout()[y][x + (distanceRight + 1)] != 'G') {
           distanceRight += 1;
         }
+    }
+
+    /**
+     * Get the data of the bomb.
+     * @return the Bombs data.
+     */
+    public String toString(){
+        return super.toString() + ", " + timer + "\n";
     }
 }

@@ -429,6 +429,6 @@ public abstract class Rat extends VisibleObject {
      * @return data that would need to be saved to the file.
      */
     public String toString() {
-        return x + ", " + y + ticksSinceCreation;
+        return x + ", " + y + ", "+ ticksSinceCreation;
     }
 }

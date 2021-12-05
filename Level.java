@@ -34,6 +34,7 @@ public class Level<e> extends Application {
 
 
     // The dimensions of the window
+
     private static  int GRID_WIDTH = 12;
     private static  int GRID_HEIGHT = 7;
     private static final int GRID_CELL_WIDTH = 64;
@@ -42,6 +43,7 @@ public class Level<e> extends Application {
     private static final int CANVAS_HEIGHT = GRID_CELL_HEIGHT * GRID_HEIGHT;
     private static final int WINDOW_WIDTH = 400 + CANVAS_WIDTH;
     private static final int WINDOW_HEIGHT = 200 + CANVAS_HEIGHT;
+
 
     // The dimensions of the canvas
 
@@ -55,6 +57,8 @@ public class Level<e> extends Application {
     // The width of the grid in number of cells.
 
     private Canvas canvas;
+
+    private Canvas canvasCounters;
 
     // Loaded images
     private static Image grass;
@@ -83,7 +87,11 @@ public class Level<e> extends Application {
     private static int numOfFemaleRats;
 
 
-    private static int maxPopulation = 50;
+    private static int maxPopulation = 4;
+
+    BorderPane root;
+
+
     /**
      * The Player.
      */
@@ -93,6 +101,9 @@ private Text nbOfRats = new Text("Number of Rats Alive: "+ Level.getNumOfFemaleR
     //Arrays that store the objects on the game board.
     private static ArrayList<Rat> ratList = new ArrayList<>();
     private static ArrayList<Item> itemList = new ArrayList<>();
+
+    //The quantity of rats by sex.
+
 
     //this is a hardcoded level layout only here for testing purposes
     private static Character[][] levelLayout = {
@@ -160,11 +171,26 @@ private Text nbOfRats = new Text("Number of Rats Alive: "+ Level.getNumOfFemaleR
         return itemList;
     }
 
+
     /**
      * Get level layout character [ ] [ ].
      *
      * @return the character [ ] [ ]
      */
+
+    public void getNumOfSex(){
+        numOfMaleRats = 0;
+        numOfFemaleRats = 0;
+        for(Rat rat: Level.getRatList()){
+            if((rat instanceof PlayableRat) && ((PlayableRat) rat).getSex() == PlayableRat.Sex.MALE ){
+                numOfMaleRats++;
+            }else if((rat instanceof PlayableRat) && ((PlayableRat) rat).getSex() == PlayableRat.Sex.FEMALE ){
+                numOfFemaleRats++;
+            }
+        }
+    }
+
+
     public static Character[][] getLevelLayout() {
         return levelLayout;
     }
@@ -247,29 +273,17 @@ private Text nbOfRats = new Text("Number of Rats Alive: "+ Level.getNumOfFemaleR
 
     }
 
-    private void levelEndScreen() {
-        GraphicsContext gc = canvas.getGraphicsContext2D();
-        for (int i = 0; i < getGridWidth(); i++) {
-            for (int j = 0; j < getGridHeight(); j++) {
-                if (levelCompleted) {
-                    gc.drawImage(new Image("/resources/Images/WHITE.png"), (i * GRID_CELL_WIDTH), (j * GRID_CELL_HEIGHT));
-                } else if (gameLost) {
-                    gc.drawImage(new Image("/resources/Images/RED.png"), (i * GRID_CELL_WIDTH), (j * GRID_CELL_HEIGHT));
-                }
-            }
-        }
-        gc.setTextAlign(TextAlignment.CENTER);
-        gc.setTextBaseline(VPos.CENTER);
-        if (levelCompleted) {
-            gc.setFont(new Font(25));
-            gc.fillText("Congratulations you win!", Math.round(canvas.getWidth() / 2), Math.round(canvas.getHeight() / 2));
-        } else if (gameLost) {
-            System.out.println("not complete");
-            gc.setFont(new Font(25));
-            gc.fillText("Congratulations you win!", Math.round(canvas.getWidth() / 2), Math.round(canvas.getHeight() / 2));
-        }
+    public void drawCounters() {
+        GraphicsContext gc = canvasCounters.getGraphicsContext2D();
+        getNumOfSex();
 
+        gc.clearRect(0, 0, canvasCounters.getWidth(), canvasCounters.getHeight());
+        gc.fillText("Score: " + score, 80, 30);
+        gc.fillText("Rats Remaining: " + getRatListSize(), 80, 50);
+        gc.fillText("Males Remaining: " + numOfMaleRats, 80, 70);
+        gc.fillText("Females Remaining: " + numOfFemaleRats, 80, 90);
     }
+
 
 
     /**
@@ -277,41 +291,49 @@ private Text nbOfRats = new Text("Number of Rats Alive: "+ Level.getNumOfFemaleR
      *
      * @param event the event
      */
+
     public void canvasDragDroppedOccured(DragEvent event) {
         int x = Math.floorDiv((int) event.getX(), 64);
         int y = Math.floorDiv((int) event.getY(), 64);
         // Draw an icon at the dropped location.
         GraphicsContext gc = canvas.getGraphicsContext2D();
-
-        if (levelLayout[y][x] == 'P') {
-            if (Objects.equals(event.getDragboard().getString(), "Bomb")) {
-                itemList.add(itemList.size(), new Bomb(x, y));
-                gc.drawImage(bomb, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
-            } else if (Objects.equals(event.getDragboard().getString(), "MaleSexChange")) {
-                itemList.add(itemList.size(), new MaleSexChange(x, y));
-                gc.drawImage(maleSexChange, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
-            } else if (Objects.equals(event.getDragboard().getString(), "FemaleSexChange")) {
-                itemList.add(itemList.size(), new FemaleSexChange(x, y));
-                gc.drawImage(femaleSexChange, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
-            } else if (Objects.equals(event.getDragboard().getString(), "Gas")) {
-                itemList.add(itemList.size(), new Gas(x, y));
-                gc.drawImage(gas, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
-            } else if (Objects.equals(event.getDragboard().getString(), "Poison")) {
-                itemList.add(itemList.size(), new Poison(x, y));
-                gc.drawImage(poison, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
-            } else if (Objects.equals(event.getDragboard().getString(), "NoEntry")) {
-                itemList.add(itemList.size(), new NoEntrySign(x, y));
-                gc.drawImage(noEntry, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
-            } else if (Objects.equals(event.getDragboard().getString(), "Sterilisation")) {
-                itemList.add(itemList.size(), new Sterilisation(x, y));
-                gc.drawImage(sterilisation, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
-            } else {
-                itemList.add(itemList.size(), new DeathRatItem(x, y));
-                gc.drawImage(deathRat, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
-
-
+        boolean itemAlreadyPlaced = false;
+        for (Item item : itemList) {
+            if (item.getX() == x && item.getY() == y){
+                itemAlreadyPlaced = true;
             }
         }
+
+        if (!itemAlreadyPlaced){
+            if (levelLayout[y][x] == 'P') {
+                if (Objects.equals(event.getDragboard().getString(), "Bomb")) {
+                    itemList.add(itemList.size(), new Bomb(x, y));
+                    gc.drawImage(bomb, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
+                } else if (Objects.equals(event.getDragboard().getString(), "MaleSexChange")) {
+                    itemList.add(itemList.size(), new MaleSexChange(x, y));
+                    gc.drawImage(maleSexChange, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
+                } else if (Objects.equals(event.getDragboard().getString(), "FemaleSexChange")) {
+                    itemList.add(itemList.size(), new FemaleSexChange(x, y));
+                    gc.drawImage(femaleSexChange, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
+                } else if (Objects.equals(event.getDragboard().getString(), "Gas")) {
+                    itemList.add(itemList.size(), new Gas(x, y));
+                    gc.drawImage(gas, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
+                } else if (Objects.equals(event.getDragboard().getString(), "Poison")) {
+                    itemList.add(itemList.size(), new Poison(x, y));
+                    gc.drawImage(poison, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
+                } else if (Objects.equals(event.getDragboard().getString(), "NoEntry")) {
+                    itemList.add(itemList.size(), new NoEntrySign(x, y));
+                    gc.drawImage(noEntry, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
+                } else if (Objects.equals(event.getDragboard().getString(), "Sterilisation")) {
+                    itemList.add(itemList.size(), new Sterilisation(x, y));
+                    gc.drawImage(sterilisation, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
+                } else {
+                    itemList.add(itemList.size(), new DeathRatItem(x, y));
+                    gc.drawImage(deathRat, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
+                }
+            }
+        }
+
 
     }
 
@@ -339,6 +361,9 @@ private Text nbOfRats = new Text("Number of Rats Alive: "+ Level.getNumOfFemaleR
 
         canvas = new Canvas(CANVAS_WIDTH, CANVAS_HEIGHT);
         root.setCenter(canvas);
+
+        canvasCounters = new Canvas(CANVAS_WIDTH, 256);
+        root.setBottom(canvasCounters);
         // Create a toolbar with some nice padding and spacing
         HBox toolbar = new HBox();
         toolbar.setSpacing(10);
@@ -413,7 +438,6 @@ private Text nbOfRats = new Text("Number of Rats Alive: "+ Level.getNumOfFemaleR
                         }
                         fileLevelLayout.add(chars);
                     }
-                    //levelLayout = fileLevelLayout.toArray();
                     levelLayout = fileLevelLayout.stream().map(u -> u.toArray(new Character[0])).toArray(Character[][]::new);
 
                     //Create a canvas after collecting the data from .txt
@@ -729,63 +753,70 @@ private Text nbOfRats = new Text("Number of Rats Alive: "+ Level.getNumOfFemaleR
     public void tick() {
 
 
-        gameStatus();
 
-        if (tickCount % 10 == 0) {
-            addRandomItem();
-        }
+        if(!levelCompleted && !gameLost) {
+            if (tickCount % 10 == 0) {
+                addRandomItem();
+            }
 //
-        tickCount++;
-        // Here we move the player right one cell and teleport
-        // them back to the left side when they reach the right side.
+            tickCount++;
+            // Here we move the player right one cell and teleport
+            // them back to the left side when they reach the right side.
 
-        for (Rat rat : ratList) {
-            rat.checkCollisions();
-            if (tickCount % rat.getSpeed() == 0) {
-                rat.move();
+            for (Rat rat : ratList) {
+                rat.checkCollisions();
+                if (tickCount % rat.getSpeed() == 0) {
+                    rat.move();
+                }
+                rat.incrementTick();
             }
-            rat.incrementTick();
-        }
 
-        int ratListLength = ratList.size();
-        for (int i = 0; i <= ratListLength - 1; i++) {
-            ratList.get(i).setImageDirection();
-            if (ratList.get(i) instanceof PlayableRat && ((PlayableRat) ratList.get(i)).getIsPregnant()) {
-                ((PlayableRat) ratList.get(i)).incrementTickPregnant();
-                ((PlayableRat) ratList.get(i)).checkPregnancy();
+            int ratListLength = ratList.size();
+            for (int i = 0; i <= ratListLength - 1; i++) {
+                ratList.get(i).setImageDirection();
+                if (ratList.get(i) instanceof PlayableRat && ((PlayableRat) ratList.get(i)).getIsPregnant()) {
+                    ((PlayableRat) ratList.get(i)).incrementTickPregnant();
+                    ((PlayableRat) ratList.get(i)).checkPregnancy();
+                }
             }
-        }
 
-        Iterator<Rat> iteratorRat = ratList.listIterator();
-        while (iteratorRat.hasNext()) {
-            Rat rat = iteratorRat.next();
-            if (rat.isDestroyed()) {
-                iteratorRat.remove();
-                if (rat instanceof PlayableRat) {
-                    if (((PlayableRat) rat).getIsPregnant()) {
-                        score += 20;
-                    } else {
-                        score += 10;
+            Iterator<Rat> iteratorRat = ratList.listIterator();
+            while (iteratorRat.hasNext()) {
+                Rat rat = iteratorRat.next();
+                if (rat.isDestroyed()) {
+                    iteratorRat.remove();
+                    if (rat instanceof PlayableRat) {
+                        if (((PlayableRat) rat).getIsPregnant()) {
+                            score += 20;
+                        } else {
+                            score += 10;
+                        }
+
                     }
 
                 }
+            }
+
+
+
+                //checks if item should be destroyed
+                //destroys rat
+                ratList.removeIf(VisibleObject::isDestroyed);
+
+            Iterator<Item> iteratorItem = itemList.listIterator();
+            while (iteratorItem.hasNext()) {
+                Item item = iteratorItem.next();
+                item.update(); //updates the tickcount
+                if (item.isDestroyed()) { //checks if item should be destroyed
+                    iteratorItem.remove(); //destroys item
+                }
 
             }
+            // We then redraw the whole canvas.
+            drawGame();
+            drawCounters();
         }
 
-
-
-            //checks if item should be destroyed
-            //destroys rat
-            ratList.removeIf(VisibleObject::isDestroyed);
-        Iterator<Item> iteratorItem = itemList.listIterator();
-        while (iteratorItem.hasNext()) {
-            Item item = iteratorItem.next();
-            item.update(); //updates the tickcount
-            if (item.isDestroyed()) { //checks if item should be destroyed
-                iteratorItem.remove(); //destroys item
-            }
-        }
 
         System.out.println("count" + Level.getNumOfMaleRats());
         nbOfRats = new Text("Number of Rats Alive: "+ Level.getNumOfMaleRats() + Level.getNumOfMaleRats());
@@ -793,10 +824,33 @@ private Text nbOfRats = new Text("Number of Rats Alive: "+ Level.getNumOfFemaleR
         drawGame();
 
     }
+    private void levelEndScreen() {
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+        for (int i = 0; i < getGridWidth(); i++) {
+            for (int j = 0; j < getGridHeight(); j++) {
+                if (levelCompleted) {
+                    gc.drawImage(new Image("/resources/Images/WHITE.png"), (i * GRID_CELL_WIDTH), (j * GRID_CELL_HEIGHT));
+                } else if (gameLost) {
+                    gc.drawImage(new Image("/resources/Images/RED.png"), (i * GRID_CELL_WIDTH), (j * GRID_CELL_HEIGHT));
+                }
+            }
+        }
+        gc.setTextAlign(TextAlignment.CENTER);
+        gc.setTextBaseline(VPos.CENTER);
+        gc.setFont(new Font(25));
+        if (levelCompleted) {
+            gc.fillText("Congratulations you win!", Math.round(canvas.getWidth() / 2), Math.round(canvas.getHeight() / 2));
+        } else if (gameLost) {
+            gc.fillText("Congratulations you Suck!", Math.round(canvas.getWidth() / 2), Math.round(canvas.getHeight() / 2));
+        }
+
 
     /**
      * Game status.
      */
+
+    }
+
     public void gameStatus() {
         int numberOfDeathRatItems = 0;
         for (Item item : itemList) {
@@ -805,16 +859,14 @@ private Text nbOfRats = new Text("Number of Rats Alive: "+ Level.getNumOfFemaleR
             }
         }
         int totalNumOfRats = ratList.size() + numberOfDeathRatItems;
-        System.out.println(totalNumOfRats);
-        if (totalNumOfRats == 0) {
+        if (totalNumOfRats <= 0) {
             levelCompleted = true;
             tickTimeline.stop();
             levelEndScreen();
             if (player.getMaxLevelCompleted() < this.currentLevel) {
                 player.setMaxLevelCompleted(currentLevel);
-              /*  PlayerProfiles.save(player);*/
             }
-        } else if (totalNumOfRats >= maxPopulation) {
+        } else if (totalNumOfRats > maxPopulation) {
             gameLost = true;
             levelEndScreen();
             tickTimeline.stop();

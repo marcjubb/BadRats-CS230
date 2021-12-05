@@ -1,8 +1,11 @@
 import javafx.scene.image.Image;
-
 import java.util.Random;
 
-/* */
+/**
+ * This class represents a type of rat that is male or female, adult or baby and has different behaviours depending on
+ * these factors.
+ * @author Samuel Griffin
+ */
 public class PlayableRat extends Rat {
     public enum Sex {MALE, FEMALE}
     static final private int PREGNANCY_DURATION = 9;
@@ -15,8 +18,9 @@ public class PlayableRat extends Rat {
 
     //3 constructors 1 for new babies at start of game, 1 for new babies after given birth and the other for existed loaded in rats
 
+    //this constructor may need to go
     public PlayableRat() {
-        super.speed = BABY_SPEED; //arbitrary  number for now
+        super.speed = BABY_SPEED;
         sex = pickSex();
         isAdult = false;
         int[] xy = generateRandomXY();
@@ -29,9 +33,15 @@ public class PlayableRat extends Rat {
     }
 
 
+    /**
+     *
+     * @param x The x coordinate the rat will first be on the board.
+     * @param y The y coordinate the rat will first be on the board.
+     */
     public PlayableRat(int x, int y) {
         super.x = x;
         super.y = y;
+        isAdult = false;
         sex = pickSex();
         super.speed = BABY_SPEED;
         super.ticksSinceCreation = 0;
@@ -41,6 +51,18 @@ public class PlayableRat extends Rat {
     }
 
 
+    /**
+     * Constructor for rats to be loaded from if they already existed in another game.
+     * @param x The x coordinate the rat will first be on the board.
+     * @param y The y coordinate the rat will first be on the board.
+     * @param isAdult Whether the rat is an adult or not.
+     * @param isPregnant Whether the rat is pregnant or not.
+     * @param sex What sex the rat is.
+     * @param ticksSinceCreation The number of ticks since the rat was first created.
+     * @param direction The direction the rat is facing
+     * @param pregnantTick The number of ticks the rat has been pregnant (if not then 0).
+     * @param isSterile Whether or not the rat is sterile.
+     */
     public PlayableRat(int x, int y, boolean isAdult, boolean isPregnant, Sex sex, int ticksSinceCreation, Direction direction, int pregnantTick, boolean isSterile) {
         super.x = x;
         super.y = y;
@@ -51,24 +73,44 @@ public class PlayableRat extends Rat {
         super.ticksSinceCreation = ticksSinceCreation;
         super.direction = direction;
         this.isSterile = isSterile;
+        this.pregnantTick = pregnantTick;
     }
 
+    /**
+     * Gets the sex of the rat.
+     * @return The sex enum of the rat.
+     */
     public Sex getSex() {
         return sex;
     }
+
+    /**
+     * Gets whether the rat is pregnant or not.
+     * @return Whether or not the rat is pregnant.
+     */
     public boolean getIsPregnant() {
         return isPregnant;
     }
 
+    /**
+     * Sets whether the rats is sterile or not
+     * @param sterile An updated version of whether it is sterile or not
+     */
     public void setSterile(boolean sterile) {
         isSterile = sterile;
     }
 
+    /**
+     * Gets whether the rat is sterile or not.
+     * @return Whether the rat is sterile or not
+     */
     public boolean isSterile() {
         return isSterile;
     }
 
-
+    /**
+     * Increments the tick counter in rat and checks whether it should become an adult yet depending on how long it has existed.
+     */
 
     public void incrementTick() {
         if (super.ticksSinceCreation > 4) {
@@ -77,6 +119,9 @@ public class PlayableRat extends Rat {
         super.ticksSinceCreation++;
     }
 
+    /**
+     * Sets the image for the rat in the correct orientation for the direction is facing.
+     */
     public void setImageDirection() {
         if (Level.getLevelLayout()[y][x] != 'T') {
             switch (getDirection()) {
@@ -131,6 +176,9 @@ public class PlayableRat extends Rat {
         }
     }
 
+    /**
+     * Changes the rat to the opposite that it currently is.
+     */
     public void changeSex() {
         if (sex == Sex.MALE) {
             sex = Sex.FEMALE;
@@ -139,17 +187,24 @@ public class PlayableRat extends Rat {
         }
     }
 
+    /**
+     * Randomly generates a sex.
+     * @return A random sex.
+     */
     private Sex pickSex() {
         int elem = new Random().nextInt(Sex.values().length);
         return Sex.values()[elem];
     }
 
+    /**
+     * Makes the rat an adult.
+     */
     public void becomeAdult() {
         isAdult = true;
         speed = ADULT_SPEED;
     }
 
-
+//not commenting this one because I don't think it is needed.
     private int[] generateRandomXY() {
         boolean correct = false;
         int[] xy = {(new Random().nextInt(Level.getGridWidth() - 1)), (new Random().nextInt(Level.getGridHeight() - 1))};
@@ -163,6 +218,9 @@ public class PlayableRat extends Rat {
         return xy;
     }
 
+    /**
+     * Checks whether the rat is colliding with other PlayableRats or some items on the board.
+     */
     public void checkCollisions() {
         for (Rat rat : Level.getRatList()) {
             if (rat instanceof PlayableRat && rat.getX() == x && rat.getY() == y && sex != ((PlayableRat) rat).getSex() && isAdult && !isPregnant && !this.isSterile && !((PlayableRat) rat).isSterile()) {
@@ -192,10 +250,16 @@ public class PlayableRat extends Rat {
     }
 
 
+    /**
+     * Increments the ticks since the rat has become pregnant.
+     */
     public void incrementTickPregnant() {
         pregnantTick++;
     }
 
+    /**
+     * Checks whether a pregnant rat has been pregnant long enough to give birth and gives birth if necessary.
+     */
     public void checkPregnancy() {
         if (pregnantTick == PREGNANCY_DURATION) {
             Level.giveBirth(x, y);
@@ -206,9 +270,13 @@ public class PlayableRat extends Rat {
 
 
 
+    /**
+     * Returns some data from the class in a neatly organised way.
+     * @return The attributes stored in the class as well as in Rat.
+     */
     @Override
     public String toString() {
-        String returnString = ", " + sex.toString() + ", " + isAdult + ", " + isPregnant;
+        String returnString = ", " + sex.toString() + ", " + isAdult + ", " + isPregnant + ", " + pregnantTick;
         returnString = "PlayableRat, " + super.toString() + returnString;
         return returnString;
     }

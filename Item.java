@@ -5,19 +5,20 @@ import java.util.Objects;
 
 /**
  * This Class represents a typical item in the game.
+
  *
  * @author ryanwake, Michael Pokorski
  */
-public class Item extends VisibleObject{
+
+public class Item extends VisibleObject {
     private String itemName;
 
     /**
-     * Instantiates a new Item.
-     *
-     * @param x        the x
-     * @param y        the y
-     * @param itemName the item name
-     * @param fpImg    the fp img
+     * Create an item with specified x and y coordinates, its Name and the image to represent the image.
+     * @param x the x coordinate.
+     * @param y the y coordinate.
+     * @param itemName the name of the item.
+     * @param fpImg the image to represent the image.
      */
     public Item(int x, int y, String itemName, String fpImg){
         this.x = x;
@@ -27,37 +28,43 @@ public class Item extends VisibleObject{
     }
 
     /**
-     * Gets item name.
-     *
-     * @return the item name
+
+     * Get the items name.
+     * @return The itemname.
+
      */
     public String getItemName() {
         return itemName;
     }
 
     /**
-     * Collision at boolean.
-     *
-     * @param x the x
-     * @param y the y
-     * @return the boolean
+     * Check if a collision has occurred at specific coordinates.
+     * @param x The x coordinate.
+     * @param y The y coordinate.
+     * @return True if collision occurred else false.
+
      */
     public boolean collisionAt(int x, int y) {
         return x == this.x && y == this.y;
     }
 
     /**
+
      * Destroy self.
+
+     * Sets the item as destroyed
+
      */
     protected void destroySelf() {
         destroyed = true;
     }
 
     /**
-     * Is in explosion boolean.
-     *
-     * @param items the items
-     * @return the boolean
+
+     * Will check if an item is in an explosion of a Bomb.
+     * @param items The list of items currently being used/placed in the Game.
+     * @return True if item is in the explosion else false.
+
      */
     protected boolean isInExplosion(ArrayList<Item> items) {
         for (Item item : items) {
@@ -68,14 +75,10 @@ public class Item extends VisibleObject{
 
         return false;
     }
-   /* protected boolean isInSterilisation(ArrayList<Item> items) {
-        for (Item item : items) {
-            if (Objects.equals(item.getItemName(), "Sterilisation") && item.collisionAt(x, y)) {
-                return true;
-            }
-        }
-        return false;
-    }*/
+
+    /**
+     * Destroy an item if it's within the explosion of the Bomb.
+     */
     public void update() {
         if (isInExplosion(Level.getItemList())) {
             destroySelf();
@@ -83,14 +86,23 @@ public class Item extends VisibleObject{
     }
 
     /**
+
      * Sets item name.
      *
      * @param itemName the item name
+
+     * Set the name of the Item.
+     * @param itemName the new item name.
+
      */
     public void setItemName(String itemName) {
         this.itemName = itemName;
     }
 
+    /**
+     * Get the data of a typical item to save/load from a file.
+     * @return data that would need to be saved to the file.
+     */
     @Override
     public String toString(){
         return this.itemName + ", " + x + ", " + y + "\n";
