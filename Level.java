@@ -59,8 +59,8 @@ public class Level<e> extends Application {
 
     private Canvas canvas;
     private Canvas canvasCounters;
-
     private Canvas sidebarCanvas;
+    private HBox toolbar;
 
     // Loaded images
     private static Image grass;
@@ -362,7 +362,9 @@ public class Level<e> extends Application {
 //        currentInventory.add(items.get(i));
 
 
+    }
 
+    private void drawToolbar(){
 
     }
 
@@ -378,11 +380,9 @@ public class Level<e> extends Application {
         canvas = new Canvas(CANVAS_WIDTH, CANVAS_HEIGHT);
         root.setCenter(canvas);
 
-        canvasCounters = new Canvas(CANVAS_WIDTH, 256);
-        root.setBottom(canvasCounters);
+        canvasCounters = new Canvas(300, 200);
+        root.setLeft(canvasCounters);
 
-        sidebarCanvas = new Canvas(200, 200);
-        root.setLeft(sidebarCanvas);
 
         // Create a toolbar with some nice padding and spacing
         HBox toolbar = new HBox();
@@ -441,11 +441,11 @@ public class Level<e> extends Application {
                     //Collect size of the layout
                     Scanner sc = new Scanner(file);
                     String[] dataLevelFile = sc.nextLine().split(",");
-                   
+
                     //Start counting seconds once game is loaded
                     //TimeSeconds time = new TimeSeconds();
                     //time.StartCount();
-                    
+
                     int secondsExpected = 0;
                     int maxPopulationRats= 0;
                     while (sc.hasNextInt()) {
@@ -458,7 +458,7 @@ public class Level<e> extends Application {
                     System.out.println(gridHeight);
                     System.out.println(secondsExpected);
                     System.out.println(maxPopulationRats);
-                    
+
                     //PlayableRat dataRatLevel = new PlayableRat();
                     //String t = dataRatLevel.toString();
                     //System.out.println(t);
@@ -486,7 +486,7 @@ public class Level<e> extends Application {
                     gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight()); //Clear canvas
                     gc.setFill(Color.GRAY); // Set the background to gray.
                     gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
-                    
+
                     /*for (int x = 0; x < gridHeight; x++) {
                         for (int y = 0; y < gridWidth; y++) {
                             if (levelLayout[x][y] == 'G') {
@@ -551,35 +551,14 @@ public class Level<e> extends Application {
         dragDeathRat.setImage(deathRat);
 
 
-        for (Item item : items) {
-            if (item instanceof Bomb) {
-                toolbar.getChildren().add(dragBomb);
-            } else if (item instanceof MaleSexChange) {
-                toolbar.getChildren().add(dragMaleGender);
-            } else if (item instanceof FemaleSexChange) {
-                toolbar.getChildren().add(dragFemaleGender);
-            } else if (item instanceof Gas) {
-                toolbar.getChildren().add(dragGas);
-            } else if (item instanceof Poison) {
-                toolbar.getChildren().add(dragPoison);
-            } else if (item instanceof Sterilisation) {
-                toolbar.getChildren().add(dragSterilisation);
-            } else if (item instanceof DeathRatItem) {
-                toolbar.getChildren().add(dragDeathRat);
-            } else if (item instanceof NoEntrySign) {
-                toolbar.getChildren().add(dragNoEntry);
-            }
-        }
-
-
-//        toolbar.getChildren().add(dragBomb);
-//        toolbar.getChildren().add(dragMaleGender);
-//        toolbar.getChildren().add(dragFemaleGender);
-//        toolbar.getChildren().add(dragGas);
-//        toolbar.getChildren().add(dragPoison);
-//        toolbar.getChildren().add(dragSterilisation);
-//        toolbar.getChildren().add(dragDeathRat);
-//        toolbar.getChildren().add(dragNoEntry);
+        toolbar.getChildren().add(dragBomb);
+        toolbar.getChildren().add(dragMaleGender);
+        toolbar.getChildren().add(dragFemaleGender);
+        toolbar.getChildren().add(dragGas);
+        toolbar.getChildren().add(dragPoison);
+        toolbar.getChildren().add(dragSterilisation);
+        toolbar.getChildren().add(dragDeathRat);
+        toolbar.getChildren().add(dragNoEntry);
 
         dragNoEntry.setOnDragDetected(event -> {
 
@@ -762,15 +741,6 @@ public class Level<e> extends Application {
         poison = new Image("/resources/Images/Items/Poison.png");
         sterilisation = new Image("/resources/Images/Items/Sterilisation.png");
 
-        items.add(new Bomb(5, 5));
-        items.add(new MaleSexChange(0, 0));
-        items.add(new FemaleSexChange(0, 0));
-        items.add(new Gas(0, 0));
-        items.add(new Poison(0, 0));
-        items.add(new Sterilisation(0, 0));
-        items.add(new DeathRatItem(0, 0));
-        items.add(new NoEntrySign(0, 0));
-        addRandomItem();
 
         Pane root = buildGUI();
         Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
