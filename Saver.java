@@ -22,13 +22,15 @@ public class Saver {
 
     }
     
-    public void saveLevelFile(String hw, int sec, int populRats, String layout, File file) {
+    public void saveLevelFile(String hw, int sec, int populRats, String babyRats, String currentItems, String layout, File file) {
         try {
             PrintWriter writer;
             writer = new PrintWriter(file);
             writer.println(hw);
             writer.println(sec);
             writer.println(populRats);
+            writer.println(babyRats);
+            writer.println(currentItems);
             writer.println(layout);
             writer.close();
         } catch (FileNotFoundException e) {
