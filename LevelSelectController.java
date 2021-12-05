@@ -1,7 +1,12 @@
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+
+import javax.swing.border.Border;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
 
 public class LevelSelectController {
 
@@ -29,23 +34,23 @@ public class LevelSelectController {
     }
 
     @FXML
-    void loadLvl1(ActionEvent event) {
-
+     void loadLvl1(ActionEvent event) throws FileNotFoundException {
+        Level.loadLevel1();
     }
 
     @FXML
-    void loadLvl2(ActionEvent event) {
-
+    void loadLvl2(ActionEvent event) throws FileNotFoundException{
+        Level.loadLevel2();
     }
 
     @FXML
-    void loadLvl3(ActionEvent event) {
-
+    void loadLvl3(ActionEvent event) throws FileNotFoundException{
+        Level.loadLevel3();
     }
 
     @FXML
-    void loadLvl4(ActionEvent event) {
-
+    void loadLvl4(ActionEvent event) throws FileNotFoundException{
+        Level.loadLevel4();
     }
 
     @FXML

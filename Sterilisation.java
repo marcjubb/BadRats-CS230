@@ -60,8 +60,6 @@ public class Sterilisation extends Item {
         }
         sterilizeArea();
 
-
-
     }
     /**
      * Get the data of the bomb.

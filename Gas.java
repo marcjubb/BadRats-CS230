@@ -80,7 +80,11 @@ public class Gas extends Item {
                         }
                     }
                 }
+                System.out.println("done");
             }
+           if (radius == 4){
+               this.setDestroyed(true);
+           }
         }else{
             for (int x = getX() - radius; x < getX() + radius + 1; x++) {
                 for (int y = getY() - radius; y < getY() + radius + 1; y++) {
