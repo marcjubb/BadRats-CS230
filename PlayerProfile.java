@@ -1,53 +1,86 @@
 /**
- * This Class represents a Players Profile.
+ * This Class represents a player profile.
  * @author ryanwake
+ * @version 1.0
  */
 public class PlayerProfile {
 
-    private String playerName;
+    private String userName;
     private int maxLevelCompleted;
 
     /**
-     * Constructor when initializing a new User
+     * Create player profile with a username
+     * @param userName The username of the player.
      */
-    public PlayerProfile(String playerName) {
-        setPlayerName(playerName);
+    public PlayerProfile(String userName) {
+        setUserName(userName);
         maxLevelCompleted = 0;
     }
+
     /**
-     * Constructor when importing an existing User
+     * Load existing player profile
+     * @param userName The username of the player.
+     * @param maxLevelCompleted The max Level achieved.
      */
-    public PlayerProfile(String playerName, int maxLevelCompleted){
-        setPlayerName(playerName);
+    public PlayerProfile(String userName, int maxLevelCompleted) {
+        setUserName(userName);
         setMaxLevelCompleted(maxLevelCompleted);
     }
 
-    public void incrementLevelCompleted(){
+    /**
+     * Increments max level achieved.
+     */
+    public void incrementLevelCompleted() {
         maxLevelCompleted =+ 1;
     }
 
-    public boolean equals(PlayerProfile p){
-        return this.getPlayerName().equals(p.getPlayerName());
+    /**
+     * Checks if player Username already exists.
+     * @param p the players profile
+     * @return True if profile already exists, else false.
+     */
+    public boolean equals(PlayerProfile p) {
+        return this.getUserName().equals(p.getUserName());
     }
 
-    public void setPlayerName(String playerName) {
-        this.playerName = playerName;
+    /**
+     * Sets Username of player
+     * @param userName The new username.
+     */
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
+    /**
+     * Sets max level completed
+     * @param maxLevelCompleted The new max level achieved.
+     */
     public void setMaxLevelCompleted(int maxLevelCompleted) {
         this.maxLevelCompleted = maxLevelCompleted;
     }
 
-    public String getPlayerName() {
-        return playerName;
+    /**
+     * Get the Username of player.
+     * @return The username.
+     */
+    public String getUserName() {
+        return userName;
     }
 
+    /**
+     * Get the max Level achieved.
+     * @return The max level achieved.
+     */
     public int getMaxLevelCompleted() {
         return maxLevelCompleted;
     }
 
+    /**
+     * Formats players data
+     * @return formatted player data.
+     */
     @Override
     public String toString() {
-        return playerName + ", " + String.valueOf(maxLevelCompleted) + "\n";
+        return userName + ", " + String.valueOf(maxLevelCompleted) + "\n";
     }
 }

@@ -5,8 +5,6 @@ import java.util.Objects;
 
 /**
  * This Class represents a typical item in the game.
-
- *
  * @author ryanwake, Michael Pokorski
  */
 
@@ -49,22 +47,16 @@ public class Item extends VisibleObject {
     }
 
     /**
-
-     * Destroy self.
-
      * Sets the item as destroyed
-
      */
     protected void destroySelf() {
         destroyed = true;
     }
 
     /**
-
      * Will check if an item is in an explosion of a Bomb.
-     * @param items The list of items currently being used/placed in the Game.
+     * @param items The list of items.
      * @return True if item is in the explosion else false.
-
      */
     protected boolean isInExplosion(ArrayList<Item> items) {
         for (Item item : items) {
@@ -86,22 +78,16 @@ public class Item extends VisibleObject {
     }
 
     /**
-
-     * Sets item name.
-     *
-     * @param itemName the item name
-
-     * Set the name of the Item.
+     * Sets Item Name.
      * @param itemName the new item name.
-
      */
     public void setItemName(String itemName) {
         this.itemName = itemName;
     }
 
     /**
-     * Get the data of a typical item to save/load from a file.
-     * @return data that would need to be saved to the file.
+     * Format Item data.
+     * @return The formatted data of item.
      */
     @Override
     public String toString(){
