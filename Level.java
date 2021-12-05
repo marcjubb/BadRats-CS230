@@ -15,6 +15,7 @@ import javafx.scene.input.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.*;
 import javafx.stage.FileChooser;
@@ -59,6 +60,8 @@ public class Level<e> extends Application {
     private Canvas canvas;
 
     private Canvas canvasCounters;
+
+    private Canvas sidebarCanvas;
 
     // Loaded images
     private static Image grass;
@@ -284,6 +287,39 @@ private Text nbOfRats = new Text("Number of Rats Alive: "+ Level.getNumOfFemaleR
         gc.fillText("Females Remaining: " + numOfFemaleRats, 80, 90);
     }
 
+    public void drawItemSideBar(){
+        GraphicsContext gc = sidebarCanvas.getGraphicsContext2D();
+        VBox toolbar = new VBox();
+        toolbar.setSpacing(10);
+        toolbar.setPadding(new Insets(10, 10, 10, 10));
+        root.setLeft(toolbar);
+        ImageView dragBomb = new ImageView();
+        ImageView dragMaleGender = new ImageView();
+        ImageView dragFemaleGender = new ImageView();
+        ImageView dragPoison = new ImageView();
+        ImageView dragNoEntry = new ImageView();
+        ImageView dragSterilisation = new ImageView();
+        ImageView dragGas = new ImageView();
+        ImageView dragDeathRat = new ImageView();
+
+        dragMaleGender.setImage(maleSexChange);
+        dragBomb.setImage(bomb);
+        dragFemaleGender.setImage(femaleSexChange);
+        dragPoison.setImage(poison);
+        dragNoEntry.setImage(noEntry);
+        dragSterilisation.setImage(sterilisation);
+        dragGas.setImage(gas);
+        dragDeathRat.setImage(deathRat);
+        toolbar.getChildren().add(dragBomb);
+        toolbar.getChildren().add(dragMaleGender);
+        toolbar.getChildren().add(dragFemaleGender);
+        toolbar.getChildren().add(dragGas);
+        toolbar.getChildren().add(dragPoison);
+        toolbar.getChildren().add(dragSterilisation);
+        toolbar.getChildren().add(dragDeathRat);
+        toolbar.getChildren().add(dragNoEntry);
+    }
+
 
 
     /**
@@ -364,6 +400,10 @@ private Text nbOfRats = new Text("Number of Rats Alive: "+ Level.getNumOfFemaleR
 
         canvasCounters = new Canvas(CANVAS_WIDTH, 256);
         root.setBottom(canvasCounters);
+
+        sidebarCanvas = new Canvas(0, 0);
+        root.setLeft(sidebarCanvas);
+
         // Create a toolbar with some nice padding and spacing
         HBox toolbar = new HBox();
         toolbar.setSpacing(10);
@@ -742,7 +782,7 @@ private Text nbOfRats = new Text("Number of Rats Alive: "+ Level.getNumOfFemaleR
      * over them all and calling their own tick method).
      */
     public void tick() {
-
+        gameStatus();
 
 
         if(!levelCompleted && !gameLost) {
@@ -806,13 +846,9 @@ private Text nbOfRats = new Text("Number of Rats Alive: "+ Level.getNumOfFemaleR
             // We then redraw the whole canvas.
             drawGame();
             drawCounters();
+            //drawItemSideBar();
         }
 
-
-        System.out.println("count" + Level.getNumOfMaleRats());
-        nbOfRats = new Text("Number of Rats Alive: "+ Level.getNumOfMaleRats() + Level.getNumOfMaleRats());
-        // We then redraw the whole canvas.
-        drawGame();
 
     }
     private void levelEndScreen() {
