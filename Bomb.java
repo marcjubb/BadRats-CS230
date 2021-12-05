@@ -8,11 +8,19 @@ import javafx.scene.paint.Color;
  */
 
 public class Bomb extends Item {
+    private final int EXPLOSION_TIMER_COUNT_FIVE = 5;
+    private final int EXPLOSION_TIMER_COUNT_FOUR = 4;
+    private final int EXPLOSION_TIMER_COUNT_THREE = 3;
+    private final int EXPLOSION_TIMER_COUNT_TWO = 2;
+    private int BOMB_TIMER = 5;
+    private int EXPLOSION_TIME = -2;
     private int timer;
     private int distanceUp;
     private int distanceDown;
     private int distanceLeft;
     private int distanceRight;
+
+
 
     /**
      * Create a Bomb at a specified coordinate.
@@ -21,7 +29,7 @@ public class Bomb extends Item {
      */
     public Bomb(int x, int y) {
         super (x, y, "Bomb", "/resources/Images/Items/Bomb.png");
-        timer = 5;
+        timer = BOMB_TIMER;
         updateDistance();
     }
 
@@ -42,7 +50,7 @@ public class Bomb extends Item {
      */
     public void update() {
         timer--;
-        if (timer <= -2) {
+        if (timer <= EXPLOSION_TIME) {
             destroySelf();
         }
     }
@@ -54,21 +62,28 @@ public class Bomb extends Item {
     public void draw(GraphicsContext gc) {
 
         if (timer > 0) {
-            if (timer == 5) {
-                gc.drawImage(new Image("/resources/Images/Items/Bomb.png"), x * tileSize, y * tileSize);
-              }else if (timer == 4) {
-                gc.drawImage(new Image("/resources/Images/Items/Bomb4.png"), x * tileSize, y * tileSize);
-              }else if (timer == 3) {
-                gc.drawImage(new Image("/resources/Images/Items/Bomb3.png"), x * tileSize, y * tileSize);
-              }else if (timer == 2) {
-                gc.drawImage(new Image("/resources/Images/Items/Bomb2.png"), x * tileSize, y * tileSize);
+            if (timer == EXPLOSION_TIMER_COUNT_FIVE) {
+                gc.drawImage(new Image("/resources/Images/Items/Bomb.png"),
+                        x * tileSize, y * tileSize);
+              }else if (timer == EXPLOSION_TIMER_COUNT_FOUR) {
+                gc.drawImage(new Image("/resources/Images/Items/Bomb4.png"),
+                        x * tileSize, y * tileSize);
+              }else if (timer == EXPLOSION_TIMER_COUNT_THREE) {
+                gc.drawImage(new Image("/resources/Images/Items/Bomb3.png"),
+                        x * tileSize, y * tileSize);
+              }else if (timer == EXPLOSION_TIMER_COUNT_TWO) {
+                gc.drawImage(new Image("/resources/Images/Items/Bomb2.png"),
+                        x * tileSize, y * tileSize);
               }else {
-                gc.drawImage(new Image("/resources/Images/Items/Bomb1.png"), x * tileSize, y * tileSize);
+                gc.drawImage(new Image("/resources/Images/Items/Bomb1.png"),
+                        x * tileSize, y * tileSize);
               }
-        }else {
+        } else {
             gc.setFill(Color.YELLOW);
-            gc.fillRect((x - distanceLeft) * tileSize, y * tileSize, (distanceLeft + 1 + distanceRight)  * tileSize, tileSize);
-            gc.fillRect(x  * tileSize, (y - distanceUp) * tileSize, tileSize, (distanceUp + 1 + distanceDown) * tileSize);
+            gc.fillRect((x - distanceLeft) * tileSize, y * tileSize,
+                    (distanceLeft + 1 + distanceRight)  * tileSize, tileSize);
+            gc.fillRect(x  * tileSize, (y - distanceUp) * tileSize, tileSize,
+                    (distanceUp + 1 + distanceDown) * tileSize);
         }
     }
 
@@ -81,11 +96,13 @@ public class Bomb extends Item {
     public boolean collisionAt(int x, int y) {
         if (timer > 0) {
             return false;
-        }else {
-            if (x >= this.x && x < this.x + 1 && y >= this.y - distanceUp && y < this.y + 1 + distanceDown) {
+        } else {
+            if (x >= this.x && x < this.x + 1 && y >= this.y - distanceUp &&
+                    y < this.y + 1 + distanceDown) {
                 return true;
             }
-            return x >= this.x - distanceLeft && x < this.x + 1 + distanceRight && y >= this.y && y < this.y + 1;
+            return x >= this.x - distanceLeft && x < this.x + 1 + distanceRight &&
+                    y >= this.y && y < this.y + 1;
         }
     }
 
@@ -116,7 +133,8 @@ public class Bomb extends Item {
      * Get the data of the bomb.
      * @return the Bombs data.
      */
-    public String toString(){
+    public String toString() {
         return super.toString() + ", " + timer + "\n";
     }
+
 }
