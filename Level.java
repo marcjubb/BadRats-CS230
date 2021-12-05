@@ -352,7 +352,6 @@ public class Level<e> extends Application {
                         }
                         fileLevelLayout.add(chars);
                     }
-                    //levelLayout = fileLevelLayout.toArray();
                     levelLayout = fileLevelLayout.stream().map(u -> u.toArray(new Character[0])).toArray(Character[][]::new);
 
                     //Create a canvas after collecting the data from .txt
@@ -731,12 +730,10 @@ public class Level<e> extends Application {
         }
         gc.setTextAlign(TextAlignment.CENTER);
         gc.setTextBaseline(VPos.CENTER);
+        gc.setFont(new Font(25));
         if (levelCompleted) {
-            gc.setFont(new Font(25));
             gc.fillText("Congratulations you win!", Math.round(canvas.getWidth() / 2), Math.round(canvas.getHeight() / 2));
         } else if (gameLost) {
-            System.out.println("game lost");
-            gc.setFont(new Font(25));
             gc.fillText("Congratulations you Suck!", Math.round(canvas.getWidth() / 2), Math.round(canvas.getHeight() / 2));
         }
 

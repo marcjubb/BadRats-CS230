@@ -31,7 +31,7 @@ public class DeathRat extends Rat {
                 //iterator.remove();
                 rat.setDestroyed(true);
                 currentKillCount++;
-                if (currentKillCount >= 5){
+                if (currentKillCount >= MAX_KILL_COUNT){
                     this.setDestroyed(true);
                 }
             }
@@ -61,5 +61,10 @@ public class DeathRat extends Rat {
         } else {
             this.setImg(new Image ("resources/Images/BLANK.png"));
         }
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + ", " + numCollisions + ", " + currentKillCount;
     }
 }
