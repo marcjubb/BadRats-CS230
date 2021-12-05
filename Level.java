@@ -471,7 +471,20 @@ public class Level<e> extends Application {
                     gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight()); //Clear canvas
                     gc.setFill(Color.GRAY); // Set the background to gray.
                     gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+                    
+                    /*for (int x = 0; x < gridHeight; x++) {
+                        for (int y = 0; y < gridWidth; y++) {
+                            if (levelLayout[x][y] == 'G') {
+                                gc.drawImage(grass, y * GRID_CELL_WIDTH, x * GRID_CELL_HEIGHT);
 
+                            } else if (levelLayout[x][y] == 'T') {
+                                gc.drawImage(tunnel, y * GRID_CELL_WIDTH, x * GRID_CELL_HEIGHT);
+
+                            } else {
+                                gc.drawImage(path, y * GRID_CELL_WIDTH, x * GRID_CELL_HEIGHT);
+                            }
+                        }
+                    }*/
                     drawMap(gc, gridHeight, gridWidth);
                     br.close();
                 } catch (IOException ex) {
