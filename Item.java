@@ -91,6 +91,6 @@ public class Item extends VisibleObject {
      */
     @Override
     public String toString(){
-        return this.itemName + ", " + x + ", " + y + "\n";
+        return this.itemName + ", " + x + ", " + y;
     }
 }

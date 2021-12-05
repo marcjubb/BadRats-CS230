@@ -21,63 +21,63 @@ public class Inventory {
     /**
      * Decreases the number of bomb items the user has by 1.
      */
-    public void decrementBomb(){
+    public void decrementBomb() {
         numOfBombItems--;
     }
 
     /**
      * Decreases the number of gas items the user has by 1.
      */
-    public void decrementGas(){
+    public void decrementGas() {
         numOfGasItems--;
     }
 
     /**
      * Decreases the number of poison items the user has by 1.
      */
-    public void decrementPoison(){
+    public void decrementPoison() {
         numOfPoisonItems--;
     }
 
     /**
      * Decreases the number of female sex change objects by 1.
      */
-    public void decrementFemaleSexChange(){
+    public void decrementFemaleSexChange() {
         numOfFemaleSexChangeItems--;
     }
 
     /**
      * Decreases the number of male sex change items the user has by 1.
      */
-    public void decrementMaleSexChange(){
+    public void decrementMaleSexChange() {
         numOfMaleSexChangeItems--;
     }
 
     /**
      * Decreases the number of sterilisation items the user has by 1.
      */
-    public void decrementSterilisation(){
+    public void decrementSterilisation() {
         numOfSterilisationItems--;
     }
 
     /**
      * Decreases the number of bomb items the user has by 1.
      */
-    public void decrementDeathRat(){
+    public void decrementDeathRat() {
         numOfDeathRatItems--;
     }
 
     /**
      * Decreases the number of no entry sign items the user has by 1.
      */
-    public void decrementNoEntrySign(){
+    public void decrementNoEntrySign() {
         numOfNoEntrySignItems--;
     }
 
 
     /**
      * Gets the number of bombs the user has in their inventory.
-     * @return the number of bombs the user has in their inventory.
+     * @return The number of bombs.
      */
     public int getNumOfBombItems() {
         return numOfBombItems;
@@ -85,7 +85,7 @@ public class Inventory {
 
     /**
      * Gets the number of death rats the user has in their inventory.
-     * @return The number of death rats the user has in their inventory.
+     * @return The number of death rats.
      */
     public int getNumOfDeathRatItems() {
         return numOfDeathRatItems;
@@ -93,7 +93,7 @@ public class Inventory {
 
     /**
      * Gets the number of gas items the user has in their inventory.
-     * @return The number of gas items the user has in their inventory.
+     * @return The number of gas items.
      */
     public int getNumOfGasItems() {
         return numOfGasItems;
@@ -101,7 +101,7 @@ public class Inventory {
 
     /**
      * Gets the number of poison items the user has in their inventory
-     * @return The number of poison items the user has in their inventory.
+     * @return The number of poison items.
      */
     public int getNumOfPoisonItems() {
         return numOfPoisonItems;
@@ -118,7 +118,7 @@ public class Inventory {
 
     /**
      * Get the number of sterilisation items the user has in their inventory.
-     * @return The number of sterilisation items the user has in their inventory.
+     * @return The number of Sterilisation items.
      */
     public int getNumOfSterilisationItems() {
         return numOfSterilisationItems;
@@ -126,7 +126,7 @@ public class Inventory {
 
     /**
      * Get the number of male sex change items the user has in their inventory.
-     * @return The number of male sex change item the user has in their inventory.
+     * @return The number of male sex change items.
      */
     public int getNumOfMaleSexChangeItems() {
         return numOfMaleSexChangeItems;
@@ -134,7 +134,7 @@ public class Inventory {
 
     /**
      * Get the number of no entry signs the user has in their inventory.
-     * @return The number of no entry signs the user has in their inventory.
+     * @return The number of no entry signs.
      */
     public int getNumOfNoEntrySignItems() {
         return numOfNoEntrySignItems;

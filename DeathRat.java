@@ -32,25 +32,13 @@ public class DeathRat extends Rat {
      * @param ticksSinceCreation
      * @param direction
      */
-    public DeathRat(int x, int y, int currentKillCount, int ticksSinceCreation, Direction direction){
+
+    public DeathRat(int x, int y, int currentKillCount, int ticksSinceCreation, Direction direction) {
         super.x = x;
         super.y = y;
         super.speed = ADULT_SPEED;
         super.ticksSinceCreation = ticksSinceCreation;
         this.currentKillCount = currentKillCount;
-//        switch(direction){
-//            case "NORTH":
-//                this.direction = Direction.NORTH;
-//                break;
-//            case "SOUTH":
-//                this.direction = Direction.SOUTH;
-//                break;
-//            case "EAST":
-//                this.direction = Direction.EAST;
-//                break;
-//            case "WEST":
-//                this.direction = Direction.WEST;
-//        }
         this.direction = direction;
     }
 
@@ -96,8 +84,13 @@ public class DeathRat extends Rat {
         }
     }
 
+    /**
+     * Gets DeathRat data
+     * @return The  formatted DeathRat data.
+     */
     @Override
     public String toString() {
         return "DeathRat" + ", " +super.toString() + ", " + currentKillCount;
     }
+
 }
