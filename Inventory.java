@@ -153,7 +153,7 @@ public class Inventory {
         }
     }
     public void addItem() {
-       // numberOfEachItem();
+        //numberOfEachItem();
         int rnd = new Random().nextInt(numAvaliable);
 
         //I don't think you can use the itemList as it would mess with collisions if you are adding things to it
@@ -182,21 +182,21 @@ public class Inventory {
 //            else if(isSterilisationAvailable && rnd == 7){
 //                Level.getItemList().add(new Sterilisation(x, y));
 //            }
-        if (rnd == 0 && numOfBombItems < 4) {
+        if (rnd == 0 && numOfBombItems < MAX_OF_ITEM) {
             numOfBombItems++;
-        } else if (rnd == 1 && numOfBombItems < 4) {
+        } else if (rnd == 1 && numOfBombItems < MAX_OF_ITEM) {
             numOfMaleSexChangeItems++;
-        } else if (rnd == 2 && numOfBombItems < 4) {
+        } else if (rnd == 2 && numOfBombItems < MAX_OF_ITEM) {
             numOfFemaleSexChangeItems++;
-        } else if (rnd == 3 && numOfBombItems < 4) {
+        } else if (rnd == 3 && numOfBombItems < MAX_OF_ITEM) {
             numOfGasItems++;
-        } else if (rnd == 4 && numOfBombItems < 4) {
+        } else if (rnd == 4 && numOfBombItems < MAX_OF_ITEM) {
             numOfPoisonItems++;
-        } else if (rnd == 5 && numOfBombItems < 4) {
+        } else if (rnd == 5 && numOfBombItems < MAX_OF_ITEM) {
             numOfSterilisationItems++;
-        } else if (rnd == 6 && numOfBombItems < 4) {
+        } else if (rnd == 6 && numOfBombItems < MAX_OF_ITEM) {
             numOfDeathRatItems++;
-        } else if (rnd == 7 && numOfBombItems < 4) {
+        } else if (rnd == 7 && numOfBombItems < MAX_OF_ITEM) {
             numOfNoEntrySignItems++;
         }
 
