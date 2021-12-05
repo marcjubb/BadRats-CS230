@@ -1,6 +1,7 @@
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -15,6 +16,9 @@ public class LoginController {
     @FXML
     private Button signInBtn;
 
+
+    @FXML
+    private TextField loginTxtBox;
     @FXML
     void intoCreateUser(ActionEvent event) throws IOException {
         Level.createAccountWindow();
@@ -23,9 +27,11 @@ public class LoginController {
 
     @FXML
     void loginUser(ActionEvent event) throws IOException {
-
-
+        PlayerProfiles.load();
+        if (PlayerProfiles.exists(loginTxtBox.getText())){
             Level.drawMenu();
+        }
+
 
     }
 

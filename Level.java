@@ -744,6 +744,7 @@ public class Level extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
+
         primaryStage.setTitle("Bad Rats");
 
         tickCount = 0;

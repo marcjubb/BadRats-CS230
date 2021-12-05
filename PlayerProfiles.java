@@ -43,7 +43,6 @@ public class PlayerProfiles {
      * @return True if profile exists, else False.
      */
     public static boolean exists(String username){
-
         for(PlayerProfile p : PlayerProfiles.profiles){
             if(p.getUserName().equals(username)){
                 return true;
@@ -72,7 +71,7 @@ public class PlayerProfiles {
      * @return List of existing profiles.
      * @throws FileNotFoundException if file not found then throw FileNotFoundException exception.
      */
-    public static ArrayList<PlayerProfile> load() throws FileNotFoundException {
+    public static void load() throws FileNotFoundException {
         File inputFile = new File(PROFILE_PATH);
         Scanner in = null;
         try{
@@ -81,23 +80,20 @@ public class PlayerProfiles {
         } catch(FileNotFoundException e){
             System.out.println("Error reading from file at " + PROFILE_PATH);
         }
-        return PlayerProfiles.load(in);
+       load(in);
     }
     /**
      * Read all profiles in File into the List.
      * @param in read in each token.
      * @return List of profiles.
      */
-    public static ArrayList<PlayerProfile> load(Scanner in) {
-        profiles = null;
-
+    public static void load(Scanner in) {
         while(in.hasNextLine()) {
             String currentLine = in.nextLine();
             Scanner lineReader = new Scanner(currentLine);
             profiles.add(readProfile(lineReader));
 
         }
-        return profiles;
     }
 
     /**
