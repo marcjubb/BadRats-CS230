@@ -44,10 +44,8 @@ public class MenuController {
     @FXML
     void lvlSelect(ActionEvent event) throws IOException {
 
-
         Stage stage = new Stage();
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("levelSelect.fxml")));
-
         Scene menu = new Scene(root);
         stage.setScene(menu);
         stage.show();
