@@ -95,9 +95,44 @@ public class Level extends Application {
     private Timeline tickTimeline;
     private boolean levelCompleted = false;
     private boolean gameLost = false;
-
+    private HashMap<String, Integer> level1Scores = new HashMap<>();
+    private HashMap<String, Integer> level2Scores = new HashMap<>();
+    private HashMap<String, Integer> level3Scores = new HashMap<>();
+    private HashMap<String, Integer> level4Scores = new HashMap<>();
     //The quantity of rats by sex.
     private String saveGame;
+
+    public HashMap<String, Integer> getLevel1Scores() {
+        return level1Scores;
+    }
+
+    public HashMap<String, Integer> getLevel2Scores() {
+        return level2Scores;
+    }
+
+    public HashMap<String, Integer> getLevel3Scores() {
+        return level3Scores;
+    }
+
+    public HashMap<String, Integer> getLevel4Scores() {
+        return level4Scores;
+    }
+
+    public void setLevel1Scores(HashMap<String, Integer> level1Scores) {
+        this.level1Scores = level1Scores;
+    }
+
+    public void setLevel2Scores(HashMap<String, Integer> level2Scores) {
+        this.level2Scores = level2Scores;
+    }
+
+    public void setLevel3Scores(HashMap<String, Integer> level3Scores) {
+        this.level3Scores = level3Scores;
+    }
+
+    public void setLevel4Scores(HashMap<String, Integer> level4Scores) {
+        this.level4Scores = level4Scores;
+    }
 
     /**
      * Gets num of male rats.
@@ -105,6 +140,7 @@ public class Level extends Application {
      * @return the num of male rats
      */
 //getters
+
     public static int getNumOfMaleRats() {
         return numOfMaleRats;
     }
@@ -182,7 +218,6 @@ public class Level extends Application {
      * @return the playable rat list size
      */
     public static int getPlayableRatListSize() {
-
         return ratList.size();
     }
 
@@ -197,123 +232,6 @@ public class Level extends Application {
         newBaby.setImageDirection();
         ratList.add(newBaby);
     }
-
-    /*public static void loadExisting() {
-        String filename = "level1.txt";
-        File inputFile = new File(filename);
-        Scanner in = null;
-        try {
-            in = new Scanner(inputFile);
-        } catch (FileNotFoundException e) {
-            System.out.println("Cannot open " + filename);
-            System.exit(0);
-        }
-
-
-        String line = (in.nextLine());
-        String[] widthAndHeight = line.split(", ");
-        gridWidth = Integer.parseInt(widthAndHeight[0]);
-        gridHeight = Integer.parseInt(widthAndHeight[1]);
-        ArrayList<ArrayList<Character>> fileLevelLayout = new ArrayList<>();
-        ArrayList<Character> chars = new ArrayList<Character>();
-        while (!in.nextLine().equals("")) {
-            for (char c : in.nextLine().toCharArray()) {
-                chars.add(c);
-            }
-            fileLevelLayout.add(chars);
-        }
-        levelLayout = fileLevelLayout.stream().map(u -> u.toArray(new Character[0])).toArray(Character[][]::new);
-        System.out.println(Arrays.deepToString(fileLevelLayout.stream().map(u -> u.toArray(new Character[0])).toArray(Character[][]::new)));
-        in.nextLine();
-        in.nextLine();
-        line = in.nextLine();
-        Scanner lineReader = new Scanner(line);
-        lineReader.useDelimiter(";");
-        while (lineReader.hasNext()) {
-            String[] ratData = lineReader.next().split(", ");
-            if (ratData[0].equals("PlayableRat")) {
-                int x = Integer.parseInt(ratData[1]);
-                int y = Integer.parseInt(ratData[2]);
-                int ticksSinceCreation = Integer.parseInt(ratData[3]);
-                Rat.Direction direction = Rat.Direction.valueOf(ratData[4]);
-                PlayableRat.Sex sex = PlayableRat.Sex.valueOf((ratData[5]));
-                boolean isAdult = Boolean.parseBoolean(ratData[6]);
-                boolean isPregnant = Boolean.parseBoolean(ratData[7]);
-                int pregnantTick = Integer.parseInt(ratData[8]);
-                boolean isSterile = Boolean.parseBoolean(ratData[9]);
-                //ratList.add(new PlayableRat(x, y, isAdult, isPregnant, sex, ticksSinceCreation, direction, pregnantTick, isSterile));
-                Rat rat = new PlayableRat(x, y, isAdult, isPregnant, sex, ticksSinceCreation, direction, pregnantTick, isSterile);
-                System.out.println(rat.toString());
-            } else if (ratData[0].equals("DeathRat")) {
-                int x = Integer.parseInt(ratData[1]);
-                int y = Integer.parseInt(ratData[2]);
-                int ticksSinceCreation = Integer.parseInt(ratData[3]);
-                Rat.Direction direction = Rat.Direction.valueOf(ratData[4]);
-                int currentKillCount = Integer.parseInt(ratData[5]);
-                DeathRat rat = new DeathRat(x, y, ticksSinceCreation, currentKillCount, direction);
-                System.out.println(rat.toString());
-            }
-        }
-        System.out.println("End of rats");
-        line = in.nextLine();
-        lineReader = new Scanner(line);
-        lineReader.useDelimiter(";");
-
-        while (lineReader.hasNext()) {
-            String[] itemData = lineReader.next().split(", ");
-            if (itemData[0].equals("Bomb")) {
-                int x = Integer.parseInt(itemData[1]);
-                int y = Integer.parseInt(itemData[2]);
-                int timer = Integer.parseInt(itemData[3]);
-                //itemList.add(new Bomb(x,y,timer));
-                //System.out.println((new Bomb(x,y,timer)).toString());
-            } else if (itemData[0].equals("Sterilisation")) {
-                int x = Integer.parseInt(itemData[1]);
-                int y = Integer.parseInt(itemData[2]);
-                int timer = Integer.parseInt(itemData[3]);
-                //itemList.add(new Sterilisation(x,y,timer));
-                System.out.println((new Sterilisation(x, y, timer)).toString());
-            } else if (itemData[0].equals("DeathRatItem")) {
-                int x = Integer.parseInt(itemData[1]);
-                int y = Integer.parseInt(itemData[2]);
-                int tickSinceCreation = Integer.parseInt(itemData[3]);
-                int currentKillCount = Integer.parseInt(itemData[4]);
-                //itemList.add(new DeathRatItem(x, y, tickSinceCreation, currentKillCount));
-                System.out.println(new DeathRatItem(x, y, tickSinceCreation, currentKillCount).toString());
-            } else if (itemData[0].equals("Poison")) {
-                int x = Integer.parseInt(itemData[1]);
-                int y = Integer.parseInt(itemData[2]);
-                //itemList.add(new Poison(x, y));
-                System.out.println(new Poison(x, y).toString());
-            } else if (itemData[0].equals("FemaleSexChange")) {
-                int x = Integer.parseInt(itemData[1]);
-                int y = Integer.parseInt(itemData[2]);
-                //itemList.add(new FemaleSexChange(x, y));
-                System.out.println(new FemaleSexChange(x, y).toString());
-            } else if (itemData[0].equals("MaleSexChange")) {
-                int x = Integer.parseInt(itemData[1]);
-                int y = Integer.parseInt(itemData[2]);
-                //itemList.add(new MaleSexChange(x, y));
-                System.out.println(new MaleSexChange(x, y).toString());
-            } else if (itemData[0].equals("Gas")) {
-                int x = Integer.parseInt(itemData[1]);
-                int y = Integer.parseInt(itemData[2]);
-                int timer = Integer.parseInt(itemData[3]);
-                boolean isDissipating = Boolean.parseBoolean(itemData[4]);
-                //itemList.add(new Gas(x, y, timer, isDissipating));
-                System.out.println(new Gas(x, y, timer, isDissipating).toString());
-            } else if (itemData[0].equals("NoEntrySign")) {
-                int x = Integer.parseInt(itemData[1]);
-                int y = Integer.parseInt(itemData[2]);
-                int durability = Integer.parseInt(itemData[3]);
-                //itemList.add(new Gas(x, y, durability));
-                System.out.println(new NoEntrySign(x, y, durability));
-            }
-
-        }
-        frequencyOfNewItem = Integer.parseInt(in.nextLine());
-        maxPopulation = Integer.parseInt(in.nextLine());
-    }*/
 
     public static void saveGame() {
         String filename = "resources/LevelFiles/ExistingFiles/level" + currentLevel + PlayerProfiles.getCurrentUserName()+".txt";
@@ -362,12 +280,14 @@ public class Level extends Application {
 
         out.close();
     }
-    public static void loadExisting(){
+
+    public static void loadExisting(int currentLevel) {
         GraphicsContext gc = canvas.getGraphicsContext2D();
-        String filename = "level1.txt";
+        String profile = PlayerProfiles.getCurrentUserName();
+        String filename = "level" + currentLevel + profile + ".txt";
         File inputFile = new File(filename);
         Scanner in = null;
-        try{
+        try {
             in = new Scanner(inputFile);
         } catch (FileNotFoundException e) {
             System.out.println("Cannot open " + filename);
@@ -432,48 +352,50 @@ public class Level extends Application {
 
         while (lineReader.hasNext()) {
             String[] itemData = lineReader.next().split(", ");
-            if (itemData[0].equals("Bomb")){
+            if (itemData[0].equals("Bomb")) {
                 int x = Integer.parseInt(itemData[1]);
                 int y = Integer.parseInt(itemData[2]);
                 int timer = Integer.parseInt(itemData[3]);
                 itemList.add(new Bomb(x,y,timer));
                 //System.out.println((new Bomb(x,y,timer)).toString());
-            } else if(itemData[0].equals("Sterilisation")){
+            } else if (itemData[0].equals("Sterilisation")) {
                 int x = Integer.parseInt(itemData[1]);
                 int y = Integer.parseInt(itemData[2]);
                 int timer = Integer.parseInt(itemData[3]);
+
                 itemList.add(new Sterilisation(x,y,timer));
                 System.out.println((new Sterilisation(x,y,timer)).toString());
             } else if (itemData[0].equals("DeathRatItem")){
+
                 int x = Integer.parseInt(itemData[1]);
                 int y = Integer.parseInt(itemData[2]);
                 int tickSinceCreation = Integer.parseInt(itemData[3]);
                 int currentKillCount = Integer.parseInt(itemData[4]);
                 //itemList.add(new DeathRatItem(x, y, tickSinceCreation, currentKillCount));
                 System.out.println(new DeathRatItem(x, y, tickSinceCreation, currentKillCount).toString());
-            } else if (itemData[0].equals("Poison")){
+            } else if (itemData[0].equals("Poison")) {
                 int x = Integer.parseInt(itemData[1]);
                 int y = Integer.parseInt(itemData[2]);
                 itemList.add(new Poison(x, y));
                 System.out.println(new Poison(x, y).toString());
-            } else if (itemData[0].equals("FemaleSexChange")){
+            } else if (itemData[0].equals("FemaleSexChange")) {
                 int x = Integer.parseInt(itemData[1]);
                 int y = Integer.parseInt(itemData[2]);
                 itemList.add(new FemaleSexChange(x, y));
                 System.out.println(new FemaleSexChange(x, y).toString());
-            } else if (itemData[0].equals("MaleSexChange")){
+            } else if (itemData[0].equals("MaleSexChange")) {
                 int x = Integer.parseInt(itemData[1]);
                 int y = Integer.parseInt(itemData[2]);
                 itemList.add(new MaleSexChange(x, y));
                 System.out.println(new MaleSexChange(x, y).toString());
-            } else if (itemData[0].equals("Gas")){
+            } else if (itemData[0].equals("Gas")) {
                 int x = Integer.parseInt(itemData[1]);
                 int y = Integer.parseInt(itemData[2]);
                 int timer = Integer.parseInt(itemData[3]);
                 boolean isDissipating = Boolean.parseBoolean(itemData[4]);
                 itemList.add(new Gas(x, y, timer, isDissipating));
                 System.out.println(new Gas(x, y, timer, isDissipating).toString());
-            } else if (itemData[0].equals("NoEntrySign")){
+            } else if (itemData[0].equals("NoEntrySign")) {
                 int x = Integer.parseInt(itemData[1]);
                 int y = Integer.parseInt(itemData[2]);
                 int durability = Integer.parseInt(itemData[3]);
@@ -487,12 +409,13 @@ public class Level extends Application {
         System.out.println(frequencyOfNewItem);
         System.out.println(maxPopulation);
     }
-    public static void loadNew(int currentLevel){
+
+    public static void loadNew(int currentLevel) {
         GraphicsContext gc = canvas.getGraphicsContext2D();
         String filename = "resources/LevelFiles/map0"+currentLevel+ ".txt";
         File inputFile = new File(filename);
         Scanner in = null;
-        try{
+        try {
             in = new Scanner(inputFile);
         } catch (FileNotFoundException e) {
             System.out.println("Cannot open " + filename);
@@ -513,10 +436,10 @@ public class Level extends Application {
 //            fileLevelLayout.add(chars);
 //        }
 
-        for (int i = 0; i <= gridHeight-1; i++) {
+        for (int i = 0; i <= gridHeight - 1; i++) {
             ArrayList<Character> chars = new ArrayList<>();
             line = in.nextLine();
-            for (char ch: line.toCharArray()) {
+            for (char ch : line.toCharArray()) {
                 chars.add(ch);
             }
             fileLevelLayout.add(chars);
@@ -531,7 +454,7 @@ public class Level extends Application {
         line = in.nextLine();
         Scanner lineReader = new Scanner(line);
         lineReader.useDelimiter(";");
-        while (lineReader.hasNext()){
+        while (lineReader.hasNext()) {
             String[] ratData = lineReader.next().split(", ");
             int x = Integer.parseInt(ratData[0]);
             int y = Integer.parseInt(ratData[1]);
@@ -551,11 +474,8 @@ public class Level extends Application {
         in.close();
 
 
-
-
-
-
     }
+
     private static void loadLevelFile(int currentLevel) throws FileNotFoundException {
 
         GraphicsContext gc = canvas.getGraphicsContext2D();
@@ -908,7 +828,6 @@ public class Level extends Application {
         });
 
 
-
         //Save the variables board into a .txt file
 //        btnSaveLevel.setOnAction(e -> {
 //            Saver saveLevel = new Saver(); //Get save function from Saver class
@@ -1241,7 +1160,6 @@ public class Level extends Application {
         for (int i = 0; i < getGridWidth(); i++) {
             for (int j = 0; j < getGridHeight(); j++) {
                 if (levelCompleted) {
-
                     gc.drawImage(new Image("/resources/Images/WHITE.png"), (i * GRID_CELL_WIDTH), (j * GRID_CELL_HEIGHT));
                 } else if (gameLost) {
                     gc.drawImage(new Image("/resources/Images/RED.png"), (i * GRID_CELL_WIDTH), (j * GRID_CELL_HEIGHT));
@@ -1252,12 +1170,26 @@ public class Level extends Application {
         gc.setTextBaseline(VPos.CENTER);
         gc.setFont(new Font(25));
         if (levelCompleted) {
+            switch (currentLevel){
+                case 1:
+                    level1Scores.put(PlayerProfiles.getCurrentUserName(), score);
+                    break;
+                case 2:
+                    level2Scores.put(PlayerProfiles.getCurrentUserName(), score);
+                    break;
+                case 3:
+                    level3Scores.put(PlayerProfiles.getCurrentUserName(), score);
+                    break;
+                case 4:
+                    level4Scores.put(PlayerProfiles.getCurrentUserName(), score);
+                    break;
+            }
             PlayerProfiles.load();
             System.out.println(PlayerProfiles.getCurrentHighestLevel());
             System.out.println(currentLevel);
-            if (PlayerProfiles.getCurrentHighestLevel() == currentLevel) {
-                    PlayerProfiles.setCurrentHighestLevel(currentLevel + 1);
-                    PlayerProfiles.getProfiles().set(PlayerProfiles.getCurrentUserIndex() - 1, new PlayerProfile(PlayerProfiles.getCurrentUserName(), PlayerProfiles.getCurrentHighestLevel()));
+            if (PlayerProfiles.getCurrentHighestLevel() == currentLevel && PlayerProfiles.getCurrentHighestLevel() != 4) {
+                PlayerProfiles.setCurrentHighestLevel(currentLevel + 1);
+                PlayerProfiles.getProfiles().set(PlayerProfiles.getCurrentUserIndex() - 1, new PlayerProfile(PlayerProfiles.getCurrentUserName(), PlayerProfiles.getCurrentHighestLevel()));
                 PlayerProfiles.save(false);
             }
 
@@ -1271,6 +1203,10 @@ public class Level extends Application {
          * Game status.
          */
 
+    }
+
+    public void updateHighScores(){
+        
     }
 
     public void gameStatus() throws IOException {
