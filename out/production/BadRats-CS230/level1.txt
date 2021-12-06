@@ -9,8 +9,8 @@ GGGGGGGGGGGG
 
 
 100
-24
-PlayableRat, 8, 1, 24, SOUTH, MALE, true, false, 0, false;PlayableRat, 4, 3, 24, WEST, FEMALE, true, false, 0, false;PlayableRat, 8, 5, 24, WEST, FEMALE, true, false, 0, false;
-MaleSexChange, 8, 1;
+60
+PlayableRat, 10, 5, 60, NORTH, MALE, true, false, 0, false;PlayableRat, 10, 1, 60, SOUTH, FEMALE, true, true, 7, false;PlayableRat, 8, 1, 60, EAST, FEMALE, true, false, 0, false;PlayableRat, 3, 5, 7, WEST, MALE, true, false, 0, false;
+
 50
 10

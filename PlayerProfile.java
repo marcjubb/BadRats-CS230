@@ -53,11 +53,6 @@ public class PlayerProfile {
     }
 
     /**
-     * Sets max level completed
-     * @param maxLevelCompleted The new max level achieved.
-     */
-
-    /**
      * Get the Username of player.
      * @return The username.
      */

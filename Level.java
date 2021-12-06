@@ -26,7 +26,8 @@ import java.io.*;
 import java.util.*;
 
 /**
- * This class is responsible for running the GUI for the rats game and storing the relevant values to be called.
+ * This class is responsible for running the GUI for the
+ * rats game and storing the relevant values to be called.
  *
  * @author Samuel Griffin, Marc Jubb, Ryan Wake, Gonzalo Mandrión Flores, Aaron Davies, Alex Walker
  */
@@ -41,16 +42,12 @@ public class Level extends Application {
     private static final int CANVAS_WIDTH = GRID_CELL_WIDTH * gridWidth;
     private static final int WINDOW_WIDTH = 400 + CANVAS_WIDTH;
     private static int gridHeight = 7;
+
+    // The dimensions of the canvas
+    // The width and height (in pixels) of each cell that makes up the game.
     private static final int CANVAS_HEIGHT = GRID_CELL_HEIGHT * gridHeight;
     private static final int WINDOW_HEIGHT = 200 + CANVAS_HEIGHT;
     private static Canvas canvas;
-
-
-    // The dimensions of the canvas
-
-
-    // The width and height (in pixels) of each cell that makes up the game.
-
 
     // The width of the grid in number of cells.
     // Loaded images
@@ -103,13 +100,19 @@ public class Level extends Application {
     private String saveGame;
 
 
+
+    /**
+     * Sets level 1 scores.
+     *
+     * @param level1Scores the level 1 scores
+     */
+
+
     /**
      * Gets num of male rats.
      *
      * @return the num of male rats
      */
-//getters
-
     public static int getNumOfMaleRats() {
         return numOfMaleRats;
     }
@@ -165,6 +168,11 @@ public class Level extends Application {
         return itemList;
     }
 
+    /**
+     * Get level layout character [ ] [ ].
+     *
+     * @return the character [ ] [ ]
+     */
     public static Character[][] getLevelLayout() {
         return levelLayout;
     }
@@ -198,7 +206,8 @@ public class Level extends Application {
     }
 
     /**
-     * Creates a new baby object at the position of the mother when it is called and adds it to the rats arraylist.
+     * Creates a new baby object at the position of the mother
+     * when it is called and adds it to the rats arraylist.
      *
      * @param x The x-coordinate of the pregnant female rat.
      * @param y The y-coordinate of the pregnant female rat.
@@ -210,12 +219,19 @@ public class Level extends Application {
     }
 
     public static void saveGame() {
-        File outputFile = new File("level" + currentLevel + ".txt");
+        String filename = "resources/LevelFiles/ExistingFiles/level" + currentLevel + PlayerProfiles.getCurrentUserName()+".txt";
+        File outputFile = null;
         try {
-            outputFile.createNewFile();
+            outputFile = new File(filename);
+            if(outputFile.createNewFile()){
+                System.out.println("File created");
+            } else {
+                System.out.println("File already exists");
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         PrintWriter out = null;
         try {
             out = new PrintWriter(outputFile);
@@ -250,8 +266,10 @@ public class Level extends Application {
         out.close();
     }
 
-    public static void loadExisting() {
-        String filename = "level1.txt";
+    public static void loadExisting(int currentLevel) {
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+        String profile = PlayerProfiles.getCurrentUserName();
+        String filename = "level" + currentLevel + profile + ".txt";
         File inputFile = new File(filename);
         Scanner in = null;
         try {
@@ -276,8 +294,10 @@ public class Level extends Application {
             fileLevelLayout.add(chars);
 
         }
+
         levelLayout = fileLevelLayout.stream().map(u -> u.toArray(new Character[0])).toArray(Character[][]::new);
-        System.out.println(Arrays.deepToString(fileLevelLayout.stream().map(u -> u.toArray(new Character[0])).toArray(Character[][]::new)));
+        System.out.println(Arrays.deepToString
+                (fileLevelLayout.stream().map(u -> u.toArray(new Character[0])).toArray(Character[][]::new)));
         System.out.println(in.nextLine());
         System.out.println(in.nextLine());
         ticksExpected = Integer.parseInt(in.nextLine());
@@ -299,8 +319,10 @@ public class Level extends Application {
                 boolean isPregnant = Boolean.parseBoolean(ratData[7]);
                 int pregnantTick = Integer.parseInt(ratData[8]);
                 boolean isSterile = Boolean.parseBoolean(ratData[9]);
-                ratList.add(new PlayableRat(x, y, isAdult, isPregnant, sex, ticksSinceCreation, direction, pregnantTick, isSterile));
-                Rat rat = new PlayableRat(x, y, isAdult, isPregnant, sex, ticksSinceCreation, direction, pregnantTick, isSterile);
+                ratList.add(new PlayableRat(x, y, isAdult, isPregnant, sex,
+                        ticksSinceCreation, direction, pregnantTick, isSterile));
+                Rat rat = new PlayableRat(x, y, isAdult, isPregnant, sex,
+                        ticksSinceCreation, direction, pregnantTick, isSterile);
                 System.out.println(rat.toString());
             } else if (ratData[0].equals("DeathRat")) {
                 int x = Integer.parseInt(ratData[1]);
@@ -317,59 +339,63 @@ public class Level extends Application {
         lineReader = new Scanner(line);
         lineReader.useDelimiter(";");
 
+        /* Variables for data item */
+        final int ITEM_DATA_X = 1;
+        final int ITEM_DATA_Y = 2;
+        final int TIMER_DATA = 3;
+
         while (lineReader.hasNext()) {
             String[] itemData = lineReader.next().split(", ");
             if (itemData[0].equals("Bomb")) {
-                int x = Integer.parseInt(itemData[1]);
-                int y = Integer.parseInt(itemData[2]);
-                int timer = Integer.parseInt(itemData[3]);
+
+                int x = Integer.parseInt(itemData[ITEM_DATA_X]);
+                int y = Integer.parseInt(itemData[ITEM_DATA_Y]);
+                int timer = Integer.parseInt(itemData[TIMER_DATA]);
                 itemList.add(new Bomb(x, y, timer));
-                //System.out.println((new Bomb(x,y,timer)).toString());
+
             } else if (itemData[0].equals("Sterilisation")) {
-                int x = Integer.parseInt(itemData[1]);
-                int y = Integer.parseInt(itemData[2]);
-                int timer = Integer.parseInt(itemData[3]);
+                int x = Integer.parseInt(itemData[ITEM_DATA_X]);
+                int y = Integer.parseInt(itemData[ITEM_DATA_Y]);
+                int timer = Integer.parseInt(itemData[TIMER_DATA]);
 
                 itemList.add(new Sterilisation(x, y, timer));
                 System.out.println((new Sterilisation(x, y, timer)).toString());
             } else if (itemData[0].equals("DeathRatItem")) {
 
-                int x = Integer.parseInt(itemData[1]);
-                int y = Integer.parseInt(itemData[2]);
+                int x = Integer.parseInt(itemData[ITEM_DATA_X]);
+                int y = Integer.parseInt(itemData[ITEM_DATA_Y]);
                 int tickSinceCreation = Integer.parseInt(itemData[3]);
                 int currentKillCount = Integer.parseInt(itemData[4]);
-                //itemList.add(new DeathRatItem(x, y, tickSinceCreation, currentKillCount));
                 System.out.println(new DeathRatItem(x, y, tickSinceCreation, currentKillCount).toString());
             } else if (itemData[0].equals("Poison")) {
-                int x = Integer.parseInt(itemData[1]);
-                int y = Integer.parseInt(itemData[2]);
+                int x = Integer.parseInt(itemData[ITEM_DATA_X]);
+                int y = Integer.parseInt(itemData[ITEM_DATA_Y]);
                 itemList.add(new Poison(x, y));
                 System.out.println(new Poison(x, y).toString());
             } else if (itemData[0].equals("FemaleSexChange")) {
-                int x = Integer.parseInt(itemData[1]);
-                int y = Integer.parseInt(itemData[2]);
+                int x = Integer.parseInt(itemData[ITEM_DATA_X]);
+                int y = Integer.parseInt(itemData[ITEM_DATA_Y]);
                 itemList.add(new FemaleSexChange(x, y));
                 System.out.println(new FemaleSexChange(x, y).toString());
             } else if (itemData[0].equals("MaleSexChange")) {
-                int x = Integer.parseInt(itemData[1]);
-                int y = Integer.parseInt(itemData[2]);
+                int x = Integer.parseInt(itemData[ITEM_DATA_X]);
+                int y = Integer.parseInt(itemData[ITEM_DATA_Y]);
                 itemList.add(new MaleSexChange(x, y));
                 System.out.println(new MaleSexChange(x, y).toString());
             } else if (itemData[0].equals("Gas")) {
-                int x = Integer.parseInt(itemData[1]);
-                int y = Integer.parseInt(itemData[2]);
+                int x = Integer.parseInt(itemData[ITEM_DATA_X]);
+                int y = Integer.parseInt(itemData[ITEM_DATA_Y]);
                 int timer = Integer.parseInt(itemData[3]);
                 boolean isDissipating = Boolean.parseBoolean(itemData[4]);
                 itemList.add(new Gas(x, y, timer, isDissipating));
                 System.out.println(new Gas(x, y, timer, isDissipating).toString());
             } else if (itemData[0].equals("NoEntrySign")) {
-                int x = Integer.parseInt(itemData[1]);
-                int y = Integer.parseInt(itemData[2]);
+                int x = Integer.parseInt(itemData[ITEM_DATA_X]);
+                int y = Integer.parseInt(itemData[ITEM_DATA_Y]);
                 int durability = Integer.parseInt(itemData[3]);
                 itemList.add(new NoEntrySign(x, y, durability));
                 System.out.println(new NoEntrySign(x, y, durability));
             }
-
         }
         frequencyOfNewItem = Integer.parseInt(in.nextLine());
         maxPopulation = Integer.parseInt(in.nextLine());
@@ -377,9 +403,15 @@ public class Level extends Application {
         System.out.println(maxPopulation);
     }
 
+    /**
+     * Load new.
+     *
+     * @param currentLevel the current level
+     */
     public static void loadNew(int currentLevel) {
         GraphicsContext gc = canvas.getGraphicsContext2D();
-        String filename = "resources/LevelFiles/map0" + currentLevel + "new.txt";
+        String filename = "resources/LevelFiles/map0"+currentLevel+ ".txt";
+
         File inputFile = new File(filename);
         Scanner in = null;
         try {
@@ -395,13 +427,6 @@ public class Level extends Application {
         System.out.println(gridWidth);
         System.out.println(gridHeight);
         ArrayList<ArrayList<Character>> fileLevelLayout = new ArrayList<>();
-
-//        while (!in.nextLine().equals("")) {
-//            for (char c : in.nextLine().toCharArray()) {
-//                chars.add(c);
-//            }
-//            fileLevelLayout.add(chars);
-//        }
 
         for (int i = 0; i <= gridHeight - 1; i++) {
             ArrayList<Character> chars = new ArrayList<>();
@@ -421,6 +446,7 @@ public class Level extends Application {
         line = in.nextLine();
         Scanner lineReader = new Scanner(line);
         lineReader.useDelimiter(";");
+
         while (lineReader.hasNext()) {
             String[] ratData = lineReader.next().split(", ");
             int x = Integer.parseInt(ratData[0]);
@@ -446,8 +472,8 @@ public class Level extends Application {
     private static void loadLevelFile(int currentLevel) throws FileNotFoundException {
 
         GraphicsContext gc = canvas.getGraphicsContext2D();
-        //Set extension filter
 
+        //Set extension filter
         //Show save file dialog
         File txtFile = new File("resources/LevelFiles/map0" + currentLevel + ".txt");
         FileReader fr = new FileReader(txtFile);
@@ -458,19 +484,8 @@ public class Level extends Application {
             //Collect size of the layout
             Scanner sc = new Scanner(txtFile);
             String[] dataLevelFile = sc.nextLine().split(",");
-            //Start counting seconds once game is loaded
-            //TimeSeconds time = new TimeSeconds();
-            //time.StartCount();
             gridWidth = Integer.parseInt(dataLevelFile[0]);
             gridHeight = Integer.parseInt(dataLevelFile[1]);
-
-            int secondsExpected = 0;
-            int maxPopulationRats = 0;
-            while (sc.hasNextInt()) {
-                secondsExpected = sc.nextInt();
-                maxPopulationRats = sc.nextInt();
-            }
-
 
             //Collect the tiles variables
             ArrayList<ArrayList<Character>> fileLevelLayout = new ArrayList<>();
@@ -478,8 +493,7 @@ public class Level extends Application {
             br.readLine(); // skip first line
             br.readLine(); // skip second line
             br.readLine(); // skip third line
-            //br.readLine(); // skip line
-            // read until end of file
+
             while ((line = br.readLine()) != null) {
 
                 ArrayList<Character> chars = new ArrayList<Character>();
@@ -518,26 +532,44 @@ public class Level extends Application {
         }
     }
 
+    /**
+     * Load level 1.
+     *
+     * @throws FileNotFoundException the file not found exception
+     */
     public static void loadLevel1() throws FileNotFoundException {
         currentLevel = 1;
         Stage secondaryStage = new Stage();
         Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
         secondaryStage.setScene(scene);
         secondaryStage.show();
+
         loadLevelFile(1);
         /*loadNew(1);*/
 
+
+
     }
 
+    /**
+     * Load level 2.
+     *
+     * @throws FileNotFoundException the file not found exception
+     */
     public static void loadLevel2() throws FileNotFoundException {
         currentLevel = 2;
         Stage secondaryStage = new Stage();
         Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
         secondaryStage.setScene(scene);
         secondaryStage.show();
-        loadLevelFile(2);
+        loadLevelFile(4);
     }
 
+    /**
+     * Load level 3.
+     *
+     * @throws FileNotFoundException the file not found exception
+     */
     public static void loadLevel3() throws FileNotFoundException {
         currentLevel = 3;
         Stage secondaryStage = new Stage();
@@ -546,6 +578,7 @@ public class Level extends Application {
         secondaryStage.show();
         loadLevelFile(3);
     }
+
 
     /*public static void loadExisting() {
         String filename = "level1.txt";
@@ -664,6 +697,13 @@ public class Level extends Application {
         maxPopulation = Integer.parseInt(in.nextLine());
     }*/
 
+
+    /**
+     * Load level 4.
+     *
+     * @throws FileNotFoundException the file not found exception
+     */
+
     public static void loadLevel4() throws FileNotFoundException {
         currentLevel = 4;
         Stage secondaryStage = new Stage();
@@ -673,6 +713,11 @@ public class Level extends Application {
         loadLevelFile(4);
     }
 
+    /**
+     * Create account window.
+     *
+     * @throws IOException the io exception
+     */
     public static void createAccountWindow() throws IOException {
         Parent rooter = FXMLLoader.load(Objects.requireNonNull(Level.class.getResource("CreateAccount.fxml")));
         Scene createUser = new Scene(rooter);
@@ -680,14 +725,25 @@ public class Level extends Application {
         createUserStage.show();
     }
 
+    /**
+     * Close login.
+     */
     public static void closeLogin() {
         loginStage.hide();
     }
 
+    /**
+     * Close create user.
+     */
     public static void closeCreateUser() {
         createUserStage.hide();
     }
 
+    /**
+     * Draw menu.
+     *
+     * @throws IOException the io exception
+     */
     public static void drawMenu() throws IOException {
         Parent rooter = FXMLLoader.load(Objects.requireNonNull(Level.class.getResource("Menu.fxml")));
         Scene menu = new Scene(rooter);
@@ -728,7 +784,6 @@ public class Level extends Application {
     /**
      * Get level layout character [ ] [ ].
      */
-
     public void getNumOfSex() {
         numOfMaleRats = 0;
         numOfFemaleRats = 0;
@@ -737,16 +792,21 @@ public class Level extends Application {
 
     private void ratWorker() {
         for (Rat rat : Level.getRatList()) {
-            if ((rat instanceof PlayableRat) && ((PlayableRat) rat).getSex() ==
-                    PlayableRat.Sex.MALE) {
+            if ((rat instanceof PlayableRat) && ((PlayableRat) rat).getSex()
+                    == PlayableRat.Sex.MALE) {
                 numOfMaleRats++;
-            } else if ((rat instanceof PlayableRat) && ((PlayableRat) rat).getSex() ==
-                    PlayableRat.Sex.FEMALE) {
+            } else if ((rat instanceof PlayableRat) && ((PlayableRat) rat).getSex()
+                    == PlayableRat.Sex.FEMALE) {
                 numOfFemaleRats++;
             }
         }
     }
 
+    /**
+     * Sets current level.
+     *
+     * @param currentLevel the current level
+     */
     public void setCurrentLevel(int currentLevel) {
         this.currentLevel = currentLevel;
     }
@@ -773,7 +833,6 @@ public class Level extends Application {
 
         for (Rat rat : ratList) {
             rat.draw(gc);
-            /*gc.drawImage(rat.img, rat.getX() * GRID_CELL_WIDTH, rat.getY() * GRID_CELL_HEIGHT);*/
         }
 
         for (Item item : itemList) {
@@ -782,6 +841,9 @@ public class Level extends Application {
 
     }
 
+    /**
+     * Draw counters.
+     */
     public void drawCounters() {
         GraphicsContext gc = canvasCounters.getGraphicsContext2D();
         getNumOfSex();
@@ -794,6 +856,9 @@ public class Level extends Application {
         gc.fillText("Females Remaining: " + numOfFemaleRats, 80, 90);
     }
 
+    /**
+     * Draw inv.
+     */
     public void drawInv() {
 
         GraphicsContext gc = canvasCounters.getGraphicsContext2D();
@@ -817,6 +882,9 @@ public class Level extends Application {
 
     }
 
+    /**
+     * Load new.
+     */
     public void loadNew() {
         String filename = "level1New.txt";
     }
@@ -826,7 +894,6 @@ public class Level extends Application {
      *
      * @param event the event
      */
-
     public void canvasDragDroppedOccured(DragEvent event) {
         int x = Math.floorDiv((int) event.getX(), 64);
         int y = Math.floorDiv((int) event.getY(), 64);
@@ -846,56 +913,58 @@ public class Level extends Application {
                     itemList.add(itemList.size(), new Bomb(x, y));
                     inv.decrementBomb();
                     gc.drawImage(bomb, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
-                } else if (Objects.equals(event.getDragboard().getString(), "MaleSexChange") && inv.getNumOfMaleSexChangeItems() > 0) {
+                } else if (Objects.equals(event.getDragboard().getString(), "MaleSexChange")
+                        && inv.getNumOfMaleSexChangeItems() > 0) {
                     itemList.add(itemList.size(), new MaleSexChange(x, y));
                     inv.decrementMaleSexChange();
                     gc.drawImage(maleSexChange, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
-                } else if (Objects.equals(event.getDragboard().getString(), "FemaleSexChange") && inv.getNumOfFemaleSexChangeItems() > 0) {
+                } else if (Objects.equals(event.getDragboard().getString(), "FemaleSexChange")
+                        && inv.getNumOfFemaleSexChangeItems() > 0) {
                     itemList.add(itemList.size(), new FemaleSexChange(x, y));
                     inv.decrementFemaleSexChange();
                     gc.drawImage(femaleSexChange, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
-                } else if (Objects.equals(event.getDragboard().getString(), "Gas") && inv.getNumOfGasItems() > 0) {
+                } else if (Objects.equals(event.getDragboard().getString(), "Gas")
+                        && inv.getNumOfGasItems() > 0) {
                     itemList.add(itemList.size(), new Gas(x, y));
                     inv.decrementGas();
                     gc.drawImage(gas, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
-                } else if (Objects.equals(event.getDragboard().getString(), "Poison") && inv.getNumOfPoisonItems() > 0) {
+                } else if (Objects.equals(event.getDragboard().getString(), "Poison")
+                        && inv.getNumOfPoisonItems() > 0) {
                     itemList.add(itemList.size(), new Poison(x, y));
                     inv.decrementPoison();
                     gc.drawImage(poison, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
-                } else if (Objects.equals(event.getDragboard().getString(), "NoEntry") && inv.getNumOfNoEntrySignItems() > 0) {
+                } else if (Objects.equals(event.getDragboard().getString(), "NoEntry")
+                        && inv.getNumOfNoEntrySignItems() > 0) {
                     itemList.add(itemList.size(), new NoEntrySign(x, y));
                     inv.decrementNoEntrySign();
                     gc.drawImage(noEntry, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
-                } else if (Objects.equals(event.getDragboard().getString(), "Sterilisation") && inv.getNumOfSterilisationItems() > 0) {
+                } else if (Objects.equals(event.getDragboard().getString(), "Sterilisation")
+                        && inv.getNumOfSterilisationItems() > 0) {
                     itemList.add(itemList.size(), new Sterilisation(x, y));
                     inv.decrementSterilisation();
                     gc.drawImage(sterilisation, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
-                } else if (Objects.equals(event.getDragboard().getString(), "DeathRat") && inv.getNumOfDeathRatItems() > 0) {
+                } else if (Objects.equals(event.getDragboard().getString(), "DeathRat")
+                        && inv.getNumOfDeathRatItems() > 0) {
                     itemList.add(itemList.size(), new DeathRatItem(x, y));
                     inv.decrementDeathRat();
                     gc.drawImage(deathRat, x * GRID_CELL_WIDTH, y * GRID_CELL_HEIGHT);
                 }
             }
         }
-
-
     }
 
     private void buildGUI() {
-        // Create top-level panel that will hold all GUI nodes.
 
+        // Create top-level panel that will hold all GUI nodes.
         root = new BorderPane();
 
         // Create the canvas that we will draw on.
         // We store this as a global variable so other methods can access it
-
-
         canvas = new Canvas(CANVAS_WIDTH, CANVAS_HEIGHT);
         root.setCenter(canvas);
 
         canvasCounters = new Canvas(300, 270);
         root.setLeft(canvasCounters);
-
 
         // Create a toolbar with some nice padding and spacing
         HBox toolbar = new HBox();
@@ -904,18 +973,15 @@ public class Level extends Application {
         root.setTop(toolbar);
 
 
-        //Button to load the level
-        Button btnLoadLevel = new Button("Load Level");
         //Button to save the layout running
         Button btnSaveLevel = new Button("Save Level");
         // Tick Timeline buttons
         Button startTickTimelineButton = new Button("Start Ticks");
         Button stopTickTimelineButton = new Button("StopTicks");
         // We add both buttons at the same time to the timeline (we could have done this in two steps).
-        toolbar.getChildren().addAll(startTickTimelineButton, stopTickTimelineButton, btnLoadLevel, btnSaveLevel);
+        toolbar.getChildren().addAll(startTickTimelineButton, stopTickTimelineButton, btnSaveLevel);
         // Stop button is disabled by default
         stopTickTimelineButton.setDisable(true);
-
 
         // Setup the behaviour of the buttons.
         startTickTimelineButton.setOnAction(e -> {
@@ -988,7 +1054,6 @@ public class Level extends Application {
         dragGas.setImage(gas);
         dragDeathRat.setImage(deathRat);
 
-
         toolbar.getChildren().add(dragBomb);
         toolbar.getChildren().add(dragMaleGender);
         toolbar.getChildren().add(dragFemaleGender);
@@ -1001,87 +1066,65 @@ public class Level extends Application {
         dragNoEntry.setOnDragDetected(event -> {
 
             Dragboard db = dragNoEntry.startDragAndDrop(TransferMode.ANY);
-
             ClipboardContent content = new ClipboardContent();
             content.putString("NoEntry");
-
             db.setContent(content);
-
-
             event.consume();
         });
+
         dragDeathRat.setOnDragDetected(event -> {
 
             Dragboard db = dragDeathRat.startDragAndDrop(TransferMode.ANY);
-
             ClipboardContent content = new ClipboardContent();
             content.putString("DeathRat");
-
             db.setContent(content);
-
-
             event.consume();
         });
+
         dragSterilisation.setOnDragDetected(event -> {
 
             Dragboard db = dragSterilisation.startDragAndDrop(TransferMode.ANY);
 
             ClipboardContent content = new ClipboardContent();
             content.putString("Sterilisation");
-
             db.setContent(content);
-
-
             event.consume();
         });
+
         dragPoison.setOnDragDetected(event -> {
 
             Dragboard db = dragPoison.startDragAndDrop(TransferMode.ANY);
 
             ClipboardContent content = new ClipboardContent();
             content.putString("Poison");
-
             db.setContent(content);
-
-
             event.consume();
         });
+
         dragGas.setOnDragDetected(event -> {
 
             Dragboard db = dragGas.startDragAndDrop(TransferMode.ANY);
-
             ClipboardContent content = new ClipboardContent();
             content.putString("Gas");
-
             db.setContent(content);
-
-
             event.consume();
         });
+
         dragFemaleGender.setOnDragDetected(event -> {
 
             Dragboard db = dragFemaleGender.startDragAndDrop(TransferMode.ANY);
-
             ClipboardContent content = new ClipboardContent();
             content.putString("FemaleSexChange");
-
             db.setContent(content);
-
-
             event.consume();
         });
 
         dragMaleGender.setOnDragDetected(event -> {
 
             Dragboard db = dragMaleGender.startDragAndDrop(TransferMode.ANY);
-
-
             ClipboardContent content = new ClipboardContent();
             content.putString("MaleSexChange");
-
             db.setContent(content);
-
-
             event.consume();
         });
 
@@ -1111,9 +1154,13 @@ public class Level extends Application {
             public void handle(DragEvent event) {
                 // Mark the drag as acceptable if the source was the draggable image.
                 // (for example, we don't want to allow the user to drag things or files into our application)
-                if (event.getGestureSource() == dragBomb || event.getGestureSource() == dragMaleGender || event.getGestureSource() == dragFemaleGender
-                        || event.getGestureSource() == dragDeathRat || event.getGestureSource() == dragPoison || event.getGestureSource() == dragNoEntry
-                        || event.getGestureSource() == dragGas || event.getGestureSource() == dragSterilisation) {
+                if (event.getGestureSource() == dragBomb || event.getGestureSource() == dragMaleGender
+                        || event.getGestureSource() == dragFemaleGender
+                        || event.getGestureSource() == dragDeathRat
+                        || event.getGestureSource() == dragPoison
+                        || event.getGestureSource() == dragNoEntry
+                        || event.getGestureSource() == dragGas
+                        || event.getGestureSource() == dragSterilisation) {
                     // Mark the drag event as acceptable by the canvas.
                     event.acceptTransferModes(TransferMode.ANY);
                     // Consume the event. This means we mark it as dealt with.
@@ -1141,14 +1188,9 @@ public class Level extends Application {
         primaryStage.setTitle("Bad Rats");
 
         tickCount = 0;
-//        for (int i = 0; i < 0; i++) {
-//            ratList.add(new PlayableRat());
-//        }
-        //computeNumOfSex();
         for (Rat rat : ratList) {
             rat.setImageDirection();
         }
-
 
         grass = new Image("/resources/Images/Tiles/Grass.png");
         path = new Image("/resources/Images/Tiles/Path.png");
@@ -1162,7 +1204,6 @@ public class Level extends Application {
         poison = new Image("/resources/Images/Items/Poison.png");
         sterilisation = new Image("/resources/Images/Items/Sterilisation.png");
 
-
         // Register a tick method to be called periodically.
         // Make a new timeline with one keyframe that triggers the tick method every half a second.
         tickTimeline = new Timeline(new KeyFrame(Duration.millis(400), event -> {
@@ -1174,17 +1215,13 @@ public class Level extends Application {
         }));
         // Loop the timeline forever
         tickTimeline.setCycleCount(Animation.INDEFINITE);
+
         // We start the timeline upon a button press.
-
-        //Load menu]
-
         drawLogin();
         buildGUI();
         drawGame();
         drawCounters();
         drawInv();
-        //drawGame moved to Play
-
     }
 
     /**
@@ -1192,22 +1229,20 @@ public class Level extends Application {
      * and would for, example move, perform logic in the game,
      * this might cause the bad guys to move (by e.g., looping
      * over them all and calling their own tick method).
+     *
+     * @throws IOException the io exception
      */
     public void tick() throws IOException {
         gameStatus();
 
         if (!levelCompleted && !gameLost) {
-
             if ((tickCount % frequencyOfNewItem) == 0) {
                 inv.addItem();
             }
-//
             tickCount++;
-
 
             // Here we move the player right one cell and teleport
             // them back to the left side when they reach the right side.
-
             for (Rat rat : ratList) {
                 rat.checkCollisions();
                 if (tickCount % rat.getSpeed() == 0) {
@@ -1236,9 +1271,7 @@ public class Level extends Application {
                         } else {
                             score += 10;
                         }
-
                     }
-
                 }
             }
 
@@ -1251,15 +1284,12 @@ public class Level extends Application {
                 if (item.isDestroyed()) { //checks if item should be destroyed
                     iteratorItem.remove(); //destroys item
                 }
-
             }
             // We then redraw the whole canvas.
             drawGame();
             drawCounters();
             drawInv();
         }
-
-
     }
 
     private void levelEndScreen() throws IOException {
@@ -1303,13 +1333,16 @@ public class Level extends Application {
             System.out.println(currentLevel);
             if (PlayerProfiles.getCurrentHighestLevel() == currentLevel && PlayerProfiles.getCurrentHighestLevel() != 4) {
                 PlayerProfiles.setCurrentHighestLevel(currentLevel + 1);
-                PlayerProfiles.getProfiles().set(PlayerProfiles.getCurrentUserIndex() - 1, new PlayerProfile(PlayerProfiles.getCurrentUserName(), PlayerProfiles.getCurrentHighestLevel()));
+                PlayerProfiles.getProfiles().set(PlayerProfiles.getCurrentUserIndex() - 1,
+                        new PlayerProfile(PlayerProfiles.getCurrentUserName(), PlayerProfiles.getCurrentHighestLevel()));
                 PlayerProfiles.save(false);
             }
 
-            gc.fillText("Congratulations you win!", Math.round(canvas.getWidth() / 2), Math.round(canvas.getHeight() / 2));
+            gc.fillText("Congratulations you win!",
+                    Math.round(canvas.getWidth() / 2), Math.round(canvas.getHeight() / 2));
         } else if (gameLost) {
-            gc.fillText("Congratulations you Suck!", Math.round(canvas.getWidth() / 2), Math.round(canvas.getHeight() / 2));
+            gc.fillText("Congratulations you Suck!",
+                    Math.round(canvas.getWidth() / 2), Math.round(canvas.getHeight() / 2));
         }
 
 
@@ -1318,6 +1351,7 @@ public class Level extends Application {
          */
 
     }
+
 
     public void updateHighScores(TreeMap<String, Integer> levelScores) throws IOException {
 
@@ -1384,49 +1418,34 @@ public class Level extends Application {
         }
     }
 
-    public void gameStatus() throws IOException {
-        int numberOfDeathRatItems = 0;
-        for (Item item : itemList) {
-            if (item instanceof DeathRatItem) {
-                numberOfDeathRatItems++;
+        public void gameStatus () throws IOException {
+            int numberOfDeathRatItems = 0;
+            for (Item item : itemList) {
+                if (item instanceof DeathRatItem) {
+                    numberOfDeathRatItems++;
+                }
+            }
+            int totalNumOfRats = ratList.size() + numberOfDeathRatItems;
+            if (totalNumOfRats <= 0) {
+                levelCompleted = true;
+                tickTimeline.stop();
+                score += ticksExpected - tickCount;
+                levelEndScreen();
+
+            } else if (totalNumOfRats > maxPopulation) {
+                gameLost = true;
+                levelEndScreen();
+                tickTimeline.stop();
             }
         }
-        int totalNumOfRats = ratList.size() + numberOfDeathRatItems;
-        if (totalNumOfRats <= 0) {
-            levelCompleted = true;
-            tickTimeline.stop();
-            score += ticksExpected - tickCount;
-            levelEndScreen();
 
-        } else if (totalNumOfRats > maxPopulation) {
-            gameLost = true;
-            levelEndScreen();
-            tickTimeline.stop();
+        public void drawLogin () throws IOException {
+            Parent loginRoot = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Login.fxml")));
+            Scene login = new Scene(loginRoot);
+
+            loginStage.setScene(login);
+            loginStage.show();
         }
+
+
     }
-
-    public void drawLogin() throws IOException {
-        Parent loginRoot = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Login.fxml")));
-        Scene login = new Scene(loginRoot);
-
-        loginStage.setScene(login);
-        loginStage.show();
-    }
-
-    /**
-     * Temp save.
-     *
-     * @throws IOException the io exception
-     */
-    public void tempSave() throws IOException {
-        //Data persistence section, call in tick, dont get how were saving file.
-        Saver saver = new Saver();
-        String levelFormatted = Arrays.deepToString(levelLayout)
-                .replace(",", "")  //remove the commas
-                .replace("[", "")  //remove the right bracket
-                .replace("]", "\n") //remove the left bracket and lane break
-                .replace(" ", "");
-        //saver.saveLevelFile(levelFormatted, new File("/resources/LevelFiles/tempFile.txt"));
-    }
-
-}
