@@ -363,6 +363,62 @@ public class Level extends Application {
                 DeathRat rat = new DeathRat(x, y, ticksSinceCreation, currentKillCount, direction);
                 System.out.println(rat.toString());
             }
+            line = in.nextLine();
+            lineReader = new Scanner(line);
+            lineReader.useDelimiter(";");
+
+            while (lineReader.hasNext()) {
+                String[] itemData = lineReader.next().split(", ");
+                if (itemData[0].equals("Bomb")){
+                    int x = Integer.parseInt(itemData[1]);
+                    int y = Integer.parseInt(itemData[2]);
+                    int timer = Integer.parseInt(itemData[3]);
+                    //itemList.add(new Bomb(x,y,timer));
+                    System.out.println((new Bomb(x,y,timer)).toString());
+                } else if(itemData[0].equals("Sterilisation")){
+                    int x = Integer.parseInt(itemData[1]);
+                    int y = Integer.parseInt(itemData[2]);
+                    int timer = Integer.parseInt(itemData[3]);
+                    //itemList.add(new Sterilisation(x,y,timer));
+                    System.out.println((new Sterilisation(x,y,timer)).toString());
+                } else if (itemData[0].equals("DeathRatItem")){
+                    int x = Integer.parseInt(itemData[1]);
+                    int y = Integer.parseInt(itemData[2]);
+                    int tickSinceCreation = Integer.parseInt(itemData[3]);
+                    int currentKillCount = Integer.parseInt(itemData[4]);
+                    //itemList.add(new DeathRatItem(x, y, tickSinceCreation, currentKillCount));
+                    System.out.println(new DeathRatItem(x, y, tickSinceCreation, currentKillCount).toString());
+                } else if (itemData[0].equals("Poison")){
+                    int x = Integer.parseInt(itemData[1]);
+                    int y = Integer.parseInt(itemData[2]);
+                    //itemList.add(new Poison(x, y));
+                    System.out.println(new Poison(x, y).toString());
+                } else if (itemData[0].equals("FemaleSexChange")){
+                    int x = Integer.parseInt(itemData[1]);
+                    int y = Integer.parseInt(itemData[2]);
+                    //itemList.add(new FemaleSexChange(x, y));
+                    System.out.println(new FemaleSexChange(x, y).toString());
+                } else if (itemData[0].equals("MaleSexChange")){
+                    int x = Integer.parseInt(itemData[1]);
+                    int y = Integer.parseInt(itemData[2]);
+                    //itemList.add(new MaleSexChange(x, y));
+                    System.out.println(new MaleSexChange(x, y).toString());
+                } else if (itemData[0].equals("Gas")){
+                    int x = Integer.parseInt(itemData[1]);
+                    int y = Integer.parseInt(itemData[2]);
+                    int timer = Integer.parseInt(itemData[3]);
+                    boolean isDissipating = Boolean.parseBoolean(itemData[4]);
+                    //itemList.add(new Gas(x, y, timer, isDissipating));
+                    System.out.println(new Gas(x, y, timer, isDissipating).toString());
+                } else if (itemData[0].equals("NoEntrySign")){
+                    int x = Integer.parseInt(itemData[1]);
+                    int y = Integer.parseInt(itemData[2]);
+                    int durability = Integer.parseInt(itemData[3]);
+                    //itemList.add(new Gas(x, y, durability));
+                    System.out.println(new NoEntrySign(x, y, durability));
+                }
+
+                }
 
         }
 
