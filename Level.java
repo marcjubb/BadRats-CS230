@@ -35,6 +35,7 @@ public class Level extends Application {
 
 
     // The dimensions of the window
+
     private static final int GRID_CELL_WIDTH = 64;
     private static final int GRID_CELL_HEIGHT = 64;
     private static int gridWidth = 12;
@@ -86,6 +87,7 @@ public class Level extends Application {
             {'G', 'P', 'G', 'G', 'T', 'G', 'P', 'G', 'P', 'G', 'P', 'G'},
             {'G', 'P', 'P', 'P', 'P', 'P', 'P', 'P', 'P', 'P', 'P', 'G'},
             {'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G'}};
+
     private Canvas canvasCounters;
     private Timeline tickTimeline;
     private boolean levelCompleted = false;
@@ -273,133 +275,20 @@ public class Level extends Application {
         ratList.add(newBaby);
     }
 
-    /*public static void loadExisting() {
-        String filename = "level1.txt";
-        File inputFile = new File(filename);
-        Scanner in = null;
-        try {
-            in = new Scanner(inputFile);
-        } catch (FileNotFoundException e) {
-            System.out.println("Cannot open " + filename);
-            System.exit(0);
-        }
-
-
-        String line = (in.nextLine());
-        String[] widthAndHeight = line.split(", ");
-        gridWidth = Integer.parseInt(widthAndHeight[0]);
-        gridHeight = Integer.parseInt(widthAndHeight[1]);
-        ArrayList<ArrayList<Character>> fileLevelLayout = new ArrayList<>();
-        ArrayList<Character> chars = new ArrayList<Character>();
-        while (!in.nextLine().equals("")) {
-            for (char c : in.nextLine().toCharArray()) {
-                chars.add(c);
-            }
-            fileLevelLayout.add(chars);
-        }
-        levelLayout = fileLevelLayout.stream().map(u -> u.toArray(new Character[0])).toArray(Character[][]::new);
-        System.out.println(Arrays.deepToString(fileLevelLayout.stream().map(u -> u.toArray(new Character[0])).toArray(Character[][]::new)));
-        in.nextLine();
-        in.nextLine();
-        line = in.nextLine();
-        Scanner lineReader = new Scanner(line);
-        lineReader.useDelimiter(";");
-        while (lineReader.hasNext()) {
-            String[] ratData = lineReader.next().split(", ");
-            if (ratData[0].equals("PlayableRat")) {
-                int x = Integer.parseInt(ratData[1]);
-                int y = Integer.parseInt(ratData[2]);
-                int ticksSinceCreation = Integer.parseInt(ratData[3]);
-                Rat.Direction direction = Rat.Direction.valueOf(ratData[4]);
-                PlayableRat.Sex sex = PlayableRat.Sex.valueOf((ratData[5]));
-                boolean isAdult = Boolean.parseBoolean(ratData[6]);
-                boolean isPregnant = Boolean.parseBoolean(ratData[7]);
-                int pregnantTick = Integer.parseInt(ratData[8]);
-                boolean isSterile = Boolean.parseBoolean(ratData[9]);
-                //ratList.add(new PlayableRat(x, y, isAdult, isPregnant, sex, ticksSinceCreation, direction, pregnantTick, isSterile));
-                Rat rat = new PlayableRat(x, y, isAdult, isPregnant, sex, ticksSinceCreation, direction, pregnantTick, isSterile);
-                System.out.println(rat.toString());
-            } else if (ratData[0].equals("DeathRat")) {
-                int x = Integer.parseInt(ratData[1]);
-                int y = Integer.parseInt(ratData[2]);
-                int ticksSinceCreation = Integer.parseInt(ratData[3]);
-                Rat.Direction direction = Rat.Direction.valueOf(ratData[4]);
-                int currentKillCount = Integer.parseInt(ratData[5]);
-                DeathRat rat = new DeathRat(x, y, ticksSinceCreation, currentKillCount, direction);
-                System.out.println(rat.toString());
-            }
-        }
-        System.out.println("End of rats");
-        line = in.nextLine();
-        lineReader = new Scanner(line);
-        lineReader.useDelimiter(";");
-
-        while (lineReader.hasNext()) {
-            String[] itemData = lineReader.next().split(", ");
-            if (itemData[0].equals("Bomb")) {
-                int x = Integer.parseInt(itemData[1]);
-                int y = Integer.parseInt(itemData[2]);
-                int timer = Integer.parseInt(itemData[3]);
-                //itemList.add(new Bomb(x,y,timer));
-                //System.out.println((new Bomb(x,y,timer)).toString());
-            } else if (itemData[0].equals("Sterilisation")) {
-                int x = Integer.parseInt(itemData[1]);
-                int y = Integer.parseInt(itemData[2]);
-                int timer = Integer.parseInt(itemData[3]);
-                //itemList.add(new Sterilisation(x,y,timer));
-                System.out.println((new Sterilisation(x, y, timer)).toString());
-            } else if (itemData[0].equals("DeathRatItem")) {
-                int x = Integer.parseInt(itemData[1]);
-                int y = Integer.parseInt(itemData[2]);
-                int tickSinceCreation = Integer.parseInt(itemData[3]);
-                int currentKillCount = Integer.parseInt(itemData[4]);
-                //itemList.add(new DeathRatItem(x, y, tickSinceCreation, currentKillCount));
-                System.out.println(new DeathRatItem(x, y, tickSinceCreation, currentKillCount).toString());
-            } else if (itemData[0].equals("Poison")) {
-                int x = Integer.parseInt(itemData[1]);
-                int y = Integer.parseInt(itemData[2]);
-                //itemList.add(new Poison(x, y));
-                System.out.println(new Poison(x, y).toString());
-            } else if (itemData[0].equals("FemaleSexChange")) {
-                int x = Integer.parseInt(itemData[1]);
-                int y = Integer.parseInt(itemData[2]);
-                //itemList.add(new FemaleSexChange(x, y));
-                System.out.println(new FemaleSexChange(x, y).toString());
-            } else if (itemData[0].equals("MaleSexChange")) {
-                int x = Integer.parseInt(itemData[1]);
-                int y = Integer.parseInt(itemData[2]);
-                //itemList.add(new MaleSexChange(x, y));
-                System.out.println(new MaleSexChange(x, y).toString());
-            } else if (itemData[0].equals("Gas")) {
-                int x = Integer.parseInt(itemData[1]);
-                int y = Integer.parseInt(itemData[2]);
-                int timer = Integer.parseInt(itemData[3]);
-                boolean isDissipating = Boolean.parseBoolean(itemData[4]);
-                //itemList.add(new Gas(x, y, timer, isDissipating));
-                System.out.println(new Gas(x, y, timer, isDissipating).toString());
-            } else if (itemData[0].equals("NoEntrySign")) {
-                int x = Integer.parseInt(itemData[1]);
-                int y = Integer.parseInt(itemData[2]);
-                int durability = Integer.parseInt(itemData[3]);
-                //itemList.add(new Gas(x, y, durability));
-                System.out.println(new NoEntrySign(x, y, durability));
-            }
-
-        }
-        frequencyOfNewItem = Integer.parseInt(in.nextLine());
-        maxPopulation = Integer.parseInt(in.nextLine());
-    }*/
-
-    /**
-     * Save game.
-     */
     public static void saveGame() {
-        File outputFile = new File("level" + currentLevel + ".txt");
+        String filename = "resources/LevelFiles/ExistingFiles/level" + currentLevel + PlayerProfiles.getCurrentUserName()+".txt";
+        File outputFile = null;
         try {
-            outputFile.createNewFile();
+            outputFile = new File(filename);
+            if(outputFile.createNewFile()){
+                System.out.println("File created");
+            } else {
+                System.out.println("File already exists");
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         PrintWriter out = null;
         try {
             out = new PrintWriter(outputFile);
@@ -429,14 +318,15 @@ public class Level extends Application {
         out.println();
         out.println(frequencyOfNewItem);
         out.println(maxPopulation);
+
+
         out.close();
     }
 
-    /**
-     * Load existing.
-     */
-    public static void loadExisting() {
-        String filename = "level1.txt";
+    public static void loadExisting(int currentLevel) {
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+        String profile = PlayerProfiles.getCurrentUserName();
+        String filename = "level" + currentLevel + profile + ".txt";
         File inputFile = new File(filename);
         Scanner in = null;
         try {
@@ -445,6 +335,7 @@ public class Level extends Application {
             System.out.println("Cannot open " + filename);
             System.exit(0);
         }
+
 
         String line = (in.nextLine());
         String[] widthAndHeight = line.split(", ");
@@ -574,7 +465,7 @@ public class Level extends Application {
      */
     public static void loadNew(int currentLevel) {
         GraphicsContext gc = canvas.getGraphicsContext2D();
-        String filename = "resources/LevelFiles/map0"+currentLevel+"new.txt";
+        String filename = "resources/LevelFiles/map0"+currentLevel+ ".txt";
         File inputFile = new File(filename);
         Scanner in = null;
         try {
@@ -628,6 +519,8 @@ public class Level extends Application {
 
         drawMap(gc, gridHeight, gridWidth);
         in.close();
+
+
     }
 
     private static void loadLevelFile(int currentLevel) throws FileNotFoundException {
@@ -718,7 +611,7 @@ public class Level extends Application {
         Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
         secondaryStage.setScene(scene);
         secondaryStage.show();
-        loadLevelFile(2);
+        loadLevelFile(4);
     }
 
     /**
@@ -893,6 +786,8 @@ public class Level extends Application {
                 80, 240);
         gc.fillText("Number of No Entry Sign Items: " + inv.getNumOfNoEntrySignItems(),
                 80, 260);
+
+
     }
 
     /**
@@ -985,15 +880,14 @@ public class Level extends Application {
         toolbar.setPadding(new Insets(10, 10, 10, 10));
         root.setTop(toolbar);
 
-        //Button to load the level
-        Button btnLoadLevel = new Button("Load Level");
+
         //Button to save the layout running
         Button btnSaveLevel = new Button("Save Level");
         // Tick Timeline buttons
         Button startTickTimelineButton = new Button("Start Ticks");
         Button stopTickTimelineButton = new Button("StopTicks");
         // We add both buttons at the same time to the timeline (we could have done this in two steps).
-        toolbar.getChildren().addAll(startTickTimelineButton, stopTickTimelineButton, btnLoadLevel, btnSaveLevel);
+        toolbar.getChildren().addAll(startTickTimelineButton, stopTickTimelineButton, btnSaveLevel);
         // Stop button is disabled by default
         stopTickTimelineButton.setDisable(true);
 
@@ -1108,6 +1002,7 @@ public class Level extends Application {
         dragPoison.setOnDragDetected(event -> {
 
             Dragboard db = dragPoison.startDragAndDrop(TransferMode.ANY);
+
             ClipboardContent content = new ClipboardContent();
             content.putString("Poison");
             db.setContent(content);
@@ -1351,13 +1246,12 @@ public class Level extends Application {
             gc.fillText("Congratulations you Suck!",
                     Math.round(canvas.getWidth() / 2), Math.round(canvas.getHeight() / 2));
         }
-    }
 
     /**
      * Update high scores.
      */
     public void updateHighScores(){
-        
+
     }
 
     /**
