@@ -1247,18 +1247,17 @@ public class Level extends Application {
                     Math.round(canvas.getWidth() / 2), Math.round(canvas.getHeight() / 2));
         }
 
-    /**
-     * Update high scores.
-     */
+
+        /**
+         * Game status.
+         */
+
+    }
+
     public void updateHighScores(){
 
     }
 
-    /**
-     * Game status.
-     *
-     * @throws IOException the io exception
-     */
     public void gameStatus() throws IOException {
         int numberOfDeathRatItems = 0;
         for (Item item : itemList) {
@@ -1280,11 +1279,6 @@ public class Level extends Application {
         }
     }
 
-    /**
-     * Draw login.
-     *
-     * @throws IOException the io exception
-     */
     public void drawLogin() throws IOException {
         Parent loginRoot = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Login.fxml")));
         Scene login = new Scene(loginRoot);
@@ -1292,4 +1286,21 @@ public class Level extends Application {
         loginStage.setScene(login);
         loginStage.show();
     }
+
+    /**
+     * Temp save.
+     *
+     * @throws IOException the io exception
+     */
+    public void tempSave() throws IOException {
+        //Data persistence section, call in tick, dont get how were saving file.
+        Saver saver = new Saver();
+        String levelFormatted = Arrays.deepToString(levelLayout)
+                .replace(",", "")  //remove the commas
+                .replace("[", "")  //remove the right bracket
+                .replace("]", "\n") //remove the left bracket and lane break
+                .replace(" ", "");
+        //saver.saveLevelFile(levelFormatted, new File("/resources/LevelFiles/tempFile.txt"));
+    }
+
 }
