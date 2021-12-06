@@ -8,6 +8,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
 
+/**
+ * The type Login controller.
+ */
 public class LoginController {
 
     @FXML
@@ -19,12 +22,25 @@ public class LoginController {
 
     @FXML
     private TextField loginTxtBox;
+
+    /**
+     * Into create user.
+     *
+     * @param event the event
+     * @throws IOException the io exception
+     */
     @FXML
     void intoCreateUser(ActionEvent event) throws IOException {
         Level.createAccountWindow();
         Level.closeLogin();
     }
 
+    /**
+     * Login user.
+     *
+     * @param event the event
+     * @throws IOException the io exception
+     */
     @FXML
     void loginUser(ActionEvent event) throws IOException {
         PlayerProfiles.load();

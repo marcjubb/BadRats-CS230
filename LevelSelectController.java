@@ -4,6 +4,9 @@ import javafx.scene.control.Button;
 
 import java.io.FileNotFoundException;
 
+/**
+ * The type Level select controller.
+ */
 public class LevelSelectController {
 
     @FXML
@@ -25,10 +28,22 @@ public class LevelSelectController {
     private Button lvlSelectBtn3;
 
 
+    /**
+     * Auto load.
+     *
+     * @param event the event
+     */
     @FXML
     void autoLoad(ActionEvent event) {
 
     }
+
+    /**
+     * Load user unlocked.
+     *
+     * @param event the event
+     * @throws FileNotFoundException the file not found exception
+     */
     @FXML
     void loadUserUnlocked(ActionEvent event) throws FileNotFoundException {
         PlayerProfiles.load();
@@ -55,31 +70,65 @@ public class LevelSelectController {
         }
     }
 
+    /**
+     * Load lvl 1.
+     *
+     * @param event the event
+     * @throws FileNotFoundException the file not found exception
+     */
     @FXML
      void loadLvl1(ActionEvent event) throws FileNotFoundException {
         Level.loadLevel1();
     }
 
+    /**
+     * Load lvl 2.
+     *
+     * @param event the event
+     * @throws FileNotFoundException the file not found exception
+     */
     @FXML
     void loadLvl2(ActionEvent event) throws FileNotFoundException{
         Level.loadLevel2();
     }
 
+    /**
+     * Load lvl 3.
+     *
+     * @param event the event
+     * @throws FileNotFoundException the file not found exception
+     */
     @FXML
     void loadLvl3(ActionEvent event) throws FileNotFoundException{
         Level.loadLevel3();
     }
 
+    /**
+     * Load lvl 4.
+     *
+     * @param event the event
+     * @throws FileNotFoundException the file not found exception
+     */
     @FXML
     void loadLvl4(ActionEvent event) throws FileNotFoundException{
         Level.loadLevel4();
     }
 
+    /**
+     * Back to menu.
+     *
+     * @param event the event
+     */
     @FXML
     void backToMenu(ActionEvent event) {
 
     }
 
+    /**
+     * Existing save.
+     *
+     * @param actionEvent the action event
+     */
     public void existingSave(ActionEvent actionEvent) {
         Level.loadExisting();
     }
