@@ -81,5 +81,6 @@ public class LevelSelectController {
     }
 
     public void existingSave(ActionEvent actionEvent) {
+        Level.loadExisting();
     }
 }

@@ -19,6 +19,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.*;
 
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -36,6 +37,7 @@ public class Level extends Application {
 
     // The dimensions of the window
 
+    private static final int AUTO_SAVE_FREQUENCY = 20;
     private static final int GRID_CELL_WIDTH = 64;
     private static final int GRID_CELL_HEIGHT = 64;
     private static int gridWidth = 12;
@@ -97,7 +99,6 @@ public class Level extends Application {
     private static TreeMap<Integer, String> level3Scores = new TreeMap<>();
     private static TreeMap<Integer, String> level4Scores = new TreeMap<>();
     //The quantity of rats by sex.
-    private String saveGame;
 
 
 
@@ -224,8 +225,14 @@ public class Level extends Application {
         ratList.add(newBaby);
     }
 
-    public static void saveGame() {
-        String filename = "resources/LevelFiles/ExistingFiles/level" + currentLevel + PlayerProfiles.getCurrentUserName()+".txt";
+    public static void saveGame(boolean isAuto) {
+        String filename;
+        if (!isAuto) {
+            filename = "resources/LevelFiles/ExistingFiles/level" + currentLevel + PlayerProfiles.getCurrentUserName() + ".txt";
+        } else{
+            filename = "resources/LevelFiles/ExistingFiles/AutoSaveFiles/levelAutoSave" + currentLevel+ PlayerProfiles.getCurrentUserName() + ".txt";
+        }
+
         File outputFile = null;
         try {
             outputFile = new File(filename);
@@ -272,16 +279,25 @@ public class Level extends Application {
         out.close();
     }
 
-    public static void loadExisting(int currentLevel) {
+    /**
+     * Loads an existing file that has been saved before.
+     */
+    public static void loadExisting() {
+        Stage secondaryStage = new Stage();
+        Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
+        secondaryStage.setScene(scene);
+        secondaryStage.show();
+        FileChooser fileChooser = new FileChooser();
+        //Set extension filter for text files
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
+        fileChooser.getExtensionFilters().add(extFilter);
+        File inputFile = fileChooser.showOpenDialog(new Stage());
         GraphicsContext gc = canvas.getGraphicsContext2D();
-        String profile = PlayerProfiles.getCurrentUserName();
-        String filename = "level" + currentLevel + profile + ".txt";
-        File inputFile = new File(filename);
         Scanner in = null;
         try {
             in = new Scanner(inputFile);
         } catch (FileNotFoundException e) {
-            System.out.println("Cannot open " + filename);
+            System.out.println("Cannot open file");
             System.exit(0);
         }
 
@@ -407,6 +423,13 @@ public class Level extends Application {
         maxPopulation = Integer.parseInt(in.nextLine());
         System.out.println(frequencyOfNewItem);
         System.out.println(maxPopulation);
+
+        gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight()); //Clear canvas
+        gc.setFill(Color.GRAY); // Set the background to gray.
+        gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+        drawMap(gc, gridHeight, gridWidth);
+        in.close();
+
     }
 
     /**
@@ -550,8 +573,7 @@ public class Level extends Application {
         secondaryStage.setScene(scene);
         secondaryStage.show();
 
-        loadLevelFile(1);
-        /*loadNew(1);*/
+        loadNew(1);
 
 
 
@@ -1005,7 +1027,7 @@ public class Level extends Application {
         });
 
         btnSaveLevel.setOnAction(e -> {
-            saveGame();
+            saveGame(false);
         });
 
 
@@ -1242,6 +1264,11 @@ public class Level extends Application {
         gameStatus();
 
         if (!levelCompleted && !gameLost) {
+            if (tickCount % AUTO_SAVE_FREQUENCY == 0){
+                saveGame(true);
+            }
+
+
             if ((tickCount % frequencyOfNewItem) == 0) {
                 inv.addItem();
             }
