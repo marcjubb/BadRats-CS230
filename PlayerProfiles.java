@@ -18,14 +18,40 @@ public class PlayerProfiles {
     private static final String PROFILE_PATH = "resources/playerprofiles.txt";
     private static ArrayList<PlayerProfile> profiles = new ArrayList<>();
     private static int currentUserLevel;
+    private static String currentUserName;
+    private static int currentUserIndex;
 
 
     public static void setCurrentUserLevel(int currentUserLevel) {
         PlayerProfiles.currentUserLevel = currentUserLevel;
     }
 
+    public static void setCurrentUserName(String currentUserName) {
+        PlayerProfiles.currentUserName = currentUserName;
+    }
+
+    public static String getCurrentUserName() {
+        return currentUserName;
+    }
+
+    public static int getCurrentUserIndex() {
+        return currentUserIndex;
+    }
+
+    public static void setCurrentUserIndex(int currentUserIndex) {
+        PlayerProfiles.currentUserIndex = currentUserIndex;
+    }
+
+    public static ArrayList<PlayerProfile> getProfiles() {
+        return profiles;
+    }
+
     public static int getCurrentUserLevel() {
         return currentUserLevel;
+    }
+
+    public static String getCurrentUserName(String text) {
+        return currentUserName;
     }
 
     /**
@@ -50,9 +76,12 @@ public class PlayerProfiles {
      * @return True if profile exists, else False.
      */
     public static boolean exists(String username){
+
         for(PlayerProfile p : PlayerProfiles.profiles){
+           currentUserIndex ++;
             if(p.getUserName().equals(username)){
                 currentUserLevel = p.getMaxLevelCompleted();
+                currentUserName = p.getUserName();
                 return true;
             }
         }
@@ -70,7 +99,7 @@ public class PlayerProfiles {
         } else {
             PlayerProfile p = new PlayerProfile(username);
             PlayerProfiles.profiles.add(p);
-            PlayerProfiles.save();
+            PlayerProfiles.save(true);
         }
     }
 
@@ -127,13 +156,19 @@ public class PlayerProfiles {
     /**
      * Saves players profiles list to a file.
      */
-    public static void save() throws IOException {
+    public static void save(boolean appendBool) throws IOException {
         File file = new File(PROFILE_PATH);
+        int n=0;
         FileWriter writer = null;
         try{
-            writer = new FileWriter(file, true);
+            writer = new FileWriter(file, appendBool);
             for(PlayerProfile p : PlayerProfiles.profiles){
-                writer.write(p.toString()+ "\n");
+                n ++;
+                    writer.write(p.toString());
+                   /* if (profiles.size() !=n){
+                        writer.write("\n");
+                    }*/
+
             }
         }catch(Exception e){
             System.out.println("Couldn't save profile at " + PROFILE_PATH);

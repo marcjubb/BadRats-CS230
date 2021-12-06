@@ -901,7 +901,13 @@ public class Level extends Application {
 
         // Register a tick method to be called periodically.
         // Make a new timeline with one keyframe that triggers the tick method every half a second.
-        tickTimeline = new Timeline(new KeyFrame(Duration.millis(400), event -> tick()));
+        tickTimeline = new Timeline(new KeyFrame(Duration.millis(400), event -> {
+            try {
+                tick();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }));
         // Loop the timeline forever
         tickTimeline.setCycleCount(Animation.INDEFINITE);
         // We start the timeline upon a button press.
@@ -968,7 +974,7 @@ public class Level extends Application {
      * this might cause the bad guys to move (by e.g., looping
      * over them all and calling their own tick method).
      */
-    public void tick() {
+    public void tick() throws IOException {
         gameStatus();
 
         if(!levelCompleted && !gameLost) {
@@ -1036,11 +1042,12 @@ public class Level extends Application {
 
 
     }
-    private void levelEndScreen() {
+    private void levelEndScreen() throws IOException {
         GraphicsContext gc = canvas.getGraphicsContext2D();
         for (int i = 0; i < getGridWidth(); i++) {
             for (int j = 0; j < getGridHeight(); j++) {
                 if (levelCompleted) {
+
                     gc.drawImage(new Image("/resources/Images/WHITE.png"), (i * GRID_CELL_WIDTH), (j * GRID_CELL_HEIGHT));
                 } else if (gameLost) {
                     gc.drawImage(new Image("/resources/Images/RED.png"), (i * GRID_CELL_WIDTH), (j * GRID_CELL_HEIGHT));
@@ -1051,6 +1058,9 @@ public class Level extends Application {
         gc.setTextBaseline(VPos.CENTER);
         gc.setFont(new Font(25));
         if (levelCompleted) {
+            PlayerProfiles.setCurrentUserLevel(currentLevel+1);
+            PlayerProfiles.getProfiles().set(PlayerProfiles.getCurrentUserIndex()-1, new PlayerProfile(PlayerProfiles.getCurrentUserName(),PlayerProfiles.getCurrentUserLevel()));
+            PlayerProfiles.save(false);
             gc.fillText("Congratulations you win!", Math.round(canvas.getWidth() / 2), Math.round(canvas.getHeight() / 2));
         } else if (gameLost) {
             gc.fillText("Congratulations you Suck!", Math.round(canvas.getWidth() / 2), Math.round(canvas.getHeight() / 2));
@@ -1063,7 +1073,7 @@ public class Level extends Application {
 
     }
 
-    public void gameStatus() {
+    public void gameStatus() throws IOException {
         int numberOfDeathRatItems = 0;
         for (Item item : itemList) {
             if (item instanceof DeathRatItem) {

@@ -25,12 +25,12 @@ public class MessageOfDay {
     }
 
     /**
-<<<<<<< Updated upstream
+
      * Sets the message of the day
-=======
+
      * Returns message of the day as string
      *
->>>>>>> Stashed changes
+
      */
     private static void generateMessage() {
         try {
@@ -49,6 +49,7 @@ public class MessageOfDay {
             e.printStackTrace();
         }
     }
+
 
     /**
      * Solves the puzzle

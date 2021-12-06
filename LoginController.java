@@ -30,6 +30,7 @@ public class LoginController {
         PlayerProfiles.load();
         if (PlayerProfiles.exists(loginTxtBox.getText())) {
             Level.drawMenu();
+            PlayerProfiles.setCurrentUserName(loginTxtBox.getText());
         }
     }
 
