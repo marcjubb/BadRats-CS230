@@ -10,14 +10,13 @@ import java.net.URL;
  * @version 0.0.1
  */
 public class MessageOfDay {
-
+    private static final int NUM_OF_CHARACTERS = 26;
     private static String message = null;
 
     /**
      * Retrieves the Messgae of Day
      * @return Message of the Day
      */
-
     public static String getMessage() {
         if (message == null) {
             generateMessage();
@@ -26,10 +25,9 @@ public class MessageOfDay {
     }
 
     /**
-     * Returns message of the day as string
+     * Sets the message of the day
      */
     private static void generateMessage() {
-        //Not sure what the catch would be thats why i havent added it
         try {
             URL url = new URL("http://cswebcat.swansea.ac.uk/puzzle");
             Scanner in = new Scanner(url.openStream());
@@ -49,7 +47,7 @@ public class MessageOfDay {
 
     /**
      * Solves the puzzle
-     * @param text
+     * @param text The encrypted text
      * @return Decrypted text
      */
     private static String solve(String text) {
@@ -61,11 +59,9 @@ public class MessageOfDay {
 
     /**
      * The start of the decryption task
-     *
-     * @param text
+     * @param text The encrypted text
      * @return Decrypted text
      */
-
     private static String decrypt(String text){
         StringBuilder s = new StringBuilder();
         int len = text.length();
@@ -76,24 +72,24 @@ public class MessageOfDay {
     }
 
     /**
-     *
-     * @param charToShift
-     * @param shiftN
-     * @return
+     * Decrypts a character
+     * @param charToShift The character to decrypt
+     * @param shiftN The number to shift the character by
+     * @return Decrypted character
      */
     private static char shiftChar(char charToShift, int shiftN){
         char temp;
         if (shiftN % 2 == 1 ){
-            temp = (char)(charToShift + (shiftN+1));
+            temp = (char) (charToShift + (shiftN + 1));
             if (temp > 'Z') {
-                charToShift = (char) (charToShift - (26 - (shiftN + 1)));
+                charToShift = (char) (charToShift - (NUM_OF_CHARACTERS - (shiftN + 1)));
             }else{
                 return temp;
             }
         }else {
-            temp = (char)(charToShift - (shiftN+1));
+            temp = (char) (charToShift - (shiftN + 1));
             if (temp < 'A') {
-                charToShift = (char) (charToShift + (26 - shiftN - 1));
+                charToShift = (char) (charToShift + (NUM_OF_CHARACTERS - shiftN - 1));
             }else{
                 return temp;
             }
