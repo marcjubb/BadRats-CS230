@@ -14,7 +14,7 @@ public class PlayerProfile {
      */
     public PlayerProfile(String userName) {
         setUserName(userName);
-        maxLevelCompleted = 0;
+        maxLevelCompleted = 1;
     }
 
     /**

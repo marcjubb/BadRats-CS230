@@ -15,6 +15,18 @@ import java.io.File;
 public class PlayerProfiles {
     private static final String PROFILE_PATH = "resources/playerprofiles.txt";
     private static ArrayList<PlayerProfile> profiles = new ArrayList<>();
+    private static int currentUserLevel;
+
+
+
+    public static void setCurrentUserLevel(int currentUserLevel) {
+        PlayerProfiles.currentUserLevel = currentUserLevel;
+    }
+
+    public static int getCurrentUserLevel() {
+        return currentUserLevel;
+    }
+
 
     /**
      * Adds players profile to List.
@@ -37,9 +49,12 @@ public class PlayerProfiles {
      * @param username The username being searched.
      * @return True if profile exists, else False.
      */
-    public static boolean exists(String username) {
-        for (PlayerProfile p : PlayerProfiles.profiles) {
-            if (p.getUserName().equals(username)) {
+
+
+    public static boolean exists(String username){
+        for(PlayerProfile p : PlayerProfiles.profiles){
+            if(p.getUserName().equals(username)){
+                currentUserLevel = p.getMaxLevelCompleted();
                 return true;
             }
         }

@@ -8,7 +8,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: orange;" xmlns="http://javafx.com/javafx/8.0.202" xmlns:fx="http://javafx.com/fxml/1" fx:controller="LevelSelectController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: orange;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="LevelSelectController">
    <children>
       <Button fx:id="lvl1btn" layoutX="10.0" layoutY="86.0" mnemonicParsing="false" onAction="#loadLvl1" prefHeight="56.0" prefWidth="230.0" style="-fx-background-color: transparent;" text="Level 1">
          <font>
@@ -31,7 +31,7 @@
             </RadialGradient>
          </textFill>
       </Button>
-      <Button fx:id="lvl2btn" layoutX="10.0" layoutY="142.0" mnemonicParsing="false" onAction="#loadLvl2" prefHeight="56.0" prefWidth="230.0" style="-fx-background-color: transparent;" text="Level 2">
+      <Button fx:id="lvl2btn" opacity="0" layoutX="10.0" layoutY="142.0" mnemonicParsing="false" onAction="#loadLvl2" prefHeight="56.0" prefWidth="230.0" style="-fx-background-color: transparent;" text="Level 2">
          <font>
             <Font name="System Bold" size="26.0" />
          </font>
@@ -52,7 +52,7 @@
             </RadialGradient>
          </textFill>
       </Button>
-      <Button fx:id="lvl3btn" layoutX="10.0" layoutY="198.0" mnemonicParsing="false" onAction="#loadLvl3" prefHeight="56.0" prefWidth="230.0" style="-fx-background-color: transparent;" text="Level 3">
+      <Button fx:id="lvl3btn" opacity="0" layoutX="10.0" layoutY="198.0" mnemonicParsing="false" onAction="#loadLvl3" prefHeight="56.0" prefWidth="230.0" style="-fx-background-color: transparent;" text="Level 3">
          <font>
             <Font name="System Bold" size="26.0" />
          </font>
@@ -73,7 +73,7 @@
             </RadialGradient>
          </textFill>
       </Button>
-      <Button fx:id="lvl4btn" layoutX="10.0" layoutY="254.0" mnemonicParsing="false" onAction="#loadLvl4" prefHeight="56.0" prefWidth="230.0" style="-fx-background-color: transparent;" text="Level 4">
+      <Button fx:id="lvl4btn" opacity="0" layoutX="10.0" layoutY="254.0" mnemonicParsing="false" onAction="#loadLvl4" prefHeight="56.0" prefWidth="230.0" style="-fx-background-color: transparent;" text="Level 4">
          <font>
             <Font name="System Bold" size="26.0" />
          </font>
@@ -121,6 +121,27 @@
          </textFill>
       </Button>
       <Button fx:id="autoBtn" layoutX="256.0" layoutY="86.0" mnemonicParsing="false" onAction="#autoLoad" prefHeight="56.0" prefWidth="230.0" style="-fx-background-color: transparent;" text="Last Auto Save">
+         <font>
+            <Font name="System Bold" size="26.0" />
+         </font>
+         <textFill>
+            <RadialGradient centerX="0.5" centerY="0.5" radius="0.5">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color red="0.5657894611358643" green="0.2724171578884125" blue="0.2724171578884125" />
+                     </color>
+                  </Stop>
+               </stops>
+            </RadialGradient>
+         </textFill>
+      </Button>
+      <Button fx:id="loadUserUnlockedbtn" layoutX="14.0" layoutY="330.0" mnemonicParsing="false" onAction="#loadUserUnlocked" prefHeight="56.0" prefWidth="307.0" style="-fx-background-color: transparent;" text="Show Unlocked Levels">
          <font>
             <Font name="System Bold" size="26.0" />
          </font>

@@ -28,9 +28,33 @@ public class LevelSelectController {
     @FXML
     private Button lvlSelectBtn3;
 
+
     @FXML
     void autoLoad(ActionEvent event) {
 
+    }
+    @FXML
+    void loadUserUnlocked(ActionEvent event) {
+        if (PlayerProfiles.getCurrentUserLevel() == 2){
+            this.lvl2btn.setOpacity(100);
+            this.lvl3btn.setDisable(true);
+            this.lvl4btn.setDisable(true);
+
+        }else if(PlayerProfiles.getCurrentUserLevel() == 3){
+            this.lvl2btn.setOpacity(100);
+            this.lvl3btn.setOpacity(100);
+            this.lvl4btn.setDisable(true);
+
+        }else if(PlayerProfiles.getCurrentUserLevel() == 4){
+            this.lvl2btn.setOpacity(100);
+            this.lvl3btn.setOpacity(100);
+            this.lvl4btn.setOpacity(100);
+
+        }else{
+            this.lvl2btn.setDisable(true);
+            this.lvl3btn.setDisable(true);
+            this.lvl4btn.setDisable(true);
+        }
     }
 
     @FXML

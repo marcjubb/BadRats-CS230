@@ -9,13 +9,8 @@ GGGGGGGGGGGG
 
 
 100
-3
-PlayableRat, 8, 4, 3, MALE, false, false, 0
-PlayableRat, 5, 2, 3, MALE, false, false, 0
-PlayableRat, 5, 4, 3, FEMALE, false, false, 0
-PlayableRat, 9, 1, 3, FEMALE, false, false, 0
-Sterilisation, 3, 1
-, 5
-
+11
+PlayableRat, 7, 1, 11, WEST, FEMALE, true, true, 3, false;PlayableRat, 3, 3, 11, WEST, MALE, true, false, 0, false;PlayableRat, 8, 2, 11, NORTH, MALE, true, false, 0, false;PlayableRat, 9, 1, 11, EAST, MALE, true, false, 0, false;
+Bomb, 4, 1, 5;MaleSexChange, 5, 2;
 5
 10
