@@ -1,4 +1,3 @@
-
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
@@ -7,9 +6,13 @@ import javafx.scene.image.Image;
  * @author ryanwake
  */
 public class Sterilisation extends Item {
-
-    private int timer;
     private final int SIZE_OF_EFFECT = 2;
+    private final int STERILISATION_DURATION = 5;
+    private final int XCOORD_LEFT = 1;
+    private final int XCOORD_RIGHT = 2;
+    private final int YCOORD_DOWN = 1;
+    private final int YCOORD_UP = 2;
+    private int timer;
 
     /**
      * Create Sterilisation at a specified coordinate.
@@ -17,8 +20,8 @@ public class Sterilisation extends Item {
      * @param y The y coordinate.
      */
     public Sterilisation(int x, int y){
-        super(x, y, "Sterilisation", "/resources/Images/Items/Sterilisation.png");
-        timer = 5;
+        super (x, y, "Sterilisation", "/resources/Images/Items/Sterilisation.png");
+        timer = STERILISATION_DURATION;
     }
 
     /**
@@ -36,10 +39,10 @@ public class Sterilisation extends Item {
      * Create an area where if the rats enter then they become sterile
      */
     public void sterilizeArea(){
-        for (int x = getX()-1; x < getX() +2; x++) {
-            for (int y = getY()-1; y < getY()+2; y++) {
-                for(Rat rat : Level.getRatList()){
-                    if (rat.getX() == x&&rat.getY() == y && rat instanceof PlayableRat){
+        for (int x = getX() - XCOORD_LEFT; x < getX() + XCOORD_RIGHT; x++) {
+            for (int y = getY() - YCOORD_DOWN; y < getY() + YCOORD_UP; y++) {
+                for (Rat rat : Level.getRatList()) {
+                    if (rat.getX() == x&&rat.getY() == y && rat instanceof PlayableRat) {
                         ((PlayableRat) rat).setSterile(true);
                     }
                 }
@@ -62,10 +65,11 @@ public class Sterilisation extends Item {
      * @param gc The GraphicsContext in which we will draw on
      */
     public void draw(GraphicsContext gc) {
-        for (int x = getX()-1; x < getX() +2; x++) {
-            for (int y = getY()-1; y < getY()+2; y++) {
-                if (Level.getLevelLayout()[y][x] != 'G'){
-                    gc.drawImage(new Image("/resources/Images/Items/Sterilisation.png"), x*Level.getGridCellHeight(), y*Level.getGridCellHeight());
+        for (int x = getX() -1 ; x < getX() + 2; x++) {
+            for (int y = getY() - 1; y < getY() + 2; y++) {
+                if (Level.getLevelLayout()[y][x] != 'G') {
+                    gc.drawImage(new Image("/resources/Images/Items/Sterilisation.png"),
+                            x*Level.getGridCellHeight(), y*Level.getGridCellHeight());
                 }
             }
         }

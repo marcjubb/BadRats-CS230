@@ -4,7 +4,6 @@ import javafx.scene.image.Image;
  * Changes a rat into a male.
  * @author Michael Pokorski
  */
-
 public class MaleSexChange extends Item {
 
     /**
@@ -13,6 +12,6 @@ public class MaleSexChange extends Item {
      * @param y The y coordinate.
      */
     public MaleSexChange(int x, int y) {
-        super(x, y, "MaleSexChange", "/resources/Images/Items/MaleSexChange.png");
+        super (x, y, "MaleSexChange", "/resources/Images/Items/MaleSexChange.png");
     }
 }

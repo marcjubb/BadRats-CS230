@@ -1,6 +1,4 @@
-import java.io.Console;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.Scanner;
 import java.net.URL;
 
@@ -36,10 +34,11 @@ public class MessageOfDay {
             String temp = in.next();
             in.close();
 
-            URL urli = new URL("http://cswebcat.swansea.ac.uk/message?solution=" + solve(temp));
+            URL urli = new URL("http://cswebcat.swansea.ac.uk/message?solution="
+                    + solve(temp));
             Scanner inurl = new Scanner(urli.openStream());
             message = "";
-            while (inurl.hasNext()){
+            while (inurl.hasNext()) {
                 message += inurl.next() + " ";
             }
         } catch (IOException e) {
@@ -56,20 +55,19 @@ public class MessageOfDay {
         text = decrypt(text.toUpperCase());
         text = text + "CS-230";
         text = text.length() + text;
-        return  text;
+        return text;
     }
 
     /**
      * The start of the decryption task
-     *
      * @param text
      * @return Decrypted text
      */
 
-    private static String decrypt(String text){
+    private static String decrypt(String text) {
         StringBuilder s = new StringBuilder();
         int len = text.length();
-       for (int n = 0; n < len; n++){
+       for (int n = 0; n < len; n++) {
            s.append(shiftChar(text.charAt(n), n));
        }
         return s.toString();
@@ -81,20 +79,20 @@ public class MessageOfDay {
      * @param shiftN
      * @return
      */
-    private static char shiftChar(char charToShift, int shiftN){
+    private static char shiftChar(char charToShift, int shiftN) {
         char temp;
-        if (shiftN % 2 == 1 ){
+        if (shiftN % 2 == 1 ) {
             temp = (char)(charToShift + (shiftN+1));
             if (temp > 'Z') {
                 charToShift = (char) (charToShift - (26 - (shiftN + 1)));
-            }else{
+            } else {
                 return temp;
             }
-        }else {
+        } else {
             temp = (char)(charToShift - (shiftN+1));
             if (temp < 'A') {
                 charToShift = (char) (charToShift + (26 - shiftN - 1));
-            }else{
+            } else {
                 return temp;
             }
         }

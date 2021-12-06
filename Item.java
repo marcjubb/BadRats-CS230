@@ -1,5 +1,4 @@
 import javafx.scene.image.Image;
-
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -7,7 +6,6 @@ import java.util.Objects;
  * This Class represents a typical item in the game.
  * @author ryanwake, Michael Pokorski
  */
-
 public class Item extends VisibleObject {
     private String itemName;
 
@@ -18,7 +16,7 @@ public class Item extends VisibleObject {
      * @param itemName the name of the item.
      * @param fpImg the image to represent the image.
      */
-    public Item(int x, int y, String itemName, String fpImg){
+    public Item(int x, int y, String itemName, String fpImg) {
         this.x = x;
         this.y = y;
         this.itemName = itemName;
@@ -26,10 +24,8 @@ public class Item extends VisibleObject {
     }
 
     /**
-
      * Get the items name.
      * @return The itemname.
-
      */
     public String getItemName() {
         return itemName;
@@ -40,7 +36,6 @@ public class Item extends VisibleObject {
      * @param x The x coordinate.
      * @param y The y coordinate.
      * @return True if collision occurred else false.
-
      */
     public boolean collisionAt(int x, int y) {
         return x == this.x && y == this.y;
@@ -60,7 +55,8 @@ public class Item extends VisibleObject {
      */
     protected boolean isInExplosion(ArrayList<Item> items) {
         for (Item item : items) {
-            if (Objects.equals(item.getItemName(), "Bomb") && item.collisionAt(x, y)) {
+            if (Objects.equals(item.getItemName(), "Bomb") &&
+                    item.collisionAt(x, y)) {
                 return true;
             }
         }
@@ -90,7 +86,7 @@ public class Item extends VisibleObject {
      * @return The formatted data of item.
      */
     @Override
-    public String toString(){
+    public String toString() {
         return this.itemName + ", " + x + ", " + y;
     }
 }

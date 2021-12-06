@@ -3,7 +3,6 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.File;
 
-
 /**
  * Class deals with manipulation of player profiles data (e.g. Save)
  * that exist in the game.
@@ -13,19 +12,15 @@ import java.io.File;
  */
 
 
-
 public class PlayerProfiles {
     private static final String PROFILE_PATH = "resources/playerprofiles.txt";
     private static ArrayList<PlayerProfile> profiles = new ArrayList<>();
-
-
-
 
     /**
      * Adds players profile to List.
      * @param p The profile
      */
-    public static void add(PlayerProfile p){
+    public static void add(PlayerProfile p) {
         profiles.add(p);
     }
 
@@ -33,7 +28,7 @@ public class PlayerProfiles {
      * Removes players profile from List.
      * @param p The profile.
      */
-    public static void remove(PlayerProfile p){
+    public static void remove(PlayerProfile p) {
         profiles.remove(p);
     }
 
@@ -42,9 +37,9 @@ public class PlayerProfiles {
      * @param username The username being searched.
      * @return True if profile exists, else False.
      */
-    public static boolean exists(String username){
-        for(PlayerProfile p : PlayerProfiles.profiles){
-            if(p.getUserName().equals(username)){
+    public static boolean exists(String username) {
+        for (PlayerProfile p : PlayerProfiles.profiles) {
+            if (p.getUserName().equals(username)) {
                 return true;
             }
         }
@@ -57,7 +52,7 @@ public class PlayerProfiles {
      * @throws UsernameAlreadyExistsException If username exists then throw UsernameAlreadyExistsException exception.
      */
     public static void createProfile(String username) throws UsernameAlreadyExistsException, IOException {
-        if(PlayerProfiles.exists(username)) {
+        if (PlayerProfiles.exists(username)) {
            throw new UsernameAlreadyExistsException(username);
         } else {
             PlayerProfile p = new PlayerProfile(username);
@@ -74,10 +69,10 @@ public class PlayerProfiles {
     public static void load() throws FileNotFoundException {
         File inputFile = new File(PROFILE_PATH);
         Scanner in = null;
-        try{
+        try {
             in = new Scanner(inputFile);
 
-        } catch(FileNotFoundException e){
+        } catch (FileNotFoundException e) {
             System.out.println("Error reading from file at " + PROFILE_PATH);
         }
        load(in);
@@ -88,7 +83,7 @@ public class PlayerProfiles {
      * @return List of profiles.
      */
     public static void load(Scanner in) {
-        while(in.hasNextLine()) {
+        while (in.hasNextLine()) {
             String currentLine = in.nextLine();
             Scanner lineReader = new Scanner(currentLine);
             profiles.add(readProfile(lineReader));
@@ -101,15 +96,15 @@ public class PlayerProfiles {
      * @param in reads in each token.
      * @return a players profile.
      */
-    public static PlayerProfile readProfile(Scanner in){
+    public static PlayerProfile readProfile(Scanner in) {
         PlayerProfile newProfile = null;
 
-        try{
+        try {
             String username = in.next();
             int maxLevelCompleted = in.nextInt();
             newProfile = new PlayerProfile(username, maxLevelCompleted);
 
-        }catch(Exception e) {
+        } catch(Exception e) {
             System.out.println("Unable to Read file");
         }
         in.close();
@@ -122,12 +117,12 @@ public class PlayerProfiles {
     public static void save() throws IOException {
         File file = new File(PROFILE_PATH);
         FileWriter writer = null;
-        try{
+        try {
             writer = new FileWriter(file, true);
-            for(PlayerProfile p : PlayerProfiles.profiles){
+            for (PlayerProfile p : PlayerProfiles.profiles){
                 writer.write(p.toString()+ "\n");
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             System.out.println("Couldn't save profile at " + PROFILE_PATH);
         }
         assert writer != null;
