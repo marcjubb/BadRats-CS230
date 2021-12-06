@@ -1,0 +1,14 @@
+10, 5
+GGGGGGGGGG
+GTTPPPTTPG
+GPGGGPGGPG
+GPTPPPGGPG
+GGGGGGGGGG
+
+
+100
+740
+PlayableRat, 3, 1, 740, EAST, MALE, true, false, 0, false;PlayableRat, 1, 2, 740, SOUTH, MALE, true, false, 0, false;PlayableRat, 8, 1, 740, EAST, MALE, true, false, 0, false;
+
+10
+10
