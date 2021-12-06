@@ -16,9 +16,6 @@ public class MenuController {
         private Button Leaderboard;
 
         @FXML
-        private Button Load;
-
-        @FXML
         private Button lvlSelectBtn;
 
         @FXML
@@ -27,9 +24,15 @@ public class MenuController {
         }
 
         @FXML
-        void loadLeaderboard(ActionEvent event) {
+        void loadLeaderboard(ActionEvent event) throws IOException {
+            Stage leaderBoard = new Stage();
+            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("leaderboard.fxml")));
 
+            Scene leaderboardScene = new Scene(root);
+            leaderBoard.setScene(leaderboardScene);
+            leaderBoard.show();
         }
+
     @FXML
     private Text messageOfDay;
     @FXML
