@@ -9,8 +9,9 @@ GGGGGGGGGGGG
 
 
 100
-60
-PlayableRat, 10, 5, 60, NORTH, MALE, true, false, 0, false;PlayableRat, 10, 1, 60, SOUTH, FEMALE, true, true, 7, false;PlayableRat, 8, 1, 60, EAST, FEMALE, true, false, 0, false;PlayableRat, 3, 5, 7, WEST, MALE, true, false, 0, false;
-
-50
+21
+PlayableRat, 8, 3, 21, NORTH, MALE, true, false, 0, false;PlayableRat, 8, 4, 21, NORTH, MALE, true, false, 0, false;PlayableRat, 7, 5, 21, EAST, MALE, true, false, 0, false;PlayableRat, 7, 5, 21, EAST, FEMALE, true, true, 5, false;Sterilisation, 3, 1
+, 3
+;
+5
 10

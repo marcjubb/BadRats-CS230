@@ -92,10 +92,10 @@ public class Level extends Application {
     private Timeline tickTimeline;
     private boolean levelCompleted = false;
     private boolean gameLost = false;
-    private static TreeMap<String, Integer> level1Scores = new TreeMap<>();
-    private static TreeMap<String, Integer> level2Scores = new TreeMap<>();
-    private static TreeMap<String, Integer> level3Scores = new TreeMap<>();
-    private static TreeMap<String, Integer> level4Scores = new TreeMap<>();
+    private static TreeMap<Integer, String> level1Scores = new TreeMap<>();
+    private static TreeMap<Integer, String> level2Scores = new TreeMap<>();
+    private static TreeMap<Integer, String> level3Scores = new TreeMap<>();
+    private static TreeMap<Integer, String> level4Scores = new TreeMap<>();
     //The quantity of rats by sex.
     private String saveGame;
 
@@ -143,13 +143,19 @@ public class Level extends Application {
     public static int getGridWidth() {
         return gridWidth;
     }
-    /*public static String getHighScoreString(){
-        Integer highestKey = level1Scores.lastKey();
-        Integer lowestKey = level1Scores.lastKey();
-        Set<Integer> keysLessThan3 = level1Scores.headMap(3).keySet();
-        Set<Integer> keysGreaterThanEqTo3 = level1Scores.tailMap(3).keySet()
-        return ;
-    }*/
+
+    public static Set getHighScore(int level){
+        if (level ==1){
+            return (Set) level1Scores.entrySet();
+        }else if(level ==2){
+            return (Set) level2Scores.entrySet();
+        }else if(level ==3){
+            return (Set) level3Scores.entrySet();
+        }else{
+            return (Set) level4Scores.entrySet();
+        }
+
+    }
     /**
      * Gets rat list.
      *
@@ -760,23 +766,23 @@ public class Level extends Application {
         launch(args);
     }
 
-    public TreeMap<String, Integer> getLevel1Scores() {
+    public TreeMap<Integer, String> getLevel1Scores() {
         return level1Scores;
     }
 
 
 
-    public TreeMap<String, Integer> getLevel2Scores() {
+    public TreeMap<Integer, String> getLevel2Scores() {
         return level2Scores;
     }
 
-    public TreeMap<String, Integer> getLevel3Scores() {
+    public TreeMap<Integer, String> getLevel3Scores() {
         return level3Scores;
     }
 
 
 
-    public TreeMap<String, Integer> getLevel4Scores() {
+    public TreeMap<Integer, String> getLevel4Scores() {
         return level4Scores;
     }
 
@@ -1309,20 +1315,20 @@ public class Level extends Application {
         if (levelCompleted) {
             switch (currentLevel) {
                 case 1:
-                    level1Scores.put(PlayerProfiles.getCurrentUserName(), score);
+                    level1Scores.put(score,PlayerProfiles.getCurrentUserName());
                     updateHighScores(level1Scores);
 
                     break;
                 case 2:
-                    level2Scores.put(PlayerProfiles.getCurrentUserName(), score);
+                    level2Scores.put(score,PlayerProfiles.getCurrentUserName());
                     updateHighScores(level2Scores);
                     break;
                 case 3:
-                    level3Scores.put(PlayerProfiles.getCurrentUserName(), score);
+                    level3Scores.put(score,PlayerProfiles.getCurrentUserName());
                     updateHighScores(level3Scores);
                     break;
                 case 4:
-                    level4Scores.put(PlayerProfiles.getCurrentUserName(), score);
+                    level4Scores.put(score,PlayerProfiles.getCurrentUserName());
                     updateHighScores(level4Scores);
                     break;
 
@@ -1353,21 +1359,20 @@ public class Level extends Application {
     }
 
 
-    public void updateHighScores(TreeMap<String, Integer> levelScores) throws IOException {
+    public void updateHighScores(TreeMap<Integer, String> levelScores) throws IOException {
 
         String leaderBoardPath = "resources/HighScoresLevel" + currentLevel + ".txt";
         File file = new File(leaderBoardPath);
-        int n = 0;
         FileWriter writer = null;
         try {
             writer = new FileWriter(file, true);
             for (int i = 0; i < levelScores.size(); i++) {
                 if ((i + 1) > levelScores.size()) {
-                    writer.write(PlayerProfiles.getCurrentUserName() + " "+
-                            levelScores.get(PlayerProfiles.getCurrentUserName()));
+                    writer.write(levelScores.get(score)  + " "
+                            + PlayerProfiles.getCurrentUserName());
                 } else {
-                    writer.write(PlayerProfiles.getCurrentUserName() + " " +
-                            levelScores.get(PlayerProfiles.getCurrentUserName()) + "\n");
+                    writer.write(levelScores.get(score)  + " "
+                            + PlayerProfiles.getCurrentUserName()  + "\n");
                 }
 
             }
@@ -1378,43 +1383,51 @@ public class Level extends Application {
         writer.close();
     }
     public static void loadLevel1HighScores() throws FileNotFoundException {
-        String leaderBoardPath = "resources/HighScoresLevel1.txt";
+        File leaderBoardPath =  new File("resources/HighScoresLevel1.txt");
         Scanner in = null;
         in = new Scanner(leaderBoardPath);
         while (in.hasNextLine()) {
             String currentLine = in.nextLine();
             Scanner lineReader = new Scanner(currentLine);
-            level1Scores.put(lineReader.next(), lineReader.nextInt());
+            int inp = lineReader.nextInt();
+            String name = lineReader.next();
+            level1Scores.put(inp, name);
         }
     }
     public static void loadLevel2HighScores() throws FileNotFoundException {
-        String leaderBoardPath = "resources/HighScoresLevel2.txt";
+        File leaderBoardPath = new File("resources/HighScoresLevel2.txt");
         Scanner in = null;
         in = new Scanner(leaderBoardPath);
         while (in.hasNextLine()) {
             String currentLine = in.nextLine();
             Scanner lineReader = new Scanner(currentLine);
-            level2Scores.put(lineReader.next(), lineReader.nextInt());
+            int inp = lineReader.nextInt();
+            String name = lineReader.next();
+            level2Scores.put(inp, name);
         }
     }
     public static void loadLevel3HighScores() throws FileNotFoundException {
-        String leaderBoardPath = "resources/HighScoresLevel3.txt";
-        Scanner in = null;
+        File leaderBoardPath = new File("resources/HighScoresLevel3.txt");
+        Scanner in;
         in = new Scanner(leaderBoardPath);
         while (in.hasNextLine()) {
             String currentLine = in.nextLine();
             Scanner lineReader = new Scanner(currentLine);
-            level3Scores.put(lineReader.next(), lineReader.nextInt());
+            int inp = lineReader.nextInt();
+            String name = lineReader.next();
+            level3Scores.put(inp, name);
         }
     }
     public static void loadLevel4HighScores() throws FileNotFoundException {
-        String leaderBoardPath = "resources/HighScoresLevel4.txt";
-        Scanner in = null;
+        File leaderBoardPath = new File("resources/HighScoresLevel4.txt");
+        Scanner in;
         in = new Scanner(leaderBoardPath);
         while (in.hasNextLine()) {
             String currentLine = in.nextLine();
             Scanner lineReader = new Scanner(currentLine);
-            level4Scores.put(lineReader.next(), lineReader.nextInt());
+            int inp = lineReader.nextInt();
+            String name = lineReader.next();
+            level4Scores.put(inp, name);
         }
     }
 

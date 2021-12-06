@@ -16,10 +16,6 @@
       <Button fx:id="showLevel2btn" layoutX="165.0" layoutY="345.0" mnemonicParsing="false" onAction="#showLevel2Ldr" prefHeight="43.0" prefWidth="144.0" text="Level 2 Leaderboard" />
       <Button fx:id="showLevel1btn" layoutX="12.0" layoutY="345.0" mnemonicParsing="false" onAction="#showLevel1Ldr" prefHeight="43.0" prefWidth="144.0" text="Level 1 Leaderboard" />
       <Button fx:id="showLevel3btn" layoutX="317.0" layoutY="345.0" mnemonicParsing="false" onAction="#showLevel3Ldr" prefHeight="43.0" prefWidth="134.0" text="Level 3 Leaderboard" />
-      <Text layoutX="32.0" layoutY="113.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-      <Text layoutX="32.0" layoutY="144.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-      <Text layoutX="32.0" layoutY="178.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-      <Text layoutX="32.0" layoutY="205.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-      <Text layoutX="32.0" layoutY="238.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+      <Text fx:id="pos1" layoutX="32.0" layoutY="113.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
    </children>
 </AnchorPane>
