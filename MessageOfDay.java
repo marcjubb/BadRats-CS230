@@ -89,14 +89,14 @@ public class MessageOfDay {
         if (shiftN % 2 == 1) {
             temp = (char) (charToShift + (shiftN + 1));
             if (temp > 'Z') {
-                charToShift = (char) (charToShift - (26 - (shiftN + 1)));
+                charToShift = (char) (charToShift - (NUM_OF_CHARACTERS - (shiftN + 1)));
             } else {
                 return temp;
             }
         } else {
             temp = (char) (charToShift - (shiftN + 1));
             if (temp < 'A') {
-                charToShift = (char) (charToShift + (26 - shiftN - 1));
+                charToShift = (char) (charToShift + (NUM_OF_CHARACTERS - shiftN - 1));
             } else {
                 if (shiftN % 2 == 1) {
                     temp = (char) (charToShift + (shiftN + 1));
