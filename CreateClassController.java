@@ -26,7 +26,7 @@ public class CreateClassController {
         }else {
             PlayerProfiles.createProfile(usernameTxtBox.getText()) ;
             Level.closeCreateUser();
-            Level.
+
         }
 
     }

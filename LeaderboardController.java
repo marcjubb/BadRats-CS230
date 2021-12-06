@@ -50,6 +50,7 @@ public class LeaderboardController {
         ArrayList<String> top10 = new ArrayList<>();
         for (Object o : Level.getHighScore(levelCheck)) {
             Map.Entry mp = (Map.Entry) o;
+            System.out.println(mp.getKey() + " By " + mp.getValue());
             top10.add(mp.getKey() + " By " + mp.getValue());
         }
         for (int i = top10.size()-1; i > 0; i--) {
