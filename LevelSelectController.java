@@ -30,7 +30,9 @@ public class LevelSelectController {
 
     }
     @FXML
-    void loadUserUnlocked(ActionEvent event) {
+    void loadUserUnlocked(ActionEvent event) throws FileNotFoundException {
+        PlayerProfiles.load();
+        System.out.println(PlayerProfiles.getCurrentHighestLevel());
         if (PlayerProfiles.getCurrentHighestLevel() == 2){
             this.lvl2btn.setOpacity(100);
             this.lvl3btn.setDisable(true);

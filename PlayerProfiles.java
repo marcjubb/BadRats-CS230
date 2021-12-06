@@ -83,6 +83,8 @@ public class PlayerProfiles {
         for(PlayerProfile p : PlayerProfiles.profiles){
            currentUserIndex ++;
             if(p.getUserName().equals(username)){
+
+
                 currentHighestLevel = p.getMaxLevelCompleted();
                 currentUserName = p.getUserName();
                 return true;
@@ -173,7 +175,7 @@ public class PlayerProfiles {
                 }else {
                     writer.write(profiles.get(i).toString() + "\n");
                 }
-                
+
             }
 
         } catch (Exception e) {

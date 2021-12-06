@@ -90,7 +90,6 @@ public class Level extends Application {
             {'G', 'P', 'G', 'G', 'T', 'G', 'P', 'G', 'P', 'G', 'P', 'G'},
             {'G', 'P', 'P', 'P', 'P', 'P', 'P', 'P', 'P', 'P', 'P', 'G'},
             {'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G'}};
-    PlayerProfile player = new PlayerProfile("bob", 0);
     private Canvas canvasCounters;
     private Timeline tickTimeline;
     private boolean levelCompleted = false;
@@ -631,6 +630,7 @@ public class Level extends Application {
         secondaryStage.show();
         loadNew(1);
         //loadExisting();
+        //loadLevelFile(1);
     }
 
     public static void loadLevel2() throws FileNotFoundException {
@@ -1246,14 +1246,14 @@ public class Level extends Application {
         gc.setFont(new Font(25));
         if (levelCompleted) {
             PlayerProfiles.load();
-            if (player.getMaxLevelCompleted() < currentLevel && (currentLevel == PlayerProfiles.getCurrentHighestLevel() - 1)) {
-
+            System.out.println(PlayerProfiles.getCurrentHighestLevel());
+            System.out.println(currentLevel);
+            if (PlayerProfiles.getCurrentHighestLevel() == currentLevel) {
                     PlayerProfiles.setCurrentHighestLevel(currentLevel + 1);
                     PlayerProfiles.getProfiles().set(PlayerProfiles.getCurrentUserIndex() - 1, new PlayerProfile(PlayerProfiles.getCurrentUserName(), PlayerProfiles.getCurrentHighestLevel()));
-
+                PlayerProfiles.save(false);
             }
 
-            PlayerProfiles.save(false);
             gc.fillText("Congratulations you win!", Math.round(canvas.getWidth() / 2), Math.round(canvas.getHeight() / 2));
         } else if (gameLost) {
             gc.fillText("Congratulations you Suck!", Math.round(canvas.getWidth() / 2), Math.round(canvas.getHeight() / 2));
