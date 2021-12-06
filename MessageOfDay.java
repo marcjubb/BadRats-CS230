@@ -52,7 +52,6 @@ public class MessageOfDay {
 
     /**
      * Solves the puzzle
-     *
      * @param text The encrypted text
      * @return Decrypted text
      */
@@ -65,7 +64,6 @@ public class MessageOfDay {
 
     /**
      * The start of the decryption task
-     *
      * @param text
      * @return Decrypted text
      */
@@ -115,9 +113,9 @@ public class MessageOfDay {
                         return temp;
                     }
                 }
-                return charToShift;
             }
         }
+        return charToShift;
     }
 
 }
