@@ -7,8 +7,8 @@ GGGGGGGGGG
 
 
 100
-60
-PlayableRat, 3, 3, 60, EAST, FEMALE, true, false, 0, false;PlayableRat, 5, 2, 60, NORTH, FEMALE, true, false, 0, false;PlayableRat, 8, 1, 60, SOUTH, FEMALE, true, false, 0, false;
+15
+PlayableRat, 8, 1, 15, SOUTH, FEMALE, true, false, 0, false;PlayableRat, 1, 1, 15, SOUTH, FEMALE, true, false, 0, false;PlayableRat, 5, 1, 15, EAST, FEMALE, true, false, 0, false;
 
 10
 10

@@ -10,38 +10,48 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.Objects;
 
+/**
+ * The Menu FXML controller.
+ * @author Marc
+ */
 public class MenuController {
 
-        @FXML
-        private Button Leaderboard;
-
-        @FXML
-        private Button lvlSelectBtn;
-
-        @FXML
-        void gotoLoad(ActionEvent event) {
-
-
-        }
-
-        @FXML
-        void loadLeaderboard(ActionEvent event) throws IOException {
-            Stage leaderBoard = new Stage();
-            Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("leaderboard.fxml")));
-
-            Scene leaderboardScene = new Scene(root);
-            leaderBoard.setScene(leaderboardScene);
-            leaderBoard.show();
-        }
-
+    @FXML
+    private Button Leaderboard;
     @FXML
     private Text messageOfDay;
+
+    /**
+     * Load leaderboard.
+     *
+     * @param event the event
+     * @throws IOException the io exception
+     */
     @FXML
-    public void initialize(){
+    void loadLeaderboard(ActionEvent event) throws IOException {
+        Stage leaderBoard = new Stage();
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("leaderboard.fxml")));
+
+        Scene leaderboardScene = new Scene(root);
+        leaderBoard.setScene(leaderboardScene);
+        leaderBoard.show();
+    }
+
+    /**
+     * Initialize.
+     */
+    @FXML
+    public void initialize() {
         messageOfDay.setText(MessageOfDay.getMessage());
     }
 
 
+    /**
+     * Lvl select
+     *
+     * @param event the event
+     * @throws IOException the io exception
+     */
     @FXML
     void lvlSelect(ActionEvent event) throws IOException {
 

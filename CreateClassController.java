@@ -5,6 +5,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 
 import java.io.*;
+
+/**
+ * The type Create class controller.
+ */
 public class CreateClassController {
 
     @FXML
@@ -19,6 +23,12 @@ public class CreateClassController {
     @FXML
     private Text emptyNotice;
 
+    /**
+     * Create account press.
+     *
+     * @param event the event
+     * @throws IOException the io exception
+     */
     @FXML
     void createAccountPress(ActionEvent event) throws IOException {
         if (usernameTxtBox.getText().isEmpty()){

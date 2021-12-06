@@ -7,36 +7,35 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Map;
 
+/**
+ * The type Leaderboard controller.
+ * @author Marc
+ */
 public class LeaderboardController {
     private int levelCheck=0;
     @FXML
     private Text pos1;
 
 
+    /**
+     * Show level 1 ldr.
+     *
+     * @throws FileNotFoundException the file not found exception
+     */
     @FXML
-    private Button showLevel1btn;
-
-    @FXML
-    private Button showLevel2btn;
-
-    @FXML
-    private Button showLevel3btn;
-
-    @FXML
-    private Button showLevel4btn;
-
-    @FXML
-    void showLevel1Ldr(ActionEvent event) throws FileNotFoundException {
+    void showLevel1Ldr() throws FileNotFoundException {
         levelCheck=1;
       Level.loadLevel1HighScores();
         positionCalc();
 
     }
 
-    @FXML
-    void existingSave(ActionEvent event) {
-
-    }
+    /**
+     * Show level 2 ldr.
+     *
+     * @param event the event
+     * @throws FileNotFoundException the file not found exception
+     */
     @FXML
     void showLevel2Ldr(ActionEvent event) throws FileNotFoundException {
         levelCheck=2;
@@ -61,6 +60,12 @@ public class LeaderboardController {
         pos1.setText(String.valueOf(positions));
     }
 
+    /**
+     * Show level 3 ldr.
+     *
+     * @param event the event
+     * @throws FileNotFoundException the file not found exception
+     */
     @FXML
     void showLevel3Ldr(ActionEvent event) throws FileNotFoundException {
         levelCheck=3;
@@ -68,6 +73,12 @@ public class LeaderboardController {
         positionCalc();
     }
 
+    /**
+     * Show level 4 ldr.
+     *
+     * @param event the event
+     * @throws FileNotFoundException the file not found exception
+     */
     @FXML
     void showLevel4Ldr(ActionEvent event) throws FileNotFoundException {
         levelCheck=4;
