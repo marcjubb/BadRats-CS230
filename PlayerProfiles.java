@@ -15,14 +15,14 @@ import java.io.File;
 public class PlayerProfiles {
     private static final String PROFILE_PATH = "resources/playerprofiles.txt";
     private static ArrayList<PlayerProfile> profiles = new ArrayList<>();
-    private static int currentUserLevel;
+    private static int currentHighestLevel;
     private static String currentUserName;
     private static int currentUserIndex;
 
 
 
-    public static void setCurrentUserLevel(int currentUserLevel) {
-        PlayerProfiles.currentUserLevel = currentUserLevel;
+    public static void setCurrentHighestLevel(int currentHighestLevel) {
+        PlayerProfiles.currentHighestLevel = currentHighestLevel;
     }
 
     public static void setCurrentUserName(String currentUserName) {
@@ -45,8 +45,8 @@ public class PlayerProfiles {
         return profiles;
     }
 
-    public static int getCurrentUserLevel() {
-        return currentUserLevel;
+    public static int getCurrentHighestLevel() {
+        return currentHighestLevel;
     }
 
 
@@ -80,7 +80,7 @@ public class PlayerProfiles {
         for(PlayerProfile p : PlayerProfiles.profiles){
            currentUserIndex ++;
             if(p.getUserName().equals(username)){
-                currentUserLevel = p.getMaxLevelCompleted();
+                currentHighestLevel = p.getMaxLevelCompleted();
                 currentUserName = p.getUserName();
                 return true;
             }
@@ -161,11 +161,16 @@ public class PlayerProfiles {
         int n=0;
         FileWriter writer = null;
         try {
-            writer = new FileWriter(file, true);
-            for (PlayerProfile p : PlayerProfiles.profiles){
-                writer.write(p.toString()+ "\n");
+            writer = new FileWriter(file, appendBool);
+            for (int i = 0; i < profiles.size(); i++) {
+                if ((i+1)>profiles.size()){
+                    writer.write(profiles.get(i).toString());
+                }else {
+                    writer.write(profiles.get(i).toString() + "\n");
+                }
 
             }
+
         } catch (Exception e) {
             System.out.println("Couldn't save profile at " + PROFILE_PATH);
         }

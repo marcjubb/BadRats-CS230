@@ -1,12 +1,8 @@
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.layout.BorderPane;
-import javafx.stage.Stage;
 
-import javax.swing.border.Border;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 
 public class LevelSelectController {
 
@@ -35,17 +31,17 @@ public class LevelSelectController {
     }
     @FXML
     void loadUserUnlocked(ActionEvent event) {
-        if (PlayerProfiles.getCurrentUserLevel() == 2){
+        if (PlayerProfiles.getCurrentHighestLevel() == 2){
             this.lvl2btn.setOpacity(100);
             this.lvl3btn.setDisable(true);
             this.lvl4btn.setDisable(true);
 
-        }else if(PlayerProfiles.getCurrentUserLevel() == 3){
+        }else if(PlayerProfiles.getCurrentHighestLevel() == 3){
             this.lvl2btn.setOpacity(100);
             this.lvl3btn.setOpacity(100);
             this.lvl4btn.setDisable(true);
 
-        }else if(PlayerProfiles.getCurrentUserLevel() == 4){
+        }else if(PlayerProfiles.getCurrentHighestLevel() == 4){
             this.lvl2btn.setOpacity(100);
             this.lvl3btn.setOpacity(100);
             this.lvl4btn.setOpacity(100);
