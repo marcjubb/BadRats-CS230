@@ -21,6 +21,7 @@ public class MenuController {
         @FXML
         void gotoLoad(ActionEvent event) {
 
+
         }
 
         @FXML
