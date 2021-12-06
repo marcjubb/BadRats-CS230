@@ -911,7 +911,6 @@ public class Level extends Application {
         //Load menu]
 
         drawLogin();
-       /* drawMenu();*/
         buildGUI();
         drawGame();
         drawCounters();

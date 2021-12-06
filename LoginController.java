@@ -28,11 +28,9 @@ public class LoginController {
     @FXML
     void loginUser(ActionEvent event) throws IOException {
         PlayerProfiles.load();
-        if (PlayerProfiles.exists(loginTxtBox.getText())){
+        if (PlayerProfiles.exists(loginTxtBox.getText())) {
             Level.drawMenu();
         }
-
-
     }
 
 }

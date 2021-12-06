@@ -1,6 +1,6 @@
-gg 0
-ggg 0
-runna 0
-as 0
-sadas 0
-g 0
+gg 2
+ggg 3
+runna 4
+as 1
+sadas 1
+g 1
