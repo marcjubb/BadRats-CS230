@@ -83,8 +83,6 @@ public class PlayerProfiles {
         for(PlayerProfile p : PlayerProfiles.profiles){
            currentUserIndex ++;
             if(p.getUserName().equals(username)){
-
-
                 currentHighestLevel = p.getMaxLevelCompleted();
                 currentUserName = p.getUserName();
                 return true;
@@ -165,7 +163,6 @@ public class PlayerProfiles {
      */
     public static void save(boolean appendBool) throws IOException {
         File file = new File(PROFILE_PATH);
-        int n=0;
         FileWriter writer = null;
         try {
             writer = new FileWriter(file, appendBool);
