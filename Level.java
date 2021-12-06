@@ -18,11 +18,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.*;
-
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
 import java.io.*;
 import java.util.*;
 
@@ -34,8 +32,6 @@ import java.util.*;
  */
 public class Level extends Application {
 
-
-    // The dimensions of the window
 
     private static final int AUTO_SAVE_FREQUENCY = 20;
     private static final int GRID_CELL_WIDTH = 64;
@@ -71,15 +67,17 @@ public class Level extends Application {
     private static int numOfFemaleRats;
     private static int frequencyOfNewItem = 5;
     private static int maxPopulation = 10;
-    private static  Inventory inv = new Inventory();
+    private static Inventory inv = new Inventory();
     private static int ticksExpected = 100;
     private static BorderPane root;
     private static Stage loginStage = new Stage();
     private static Stage createUserStage = new Stage();
     private static Stage menuStage = new Stage();
+
     //Arrays that store the objects on the game board.
     private static ArrayList<Rat> ratList = new ArrayList<>();
     private static ArrayList<Item> itemList = new ArrayList<>();
+
     //this is a hardcoded level layout only here for testing purposes
     private static Character[][] levelLayout = {
             {'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G'},
@@ -94,14 +92,12 @@ public class Level extends Application {
     private Timeline tickTimeline;
     private boolean levelCompleted = false;
     private boolean gameLost = false;
+
     private static TreeMap<Integer, String> level1Scores = new TreeMap<>();
     private static TreeMap<Integer, String> level2Scores = new TreeMap<>();
     private static TreeMap<Integer, String> level3Scores = new TreeMap<>();
     private static TreeMap<Integer, String> level4Scores = new TreeMap<>();
     //The quantity of rats by sex.
-
-
-
 
 
     /**
@@ -122,18 +118,20 @@ public class Level extends Application {
         return gridWidth;
     }
 
-    public static Set getHighScore(int level){
-        if (level ==1){
+
+    public static Set getHighScore(int level) {
+        if (level == 1) {
             return level1Scores.entrySet();
-        }else if(level ==2){
+        } else if (level == 2) {
             return level2Scores.entrySet();
-        }else if(level ==3){
+        } else if (level == 3) {
             return level3Scores.entrySet();
-        }else{
+        } else {
             return level4Scores.entrySet();
         }
 
     }
+
     /**
      * Gets rat list.
      *
@@ -179,6 +177,16 @@ public class Level extends Application {
         return ratList.size();
     }
 
+    /**
+     * Gets playable rat list size.
+     *
+     * @return the playable rat list size
+     */
+    public static int getPlayableRatListSize() {
+
+        return ratList.size();
+    }
+
 
     /**
      * Creates a new baby object at the position of the mother
@@ -193,18 +201,23 @@ public class Level extends Application {
         ratList.add(newBaby);
     }
 
+    /**
+     * Saves the Game to a file.
+     *
+     * @param isAuto The new AutoSave
+     */
     public static void saveGame(boolean isAuto) {
         String filename;
         if (!isAuto) {
             filename = "resources/LevelFiles/ExistingFiles/level" + currentLevel + PlayerProfiles.getCurrentUserName() + ".txt";
-        } else{
-            filename = "resources/LevelFiles/ExistingFiles/AutoSaveFiles/levelAutoSave" + currentLevel+ PlayerProfiles.getCurrentUserName() + ".txt";
+        } else {
+            filename = "resources/LevelFiles/ExistingFiles/AutoSaveFiles/levelAutoSave" + currentLevel + PlayerProfiles.getCurrentUserName() + ".txt";
         }
 
         File outputFile = null;
         try {
             outputFile = new File(filename);
-            if(outputFile.createNewFile()){
+            if (outputFile.createNewFile()) {
                 System.out.println("File created");
             } else {
                 System.out.println("File already exists");
@@ -285,9 +298,11 @@ public class Level extends Application {
 
         }
 
-        levelLayout = fileLevelLayout.stream().map(u -> u.toArray(new Character[0])).toArray(Character[][]::new);
+        levelLayout = fileLevelLayout.stream().map(u -> u.toArray
+                (new Character[0])).toArray(Character[][]::new);
         System.out.println(Arrays.deepToString
-                (fileLevelLayout.stream().map(u -> u.toArray(new Character[0])).toArray(Character[][]::new)));
+                (fileLevelLayout.stream().map(u -> u.toArray
+                        (new Character[0])).toArray(Character[][]::new)));
         System.out.println(in.nextLine());
         System.out.println(in.nextLine());
         ticksExpected = Integer.parseInt(in.nextLine());
@@ -320,7 +335,9 @@ public class Level extends Application {
                 int ticksSinceCreation = Integer.parseInt(ratData[3]);
                 Rat.Direction direction = Rat.Direction.valueOf(ratData[4]);
                 int currentKillCount = Integer.parseInt(ratData[5]);
+
                 DeathRat rat = new DeathRat(x, y, ticksSinceCreation, currentKillCount, direction);
+
 
             }
         }
@@ -336,6 +353,7 @@ public class Level extends Application {
 
         while (lineReader.hasNext()) {
             String[] itemData = lineReader.next().split(", ");
+
             switch (itemData[0]) {
                 case "Bomb": {
 
@@ -403,28 +421,24 @@ public class Level extends Application {
                     break;
                 }
             }
+            frequencyOfNewItem = Integer.parseInt(in.nextLine());
+            maxPopulation = Integer.parseInt(in.nextLine());
+
+            gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight()); //Clear canvas
+            gc.setFill(Color.GRAY); // Set the background to gray.
+            gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+            drawMap(gc, gridHeight, gridWidth);
+            in.close();
+
         }
-        frequencyOfNewItem = Integer.parseInt(in.nextLine());
-        maxPopulation = Integer.parseInt(in.nextLine());
-        System.out.println(frequencyOfNewItem);
-        System.out.println(maxPopulation);
-
-        gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight()); //Clear canvas
-        gc.setFill(Color.GRAY); // Set the background to gray.
-        gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
-        drawMap(gc, gridHeight, gridWidth);
-        in.close();
-
     }
-
     /**
-     * Load new.
-     *
-     * @param currentLevel the current level
+     * Load a new game/level.
+     * @param currentLevel The current level.
      */
     public static void loadNew(int currentLevel) {
         GraphicsContext gc = canvas.getGraphicsContext2D();
-        String filename = "resources/LevelFiles/map0"+currentLevel+ ".txt";
+        String filename = "resources/LevelFiles/map0" + currentLevel + ".txt";
 
         File inputFile = new File(filename);
         Scanner in = null;
@@ -451,7 +465,8 @@ public class Level extends Application {
             fileLevelLayout.add(chars);
 
         }
-        levelLayout = fileLevelLayout.stream().map(u -> u.toArray(new Character[0])).toArray(Character[][]::new);
+        levelLayout = fileLevelLayout.stream().map(u -> u.toArray
+                (new Character[0])).toArray(Character[][]::new);
         System.out.println(Arrays.deepToString(levelLayout));
 
         ticksExpected = Integer.parseInt(in.nextLine());
@@ -484,6 +499,12 @@ public class Level extends Application {
     }
 
 
+    /**
+     * Draws the map.
+     * @param gc The GraphicsContext in which we will draw on.
+     * @param gridHeight The new height of the grid.
+     * @param gridWidth The new width of the grid.
+     */
 
     private static void drawMap(GraphicsContext gc, int gridHeight, int gridWidth) {
         for (int x = 0; x < gridHeight; x++) {
@@ -503,8 +524,7 @@ public class Level extends Application {
 
     /**
      * Load level 1.
-     *
-     * @throws FileNotFoundException the file not found exception
+     * @throws FileNotFoundException the file not found exception.
      */
     public static void loadLevel1() throws FileNotFoundException {
         currentLevel = 1;
@@ -514,15 +534,14 @@ public class Level extends Application {
         secondaryStage.show();
 
         loadNew(1);
-
+        //loadExisting(currentLevel);
 
 
     }
 
     /**
      * Load level 2.
-     *
-     * @throws FileNotFoundException the file not found exception
+     * @throws FileNotFoundException the file not found exception.
      */
     public static void loadLevel2() throws FileNotFoundException {
         currentLevel = 2;
@@ -531,12 +550,12 @@ public class Level extends Application {
         secondaryStage.setScene(scene);
         secondaryStage.show();
         loadNew(2);
+
     }
 
     /**
-     * Load level 3.
-     *
-     * @throws FileNotFoundException the file not found exception
+     * Load level 3..
+     * @throws FileNotFoundException the file not found exception.
      */
     public static void loadLevel3() throws FileNotFoundException {
         currentLevel = 3;
@@ -544,16 +563,17 @@ public class Level extends Application {
         Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
         secondaryStage.setScene(scene);
         secondaryStage.show();
+
         loadNew(3);
     }
 
 
 
 
+
     /**
      * Load level 4.
-     *
-     * @throws FileNotFoundException the file not found exception
+     * @throws FileNotFoundException when the file is not found.
      */
 
     public static void loadLevel4() throws FileNotFoundException {
@@ -562,13 +582,16 @@ public class Level extends Application {
         Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
         secondaryStage.setScene(scene);
         secondaryStage.show();
+
         loadNew(4);
+
     }
+
 
     /**
      * Create account window.
      *
-     * @throws IOException the io exception
+     * @throws IOException When no fxml is found.
      */
     public static void createAccountWindow() throws IOException {
         Parent rooter = FXMLLoader.load(Objects.requireNonNull(Level.class.getResource("CreateAccount.fxml")));
@@ -592,9 +615,8 @@ public class Level extends Application {
     }
 
     /**
-     * Draw menu.
-     *
-     * @throws IOException the io exception
+     * Draws the menu.
+     * @throws IOException When the Menu.fxml is not found / error reading it.
      */
     public static void drawMenu() throws IOException {
         Parent rooter = FXMLLoader.load(Objects.requireNonNull(Level.class.getResource("Menu.fxml")));
@@ -604,10 +626,10 @@ public class Level extends Application {
     }
 
     /**
-     * The entry point of application.
-     *
-     * @param args the input arguments
+     * Gets level 1 Scores.
+     * @return The level 1 scores.
      */
+
     public static void main(String[] args) {
         launch(args);
     }
@@ -628,7 +650,12 @@ public class Level extends Application {
 
 
 
+    /**
+     * Gets level 4 Scores.
+     * @return The level 4 scores.
+     */
     public TreeMap<Integer, String> getLevel4Scores() {
+
         return level4Scores;
     }
 
@@ -642,6 +669,9 @@ public class Level extends Application {
         ratWorker();
     }
 
+    /**
+     * Calculates number of Sex of each Rat.
+     */
     private void ratWorker() {
         for (Rat rat : Level.getRatList()) {
             if ((rat instanceof PlayableRat) && ((PlayableRat) rat).getSex()
@@ -656,7 +686,6 @@ public class Level extends Application {
 
     /**
      * Sets current level.
-     *
      * @param currentLevel the current level
      */
     public void setCurrentLevel(int currentLevel) {
@@ -694,7 +723,7 @@ public class Level extends Application {
     }
 
     /**
-     * Draw counters.
+     * Draw number of Rats and each sex you have.
      */
     public void drawCounters() {
         GraphicsContext gc = canvasCounters.getGraphicsContext2D();
@@ -709,7 +738,7 @@ public class Level extends Application {
     }
 
     /**
-     * Draw inv.
+     * Draw Number of items you have available.
      */
     public void drawInv() {
 
@@ -734,16 +763,9 @@ public class Level extends Application {
 
     }
 
-    /**
-     * Load new.
-     */
-    public void loadNew() {
-        String filename = "level1New.txt";
-    }
 
     /**
      * Canvas drag dropped occured.
-     *
      * @param event the event
      */
     public void canvasDragDroppedOccured(DragEvent event) {
@@ -805,6 +827,9 @@ public class Level extends Application {
         }
     }
 
+    /**
+     * Build the GUI.
+     */
     private void buildGUI() {
 
         // Create top-level panel that will hold all GUI nodes.
@@ -855,38 +880,6 @@ public class Level extends Application {
         });
 
 
-        //Save the variables board into a .txt file
-//        btnSaveLevel.setOnAction(e -> {
-//            Saver saveLevel = new Saver(); //Get save function from Saver class
-//            FileChooser fileChooser = new FileChooser();
-//
-//            //Set extension filter for text files
-//            FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
-//            fileChooser.getExtensionFilters().add(extFilter);
-//
-//            String levelFormatted = Arrays.deepToString(levelLayout)
-//                    .replace(",", "")  //remove the commas
-//                    .replace("[", "")  //remove the right bracket
-//                    .replace("]", "\n") //remove the left bracket and lane break
-//                    .replace(" ", "");
-//            String babyRatsFormatted = ratList.toString()
-//                    .replace("[PlayableRat, ", "")
-//                    .replace("PlayableRat,", "")
-//                    .replace("]", "\n");
-//            String itemsFormatted = itemList.toString()
-//                    .replace("[", "")
-//                    .replace(", ", " ")
-//                    .replace("]", "");
-//
-//            //needs to include items data correctly formatted
-//            saveLevel.saveLevelFile(gridHeight + "," + gridWidth, tickCount, maxPopulation, babyRatsFormatted, itemsFormatted, levelFormatted);
-//            System.out.println("Saved");
-//            //System.out.println(ratList.toString());
-//            //System.out.println(itemsFormatted);
-//            //System.out.println(itemList.toString());
-//        });
-
-
         // Setup a draggable image.
         ImageView dragBomb = new ImageView();
         ImageView dragMaleGender = new ImageView();
@@ -906,7 +899,7 @@ public class Level extends Application {
         dragGas.setImage(gas);
         dragDeathRat.setImage(deathRat);
 
-        toolbar.getChildren().add(dragBomb);
+        toolbar.getChildren().add(dragBomb);   //add items to toolbar
         toolbar.getChildren().add(dragMaleGender);
         toolbar.getChildren().add(dragFemaleGender);
         toolbar.getChildren().add(dragGas);
@@ -1006,7 +999,8 @@ public class Level extends Application {
             public void handle(DragEvent event) {
                 // Mark the drag as acceptable if the source was the draggable image.
                 // (for example, we don't want to allow the user to drag things or files into our application)
-                if (event.getGestureSource() == dragBomb || event.getGestureSource() == dragMaleGender
+                if (event.getGestureSource() == dragBomb
+                        || event.getGestureSource() == dragMaleGender
                         || event.getGestureSource() == dragFemaleGender
                         || event.getGestureSource() == dragDeathRat
                         || event.getGestureSource() == dragPoison
@@ -1034,6 +1028,11 @@ public class Level extends Application {
         });
     }
 
+    /**
+     * Starts the main game.
+     * @param primaryStage The primaryStage game will be played on.
+     * @throws IOException When it can't find the images.
+     */
     @Override
     public void start(Stage primaryStage) throws IOException {
 
@@ -1082,13 +1081,14 @@ public class Level extends Application {
      * this might cause the bad guys to move (by e.g., looping
      * over them all and calling their own tick method).
      *
-     * @throws IOException the io exception
+     * @throws IOException When Level end screen cannot be found.
      */
     public void tick() throws IOException {
+
         gameStatus();
 
         if (!levelCompleted && !gameLost) {
-            if (tickCount % AUTO_SAVE_FREQUENCY == 0){
+            if (tickCount % AUTO_SAVE_FREQUENCY == 0) {
                 saveGame(true);
             }
 
@@ -1149,6 +1149,10 @@ public class Level extends Application {
         }
     }
 
+    /**
+     * Loads Level end Screen.
+     * @throws IOException When load end screen cant be loaded.
+     */
     private void levelEndScreen() throws IOException {
         GraphicsContext gc = canvas.getGraphicsContext2D();
         for (int i = 0; i < getGridWidth(); i++) {
@@ -1202,119 +1206,153 @@ public class Level extends Application {
                     Math.round(canvas.getWidth() / 2), Math.round(canvas.getHeight() / 2));
         }
 
+    }
+
+
+/**
+ * Calculate highscores of each level.
+ *
+ * @param levelScores the scores.
+ * @throws IOException When file cant be found.
+ */
+public void updateHighScores(TreeMap<Integer, String> levelScores)throws IOException{
+
+
+        File leaderBoardPath=new File("resources/HighScoresLevel"+currentLevel+".txt");
+        FileWriter writer=null;
+        try{
+        writer=new FileWriter(leaderBoardPath,true);
+        for(int i=0;i<levelScores.size();i++){
+
+        if((i+1)>levelScores.size()){
+
+                    System.out.println(levelScores.firstKey()+" "
+                            +PlayerProfiles.getCurrentUserName());
+                            writer.write(levelScores.firstKey()+" "
+                            +PlayerProfiles.getCurrentUserName());
+                            }else{
+                            writer.write(levelScores.firstKey()+" "
+                            +PlayerProfiles.getCurrentUserName()+"\n");
+                            }
+
+                            }
+                            }catch(Exception e){
+                            System.out.println("Couldn't save profile at "+leaderBoardPath);
+                            }
+                            assert writer!=null;
+                            writer.close();
+                            }
+
+
+
 
         /**
-         * Game status.
+         * Loads the highscores.
+         * @throws FileNotFoundException When file is not found.
          */
 
-    }
-
-
-    public void updateHighScores(TreeMap<Integer, String> levelScores) throws IOException {
-
-        File leaderBoardPath = new File("resources/HighScoresLevel" + currentLevel + ".txt");
-        FileWriter writer = null;
-        try {
-            writer = new FileWriter(leaderBoardPath, true);
-            for (int i = 0; i < levelScores.size(); i++) {
-
-                if ((i + 1) > levelScores.size()) {
-                    System.out.println(levelScores.firstKey() + " "
-                            + PlayerProfiles.getCurrentUserName());
-                    writer.write(levelScores.firstKey() + " "
-                            + PlayerProfiles.getCurrentUserName());
-                } else {
-                    writer.write(levelScores.firstKey() + " "
-                            + PlayerProfiles.getCurrentUserName() + "\n");
-                }
-
-            }
-        } catch (Exception e) {
-            System.out.println("Couldn't save profile at " + leaderBoardPath);
+public static void loadLevel1HighScores()throws FileNotFoundException{
+        File leaderBoardPath=new File("resources/HighScoresLevel1.txt");
+        Scanner in=null;
+        in=new Scanner(leaderBoardPath);
+        while(in.hasNextLine()){
+        String currentLine=in.nextLine();
+        Scanner lineReader=new Scanner(currentLine);
+        int score=lineReader.nextInt();
+        String name=lineReader.next();
+        level1Scores.put(score,name);
         }
-        assert writer != null;
-        writer.close();
-    }
-
-
-
-    public static void loadLevel1HighScores() throws FileNotFoundException {
-        File leaderBoardPath =  new File("resources/HighScoresLevel1.txt");
-        Scanner in = null;
-        in = new Scanner(leaderBoardPath);
-        while (in.hasNextLine()) {
-            String currentLine = in.nextLine();
-            Scanner lineReader = new Scanner(currentLine);
-            int score = lineReader.nextInt();
-            String name = lineReader.next();
-            level1Scores.put(score, name);
         }
-    }
-    public static void loadLevel2HighScores() throws FileNotFoundException {
-        File leaderBoardPath = new File("resources/HighScoresLevel2.txt");
-        Scanner in = null;
-        in = new Scanner(leaderBoardPath);
-        while (in.hasNextLine()) {
-            String currentLine = in.nextLine();
-            Scanner lineReader = new Scanner(currentLine);
-            int inp = lineReader.nextInt();
-            String name = lineReader.next();
-            level2Scores.put(inp, name);
+
+/**
+ * Loads the level 2 highscores.
+ * @throws FileNotFoundException When high scores file level 2 is not found.
+ */
+public static void loadLevel2HighScores()throws FileNotFoundException{
+        File leaderBoardPath=new File("resources/HighScoresLevel2.txt");
+        Scanner in=null;
+        in=new Scanner(leaderBoardPath);
+        while(in.hasNextLine()){
+        String currentLine=in.nextLine();
+        Scanner lineReader=new Scanner(currentLine);
+        int inp=lineReader.nextInt();
+        String name=lineReader.next();
+        level2Scores.put(inp,name);
         }
-    }
-    public static void loadLevel3HighScores() throws FileNotFoundException {
-        File leaderBoardPath = new File("resources/HighScoresLevel3.txt");
+        }
+
+/**
+ * Loads the level 3 highscores.
+ *
+ * @throws FileNotFoundException When high scores level 3 file not found.
+ */
+public static void loadLevel3HighScores()throws FileNotFoundException{
+        File leaderBoardPath=new File("resources/HighScoresLevel3.txt");
         Scanner in;
-        in = new Scanner(leaderBoardPath);
-        while (in.hasNextLine()) {
-            String currentLine = in.nextLine();
-            Scanner lineReader = new Scanner(currentLine);
-            int inp = lineReader.nextInt();
-            String name = lineReader.next();
-            level3Scores.put(inp, name);
+        in=new Scanner(leaderBoardPath);
+        while(in.hasNextLine()){
+        String currentLine=in.nextLine();
+        Scanner lineReader=new Scanner(currentLine);
+        int inp=lineReader.nextInt();
+        String name=lineReader.next();
+        level3Scores.put(inp,name);
         }
-    }
-    public static void loadLevel4HighScores() throws FileNotFoundException {
-        File leaderBoardPath = new File("resources/HighScoresLevel4.txt");
+        }
+
+/**
+ * Loads the level 4 highscores.
+ * @throws FileNotFoundException When high scores level 4 file not found.
+ */
+public static void loadLevel4HighScores()throws FileNotFoundException{
+        File leaderBoardPath=new File("resources/HighScoresLevel4.txt");
         Scanner in;
-        in = new Scanner(leaderBoardPath);
-        while (in.hasNextLine()) {
-            String currentLine = in.nextLine();
-            Scanner lineReader = new Scanner(currentLine);
-            int inp = lineReader.nextInt();
-            String name = lineReader.next();
-            level4Scores.put(inp, name);
+        in=new Scanner(leaderBoardPath);
+        while(in.hasNextLine()){
+        String currentLine=in.nextLine();
+        Scanner lineReader=new Scanner(currentLine);
+        int inp=lineReader.nextInt();
+        String name=lineReader.next();
+        level4Scores.put(inp,name);
         }
-    }
-
-        public void gameStatus () throws IOException {
-            int numberOfDeathRatItems = 0;
-            for (Item item : itemList) {
-                if (item instanceof DeathRatItem) {
-                    numberOfDeathRatItems++;
-                }
-            }
-            int totalNumOfRats = ratList.size() + numberOfDeathRatItems;
-            if (totalNumOfRats <= 0) {
-                levelCompleted = true;
-                tickTimeline.stop();
-                score += ticksExpected - tickCount;
-                levelEndScreen();
-
-            } else if (totalNumOfRats > maxPopulation) {
-                gameLost = true;
-                levelEndScreen();
-                tickTimeline.stop();
-            }
         }
 
-        public void drawLogin () throws IOException {
-            Parent loginRoot = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Login.fxml")));
-            Scene login = new Scene(loginRoot);
-
-            loginStage.setScene(login);
-            loginStage.show();
+/**
+ * Checks if you win or lose the game.
+ * @throws IOException When Load end screen is not found.
+ */
+public void gameStatus()throws IOException{
+        int numberOfDeathRatItems=0;
+        for(Item item:itemList){
+        if(item instanceof DeathRatItem){
+        numberOfDeathRatItems++;
+        }
         }
 
+        int totalNumOfRats=ratList.size()+numberOfDeathRatItems;
+        if(totalNumOfRats<=0){
+        levelCompleted=true;
+        tickTimeline.stop();
+        score+=ticksExpected-tickCount;
+        levelEndScreen();
 
-    }
+        }else if(totalNumOfRats>maxPopulation){
+        gameLost=true;
+        levelEndScreen();
+        tickTimeline.stop();
+        }
+        }
+
+/**
+ * Draw login screen.
+ * @throws IOException When login screen not found.
+ */
+public void drawLogin()throws IOException{
+        Parent loginRoot=FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Login.fxml")));
+        Scene login=new Scene(loginRoot);
+
+        loginStage.setScene(login);
+        loginStage.show();
+        }
+        
+
+}
