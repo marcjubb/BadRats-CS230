@@ -13,11 +13,6 @@
 <?import javafx.scene.image.Image?>
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.202" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MenuController">
    <children>
-      <ImageView fitHeight="406.0" fitWidth="607.0" layoutX="-2.0" layoutY="-2.0" pickOnBounds="true">
-         <image>
-            <Image url="/resources/Images/Background/alex.jpg" />
-         </image>
-      </ImageView>
       <Text layoutX="14.0" layoutY="63.0" smooth="false" strokeType="OUTSIDE" strokeWidth="3.0" text="Bad Rats" wrappingWidth="437.640625">
          <font>
             <Font name="Goudy Old Style Italic" size="55.0" />

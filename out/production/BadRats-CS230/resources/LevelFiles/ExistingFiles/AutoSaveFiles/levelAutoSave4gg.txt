@@ -1,0 +1,16 @@
+12, 7
+GGGGGGGGGGGG
+GPPPTTPPPTTG
+GGGPTTGGPGGG
+GPPPTTPPPGGG
+GPGGTTGGPGGG
+GPPPPPPPPTTG
+GGGGGGGGGGGG
+
+
+90
+0
+PlayableRat, 1, 1, 0, EAST, FEMALE, false, false, 0, false;PlayableRat, 6, 5, 0, EAST, MALE, false, false, 0, false;PlayableRat, 10, 5, 0, WEST, MALE, false, false, 0, false;PlayableRat, 9, 1, 0, NORTH, FEMALE, false, false, 0, false;PlayableRat, 1, 4, 0, SOUTH, FEMALE, false, false, 0, false;PlayableRat, 8, 4, 0, NORTH, MALE, false, false, 0, false;
+
+30
+12
