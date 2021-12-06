@@ -90,6 +90,7 @@ public class Level extends Application {
             {'G', 'P', 'G', 'G', 'T', 'G', 'P', 'G', 'P', 'G', 'P', 'G'},
             {'G', 'P', 'P', 'P', 'P', 'P', 'P', 'P', 'P', 'P', 'P', 'G'},
             {'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G', 'G'}};
+
     private Canvas canvasCounters;
     private Timeline tickTimeline;
     private boolean levelCompleted = false;
@@ -315,12 +316,19 @@ public class Level extends Application {
     }*/
 
     public static void saveGame() {
-        File outputFile = new File("level" + currentLevel + ".txt");
+        String filename = "resources/LevelFiles/ExistingFiles/level" + currentLevel + PlayerProfiles.getCurrentUserName()+".txt";
+        File outputFile = null;
         try {
-            outputFile.createNewFile();
+            outputFile = new File(filename);
+            if(outputFile.createNewFile()){
+                System.out.println("File created");
+            } else {
+                System.out.println("File already exists");
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         PrintWriter out = null;
         try {
             out = new PrintWriter(outputFile);
@@ -355,6 +363,7 @@ public class Level extends Application {
         out.close();
     }
     public static void loadExisting(){
+        GraphicsContext gc = canvas.getGraphicsContext2D();
         String filename = "level1.txt";
         File inputFile = new File(filename);
         Scanner in = null;
@@ -480,7 +489,7 @@ public class Level extends Application {
     }
     public static void loadNew(int currentLevel){
         GraphicsContext gc = canvas.getGraphicsContext2D();
-        String filename = "resources/LevelFiles/map0"+currentLevel+"new.txt";
+        String filename = "resources/LevelFiles/map0"+currentLevel+ ".txt";
         File inputFile = new File(filename);
         Scanner in = null;
         try{
@@ -629,8 +638,6 @@ public class Level extends Application {
         secondaryStage.setScene(scene);
         secondaryStage.show();
         loadNew(1);
-        //loadExisting();
-        //loadLevelFile(1);
     }
 
     public static void loadLevel2() throws FileNotFoundException {
@@ -639,7 +646,7 @@ public class Level extends Application {
         Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
         secondaryStage.setScene(scene);
         secondaryStage.show();
-        loadLevelFile(2);
+        loadLevelFile(4);
     }
 
     public static void loadLevel3() throws FileNotFoundException {
@@ -870,15 +877,13 @@ public class Level extends Application {
         root.setTop(toolbar);
 
 
-        //Button to load the level
-        Button btnLoadLevel = new Button("Load Level");
         //Button to save the layout running
         Button btnSaveLevel = new Button("Save Level");
         // Tick Timeline buttons
         Button startTickTimelineButton = new Button("Start Ticks");
         Button stopTickTimelineButton = new Button("StopTicks");
         // We add both buttons at the same time to the timeline (we could have done this in two steps).
-        toolbar.getChildren().addAll(startTickTimelineButton, stopTickTimelineButton, btnLoadLevel, btnSaveLevel);
+        toolbar.getChildren().addAll(startTickTimelineButton, stopTickTimelineButton, btnSaveLevel);
         // Stop button is disabled by default
         stopTickTimelineButton.setDisable(true);
 
@@ -1115,6 +1120,8 @@ public class Level extends Application {
         for (Rat rat : ratList) {
             rat.setImageDirection();
         }
+
+
 
 
         grass = new Image("/resources/Images/Tiles/Grass.png");
