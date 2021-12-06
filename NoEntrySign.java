@@ -6,6 +6,12 @@ import javafx.scene.image.Image;
  * @author Michael Pokorski
  */
 public class NoEntrySign extends Item {
+    private final int NO_ENTRY_SIGN_HEALTH = 5;
+    private final int DESTROY_SIGN = 0;
+    private final int SIGN_DURABILITY_FIVE = 5;
+    private final int SIGN_DURABILITY_FOUR = 4;
+    private final int SIGN_DURABILITY_THREE = 3;
+    private final int SIGN_DURABILITY_TWO = 2;
     private int durability;
 
     /**
@@ -14,8 +20,8 @@ public class NoEntrySign extends Item {
      * @param y The y coordinate.
      */
     public NoEntrySign(int x, int y) {
-        super(x, y, "NoEntrySign", "/resources/Images/Items/NoEntry.png");
-        durability = 5;
+        super (x, y, "NoEntrySign", "/resources/Images/Items/NoEntry.png");
+        durability = NO_ENTRY_SIGN_HEALTH;
     }
 
     /**
@@ -25,7 +31,7 @@ public class NoEntrySign extends Item {
      * @param durability The durability value.
      */
     public NoEntrySign(int x, int y, int durability) {
-        super(x, y, "NoEntrySign", "/resources/Images/Items/NoEntry.png");
+        super (x, y, "NoEntrySign", "/resources/Images/Items/NoEntry.png");
         this.durability = durability;
     }
 
@@ -34,8 +40,7 @@ public class NoEntrySign extends Item {
      */
     public void damage() {
         durability--;
-        if (durability <= 0) {
-            System.out.println("here");
+        if (durability <= DESTROY_SIGN) {
             destroySelf();
         }
     }
@@ -45,17 +50,22 @@ public class NoEntrySign extends Item {
      * @param gc The GraphicsContext in which we will draw on
      */
     public void draw(GraphicsContext gc) {
-        if (durability == 5) {
-            gc.drawImage(new Image("/resources/Images/Items/NoEntry.png"), x * tileSize, y * tileSize);
-        }else if (durability == 4) {
-           gc.drawImage(new Image("/resources/Images/Items/NoEntry4.png"), x * tileSize, y * tileSize);
-       }else if (durability == 3) {
-           gc.drawImage(new Image("/resources/Images/Items/NoEntry3.png"), x * tileSize, y * tileSize);
-       }else if (durability == 2) {
-           gc.drawImage(new Image("/resources/Images/Items/NoEntry2.png"), x * tileSize, y * tileSize);
-       }else {
-           gc.drawImage(new Image("/resources/Images/Items/NoEntry1.png"), x * tileSize, y * tileSize);
-       }
+        if (durability == SIGN_DURABILITY_FIVE) {
+            gc.drawImage(new Image("/resources/Images/Items/NoEntry.png"),
+                    x * tileSize, y * tileSize);
+        } else if (durability == SIGN_DURABILITY_FOUR) {
+           gc.drawImage(new Image("/resources/Images/Items/NoEntry4.png"),
+                   x * tileSize, y * tileSize);
+        } else if (durability == SIGN_DURABILITY_THREE) {
+           gc.drawImage(new Image("/resources/Images/Items/NoEntry3.png"),
+                   x * tileSize, y * tileSize);
+        } else if (durability == SIGN_DURABILITY_TWO) {
+           gc.drawImage(new Image("/resources/Images/Items/NoEntry2.png"),
+                   x * tileSize, y * tileSize);
+        } else {
+           gc.drawImage(new Image("/resources/Images/Items/NoEntry1.png"),
+                   x * tileSize, y * tileSize);
+        }
     }
 
     /**
@@ -63,7 +73,8 @@ public class NoEntrySign extends Item {
      * @return the sign's data.
      */
     @Override
-    public String toString(){
+    public String toString() {
         return super.toString() + ", " + durability;
     }
+
 }

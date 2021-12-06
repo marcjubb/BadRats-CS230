@@ -2,37 +2,21 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
 /**
- * An object that is visible to the user during runtime.
- *
+ * This class represents a visible object that can contain a coordinate pair (x,y).
  * @author Michael Pokorski
  */
 public abstract class VisibleObject {
-    /**
-     * The Tile size.
-     */
+
     final int tileSize = Level.getGridCellHeight();
-    /**
-     * The Img.
-     */
     Image img;
-    /**
-     * The Destroyed.
-     */
     boolean destroyed = false;
-    /**
-     * The X.
-     */
     protected int x = 0;
-    /**
-     * The Y.
-     */
     protected int y = 0;
 
     /**
      * Instantiates a new Visible object.
-     *
-     * @param x the x
-     * @param y the y
+     * @param x The x coordinate.
+     * @param y The y coordinate.
      */
     public VisibleObject(int x, int y) {
 
@@ -45,54 +29,48 @@ public abstract class VisibleObject {
     }
 
     /**
-     * Gets x.
-     *
-     * @return the x
+     * Gets the x component.
+     * @return the x coordinate.
      */
     public int getX() {
         return x;
     }
 
     /**
-     * Gets y.
-     *
-     * @return the y
+     * Gets the y component.
+     * @return The y coordinate.
      */
     public int getY() {
         return y;
     }
 
     /**
-     * Sets x.
-     *
-     * @param x the x
+     * Sets the x component.
+     * @param x THe new x coordinate.
      */
     public void setX(int x) {
         this.x = x;
     }
 
     /**
-     * Sets y.
-     *
-     * @param y the y
+     * Sets the y component.
+     * @param y The new y coordinate.
      */
     public void setY(int y) {
         this.y = y;
     }
 
     /**
-     * Gets img.
-     *
-     * @return the img
+     * Gets the image
+     * @return The image.
      */
     public Image getImg() {
         return img;
     }
 
     /**
-     * Sets img.
-     *
-     * @param img the img
+     * Sets the image.
+     * @param img The new image.
      */
     public void setImg(Image img) {
         this.img = img;
@@ -100,8 +78,7 @@ public abstract class VisibleObject {
 
     /**
      * Sets destroyed.
-     *
-     * @param destroyed the destroyed
+     * @param destroyed The new destroyed value.
      */
     public void setDestroyed(boolean destroyed) {
         this.destroyed = destroyed;
@@ -115,18 +92,16 @@ public abstract class VisibleObject {
     }
 
     /**
-     * Draw.
-     *
-     * @param gc the gc
+     * Draw the visual object.
+     * @param gc The GraphicsContext in which we will draw on.
      */
     public void draw(GraphicsContext gc) {
         gc.drawImage(img, x * tileSize, y * tileSize);
     }
 
     /**
-     * Is destroyed boolean.
-     *
-     * @return the boolean
+     * Checks visual Object is/is not destroyed.
+     * @return True if destroyed, else false.
      */
     public boolean isDestroyed() {
         return destroyed;

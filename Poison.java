@@ -1,13 +1,8 @@
-import javafx.scene.image.Image;
-
 /**
- * Kills a rat
+ * This class represents the poison item which can kill Rats.
  * @author Marc Jubb
  */
-
-
 public class Poison extends Item {
-
 
     /**
      * Create Poison at a specified coordinate.
@@ -15,7 +10,7 @@ public class Poison extends Item {
      * @param y The y coordinate.
      */
     public Poison(int x, int y) {
-        super(x, y, "Poison", "/resources/Images/Items/Poison.png");
+        super (x, y, "Poison", "/resources/Images/Items/Poison.png");
 
     }
 }

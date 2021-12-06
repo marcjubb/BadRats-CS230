@@ -1,6 +1,4 @@
-import java.io.Console;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.Scanner;
 import java.net.URL;
 
@@ -15,6 +13,7 @@ public class MessageOfDay {
 
     /**
      * Retrieves the Messgae of Day
+     *
      * @return Message of the Day
      */
     public static String getMessage() {
@@ -26,10 +25,16 @@ public class MessageOfDay {
 
     /**
 
+
      * Sets the message of the day
 
      * Returns message of the day as string
      *
+     * Sets the message of the day
+     * =======
+     * Returns message of the day as string
+     * <p>
+
 
      */
     private static void generateMessage() {
@@ -39,10 +44,11 @@ public class MessageOfDay {
             String temp = in.next();
             in.close();
 
-            URL urli = new URL("http://cswebcat.swansea.ac.uk/message?solution=" + solve(temp));
+            URL urli = new URL("http://cswebcat.swansea.ac.uk/message?solution="
+                    + solve(temp));
             Scanner inurl = new Scanner(urli.openStream());
             message = "";
-            while (inurl.hasNext()){
+            while (inurl.hasNext()) {
                 message += inurl.next() + " ";
             }
         } catch (IOException e) {
@@ -53,6 +59,7 @@ public class MessageOfDay {
 
     /**
      * Solves the puzzle
+     *
      * @param text The encrypted text
      * @return Decrypted text
      */
@@ -60,47 +67,65 @@ public class MessageOfDay {
         text = decrypt(text.toUpperCase());
         text = text + "CS-230";
         text = text.length() + text;
-        return  text;
+        return text;
     }
 
     /**
      * The start of the decryption task
-     * @param text The encrypted text
+     *
+     * @param text
      * @return Decrypted text
      */
-    private static String decrypt(String text){
+
+
+    private static String decrypt(String text) {
         StringBuilder s = new StringBuilder();
         int len = text.length();
-       for (int n = 0; n < len; n++){
-           s.append(shiftChar(text.charAt(n), n));
-       }
+        for (int n = 0; n < len; n++) {
+            s.append(shiftChar(text.charAt(n), n));
+        }
         return s.toString();
     }
 
     /**
      * Decrypts a character
      * @param charToShift The character to decrypt
-     * @param shiftN The number to shift the character by
+     * @param shiftN      The number to shift the character by
      * @return Decrypted character
      */
-    private static char shiftChar(char charToShift, int shiftN){
+    private static char shiftChar(char charToShift, int shiftN) {
         char temp;
-        if (shiftN % 2 == 1 ){
+        if (shiftN % 2 == 1) {
             temp = (char) (charToShift + (shiftN + 1));
             if (temp > 'Z') {
-                charToShift = (char) (charToShift - (NUM_OF_CHARACTERS - (shiftN + 1)));
-            }else{
+                charToShift = (char) (charToShift - (26 - (shiftN + 1)));
+            } else {
                 return temp;
             }
-        }else {
+        } else {
             temp = (char) (charToShift - (shiftN + 1));
             if (temp < 'A') {
-                charToShift = (char) (charToShift + (NUM_OF_CHARACTERS - shiftN - 1));
-            }else{
-                return temp;
+                charToShift = (char) (charToShift + (26 - shiftN - 1));
+            } else {
+                if (shiftN % 2 == 1) {
+                    temp = (char) (charToShift + (shiftN + 1));
+                    if (temp > 'Z') {
+                        charToShift = (char) (charToShift - (NUM_OF_CHARACTERS - (shiftN + 1)));
+                    } else {
+                        return temp;
+                    }
+                } else {
+                    temp = (char) (charToShift - (shiftN + 1));
+                    if (temp < 'A') {
+                        charToShift = (char) (charToShift + (NUM_OF_CHARACTERS - shiftN - 1));
+                    } else {
+                        return temp;
+                    }
+                }
+                return charToShift;
             }
+
         }
         return charToShift;
     }
-
 }

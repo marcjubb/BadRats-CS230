@@ -1,5 +1,4 @@
 import java.util.Random;
-//Might be useful
 
 /**
  * This class represents the items the player has in their inventory.
@@ -146,9 +145,12 @@ public class Inventory {
      */
     public void addItem() {
         boolean itemAdded = false;
-        if (numOfBombItems == MAX_OF_ITEM && numOfMaleSexChangeItems == MAX_OF_ITEM && numOfFemaleSexChangeItems == MAX_OF_ITEM
-                && numOfGasItems == MAX_OF_ITEM && numOfPoisonItems == MAX_OF_ITEM && numOfSterilisationItems == MAX_OF_ITEM &&
-                numOfDeathRatItems == MAX_OF_ITEM && numOfNoEntrySignItems == MAX_OF_ITEM) {
+        if (numOfBombItems == MAX_OF_ITEM && numOfMaleSexChangeItems ==
+                MAX_OF_ITEM && numOfFemaleSexChangeItems == MAX_OF_ITEM
+                && numOfGasItems == MAX_OF_ITEM && numOfPoisonItems ==
+                MAX_OF_ITEM && numOfSterilisationItems == MAX_OF_ITEM &&
+                numOfDeathRatItems == MAX_OF_ITEM &&
+                numOfNoEntrySignItems == MAX_OF_ITEM) {
             itemAdded = true;
         }
         do {

@@ -8,8 +8,8 @@ import java.util.Random;
  */
 public class PlayableRat extends Rat {
     public enum Sex {MALE, FEMALE}
-    static final private int PREGNANCY_DURATION = 9;
-
+    private static final int PREGNANCY_DURATION = 9;
+    private static final int RAT_BECOMES_ADULT_TICK = 4;
     private Sex sex;
     private boolean isAdult;
     private boolean isPregnant;
@@ -18,7 +18,7 @@ public class PlayableRat extends Rat {
 
     //3 constructors 1 for new babies at start of game, 1 for new babies after given birth and the other for existed loaded in rats
 
-    //this constructor may need to go
+
     public PlayableRat() {
         super.speed = BABY_SPEED;
         sex = pickSex();
@@ -34,7 +34,7 @@ public class PlayableRat extends Rat {
 
 
     /**
-     *
+     * Create a Playable Rat at the x,y coordinate.
      * @param x The x coordinate the rat will first be on the board.
      * @param y The y coordinate the rat will first be on the board.
      */
@@ -63,7 +63,8 @@ public class PlayableRat extends Rat {
      * @param pregnantTick The number of ticks the rat has been pregnant (if not then 0).
      * @param isSterile Whether or not the rat is sterile.
      */
-    public PlayableRat(int x, int y, boolean isAdult, boolean isPregnant, Sex sex, int ticksSinceCreation, Direction direction, int pregnantTick, boolean isSterile) {
+    public PlayableRat(int x, int y, boolean isAdult, boolean isPregnant, Sex sex, int ticksSinceCreation,
+                       Direction direction, int pregnantTick, boolean isSterile) {
         super.x = x;
         super.y = y;
         this.isAdult = isAdult;
@@ -113,7 +114,7 @@ public class PlayableRat extends Rat {
      */
 
     public void incrementTick() {
-        if (super.ticksSinceCreation > 4) {
+        if (super.ticksSinceCreation > RAT_BECOMES_ADULT_TICK) {
             becomeAdult();
         }
         super.ticksSinceCreation++;
@@ -177,7 +178,7 @@ public class PlayableRat extends Rat {
     }
 
     /**
-     * Changes the rat to the opposite that it currently is.
+     * Changes the rat to the opposite Sex.
      */
     public void changeSex() {
         if (sex == Sex.MALE) {
@@ -205,12 +206,15 @@ public class PlayableRat extends Rat {
     }
 
 //not commenting this one because I don't think it is needed.
-    private int[] generateRandomXY() {
+    public int[] generateRandomXY() {
         boolean correct = false;
-        int[] xy = {(new Random().nextInt(Level.getGridWidth() - 1)), (new Random().nextInt(Level.getGridHeight() - 1))};
+        int[] xy = {(new Random().nextInt(Level.getGridWidth() - 1)),
+                (new Random().nextInt(Level.getGridHeight() - 1))};
         do {
-            if (Level.getLevelLayout()[xy[1]][xy[0]] == 'G' || Level.getLevelLayout()[xy[1]][xy[0]] == 'T') {
-                xy = new int[]{(new Random().nextInt(Level.getGridWidth() - 1)), (new Random().nextInt(Level.getGridHeight() - 1))};
+            if (Level.getLevelLayout()[xy[1]][xy[0]] == 'G' ||
+                    Level.getLevelLayout()[xy[1]][xy[0]] == 'T') {
+                xy = new int[]{(new Random().nextInt(Level.getGridWidth() - 1)),
+                        (new Random().nextInt(Level.getGridHeight() - 1))};
             } else {
                 correct = true;
             }
@@ -223,7 +227,10 @@ public class PlayableRat extends Rat {
      */
     public void checkCollisions() {
         for (Rat rat : Level.getRatList()) {
-            if (rat instanceof PlayableRat && rat.getX() == x && rat.getY() == y && sex != ((PlayableRat) rat).getSex() && isAdult && !isPregnant && !this.isSterile && !((PlayableRat) rat).isSterile()) {
+            if (rat instanceof PlayableRat && rat.getX() == x && rat.getY() == y
+                    && sex != ((PlayableRat) rat).getSex() && isAdult
+                    && !isPregnant && !this.isSterile
+                    && !((PlayableRat) rat).isSterile()) {
                 if (this.sex == Sex.FEMALE) {
                     isPregnant = true;
                 }
@@ -237,7 +244,6 @@ public class PlayableRat extends Rat {
                     item.destroySelf();
                 } else if (item instanceof MaleSexChange && this.sex == Sex.MALE) {
                         item.destroySelf();
-
                 } else if (item instanceof FemaleSexChange && this.sex == Sex.MALE) {
                     changeSex();
                     item.destroySelf();
@@ -258,7 +264,7 @@ public class PlayableRat extends Rat {
     }
 
     /**
-     * Checks whether a pregnant rat has been pregnant long enough to give birth and gives birth if necessary.
+     * Rat gives birth after set duration.
      */
     public void checkPregnancy() {
         if (pregnantTick == PREGNANCY_DURATION) {
@@ -268,16 +274,16 @@ public class PlayableRat extends Rat {
         }
     }
 
-
-
     /**
      * Returns some data from the class in a neatly organised way.
      * @return The attributes stored in the class as well as in Rat.
      */
     @Override
     public String toString() {
-        String returnString = ", " + sex.toString() + ", " + isAdult + ", " + isPregnant + ", " + pregnantTick + ", " + isSterile;
+        String returnString = ", " + sex.toString() + ", " + isAdult + ", " +
+                isPregnant + ", " + pregnantTick;
         returnString = "PlayableRat, " + super.toString() + returnString;
         return returnString;
     }
+
 }
