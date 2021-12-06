@@ -372,17 +372,23 @@ public class Level extends Application {
         gridWidth = Integer.parseInt(widthAndHeight[0]);
         gridHeight = Integer.parseInt(widthAndHeight[1]);
         ArrayList<ArrayList<Character>> fileLevelLayout = new ArrayList<>();
-        ArrayList<Character> chars = new ArrayList<Character>();
-        while (!in.nextLine().equals("")) {
-            for (char c : in.nextLine().toCharArray()) {
-                chars.add(c);
+        for (int i = 0; i <= gridHeight-1; i++) {
+            ArrayList<Character> chars = new ArrayList<>();
+            line = in.nextLine();
+            for (char ch: line.toCharArray()) {
+                chars.add(ch);
             }
             fileLevelLayout.add(chars);
+
         }
         levelLayout = fileLevelLayout.stream().map(u -> u.toArray(new Character[0])).toArray(Character[][]::new);
         System.out.println(Arrays.deepToString(fileLevelLayout.stream().map(u -> u.toArray(new Character[0])).toArray(Character[][]::new)));
-        in.nextLine();
-        in.nextLine();
+        System.out.println(in.nextLine());
+        System.out.println(in.nextLine());
+        ticksExpected = Integer.parseInt(in.nextLine());
+        tickCount = Integer.parseInt(in.nextLine());
+        System.out.println(ticksExpected);
+        System.out.println(tickCount);
         line = in.nextLine();
         Scanner lineReader = new Scanner(line);
         lineReader.useDelimiter(";");
@@ -398,7 +404,7 @@ public class Level extends Application {
                 boolean isPregnant = Boolean.parseBoolean(ratData[7]);
                 int pregnantTick = Integer.parseInt(ratData[8]);
                 boolean isSterile = Boolean.parseBoolean(ratData[9]);
-                //ratList.add(new PlayableRat(x, y, isAdult, isPregnant, sex, ticksSinceCreation, direction, pregnantTick, isSterile));
+                ratList.add(new PlayableRat(x, y, isAdult, isPregnant, sex, ticksSinceCreation, direction, pregnantTick, isSterile));
                 Rat rat = new PlayableRat(x, y, isAdult, isPregnant, sex, ticksSinceCreation, direction, pregnantTick, isSterile);
                 System.out.println(rat.toString());
             } else if (ratData[0].equals("DeathRat")) {
@@ -422,13 +428,13 @@ public class Level extends Application {
                 int x = Integer.parseInt(itemData[1]);
                 int y = Integer.parseInt(itemData[2]);
                 int timer = Integer.parseInt(itemData[3]);
-                //itemList.add(new Bomb(x,y,timer));
+                itemList.add(new Bomb(x,y,timer));
                 //System.out.println((new Bomb(x,y,timer)).toString());
             } else if(itemData[0].equals("Sterilisation")){
                 int x = Integer.parseInt(itemData[1]);
                 int y = Integer.parseInt(itemData[2]);
                 int timer = Integer.parseInt(itemData[3]);
-                //itemList.add(new Sterilisation(x,y,timer));
+                itemList.add(new Sterilisation(x,y,timer));
                 System.out.println((new Sterilisation(x,y,timer)).toString());
             } else if (itemData[0].equals("DeathRatItem")){
                 int x = Integer.parseInt(itemData[1]);
@@ -440,40 +446,42 @@ public class Level extends Application {
             } else if (itemData[0].equals("Poison")){
                 int x = Integer.parseInt(itemData[1]);
                 int y = Integer.parseInt(itemData[2]);
-                //itemList.add(new Poison(x, y));
+                itemList.add(new Poison(x, y));
                 System.out.println(new Poison(x, y).toString());
             } else if (itemData[0].equals("FemaleSexChange")){
                 int x = Integer.parseInt(itemData[1]);
                 int y = Integer.parseInt(itemData[2]);
-                //itemList.add(new FemaleSexChange(x, y));
+                itemList.add(new FemaleSexChange(x, y));
                 System.out.println(new FemaleSexChange(x, y).toString());
             } else if (itemData[0].equals("MaleSexChange")){
                 int x = Integer.parseInt(itemData[1]);
                 int y = Integer.parseInt(itemData[2]);
-                //itemList.add(new MaleSexChange(x, y));
+                itemList.add(new MaleSexChange(x, y));
                 System.out.println(new MaleSexChange(x, y).toString());
             } else if (itemData[0].equals("Gas")){
                 int x = Integer.parseInt(itemData[1]);
                 int y = Integer.parseInt(itemData[2]);
                 int timer = Integer.parseInt(itemData[3]);
                 boolean isDissipating = Boolean.parseBoolean(itemData[4]);
-                //itemList.add(new Gas(x, y, timer, isDissipating));
+                itemList.add(new Gas(x, y, timer, isDissipating));
                 System.out.println(new Gas(x, y, timer, isDissipating).toString());
             } else if (itemData[0].equals("NoEntrySign")){
                 int x = Integer.parseInt(itemData[1]);
                 int y = Integer.parseInt(itemData[2]);
                 int durability = Integer.parseInt(itemData[3]);
-                //itemList.add(new Gas(x, y, durability));
+                itemList.add(new NoEntrySign(x, y, durability));
                 System.out.println(new NoEntrySign(x, y, durability));
             }
 
         }
         frequencyOfNewItem = Integer.parseInt(in.nextLine());
         maxPopulation = Integer.parseInt(in.nextLine());
+        System.out.println(frequencyOfNewItem);
+        System.out.println(maxPopulation);
     }
     public static void loadNew(int currentLevel){
         GraphicsContext gc = canvas.getGraphicsContext2D();
-        String filename = "resources/LevelFiles/map01new.txt";
+        String filename = "resources/LevelFiles/map0"+currentLevel+"new.txt";
         File inputFile = new File(filename);
         Scanner in = null;
         try{
@@ -622,6 +630,7 @@ public class Level extends Application {
         secondaryStage.setScene(scene);
         secondaryStage.show();
         loadNew(1);
+        //loadExisting();
     }
 
     public static void loadLevel2() throws FileNotFoundException {
@@ -1099,10 +1108,10 @@ public class Level extends Application {
         primaryStage.setTitle("Bad Rats");
 
         tickCount = 0;
-        for (int i = 0; i < 0; i++) {
-            ratList.add(new PlayableRat());
-        }
-        computeNumOfSex();
+//        for (int i = 0; i < 0; i++) {
+//            ratList.add(new PlayableRat());
+//        }
+        //computeNumOfSex();
         for (Rat rat : ratList) {
             rat.setImageDirection();
         }
