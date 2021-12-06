@@ -5,8 +5,9 @@
  */
 public class PlayerProfile {
 
+    private  int maxLevelCompleted;
     private String userName;
-    private int maxLevelCompleted;
+
 
     /**
      * Create player profile with a username
@@ -23,8 +24,8 @@ public class PlayerProfile {
      * @param maxLevelCompleted The max Level achieved.
      */
     public PlayerProfile(String userName, int maxLevelCompleted) {
-        setUserName(userName);
-        setMaxLevelCompleted(maxLevelCompleted);
+        this.userName = userName;
+        this.maxLevelCompleted = maxLevelCompleted;
     }
 
     /**
@@ -55,9 +56,6 @@ public class PlayerProfile {
      * Sets max level completed
      * @param maxLevelCompleted The new max level achieved.
      */
-    public void setMaxLevelCompleted(int maxLevelCompleted) {
-        this.maxLevelCompleted = maxLevelCompleted;
-    }
 
     /**
      * Get the Username of player.
@@ -66,6 +64,7 @@ public class PlayerProfile {
     public String getUserName() {
         return userName;
     }
+
 
     /**
      * Get the max Level achieved.
