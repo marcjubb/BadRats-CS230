@@ -59,7 +59,6 @@ public class MessageOfDay {
 
     /**
      * Solves the puzzle
-     *
      * @param text The encrypted text
      * @return Decrypted text
      */
@@ -72,7 +71,6 @@ public class MessageOfDay {
 
     /**
      * The start of the decryption task
-     *
      * @param text
      * @return Decrypted text
      */
@@ -98,14 +96,14 @@ public class MessageOfDay {
         if (shiftN % 2 == 1) {
             temp = (char) (charToShift + (shiftN + 1));
             if (temp > 'Z') {
-                charToShift = (char) (charToShift - (26 - (shiftN + 1)));
+                charToShift = (char) (charToShift - (NUM_OF_CHARACTERS - (shiftN + 1)));
             } else {
                 return temp;
             }
         } else {
             temp = (char) (charToShift - (shiftN + 1));
             if (temp < 'A') {
-                charToShift = (char) (charToShift + (26 - shiftN - 1));
+                charToShift = (char) (charToShift + (NUM_OF_CHARACTERS - shiftN - 1));
             } else {
                 if (shiftN % 2 == 1) {
                     temp = (char) (charToShift + (shiftN + 1));
@@ -122,7 +120,6 @@ public class MessageOfDay {
                         return temp;
                     }
                 }
-                return charToShift;
             }
 
         }

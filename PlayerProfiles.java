@@ -6,6 +6,7 @@ import java.io.File;
 /**
  * Class deals with manipulation of player profiles data (e.g. Save)
  * that exist in the game.
+ *
  * @author ryanwake
  * @author Marc Jubb
  * @version 2.0
@@ -18,6 +19,7 @@ public class PlayerProfiles {
     private static int currentHighestLevel;
     private static String currentUserName;
     private static int currentUserIndex;
+
 
 
 
@@ -75,6 +77,7 @@ public class PlayerProfiles {
      */
 
 
+
     public static boolean exists(String username){
 
         for(PlayerProfile p : PlayerProfiles.profiles){
@@ -92,10 +95,11 @@ public class PlayerProfiles {
      * Creates a new player profile.
      * @param username The username of the new profile.
      * @throws UsernameAlreadyExistsException If username exists then throw UsernameAlreadyExistsException exception.
+     * @throws IOException when file cant be read, throw IOException.
      */
     public static void createProfile(String username) throws UsernameAlreadyExistsException, IOException {
         if (PlayerProfiles.exists(username)) {
-           throw new UsernameAlreadyExistsException(username);
+            throw new UsernameAlreadyExistsException(username);
         } else {
             PlayerProfile p = new PlayerProfile(username);
             PlayerProfiles.profiles.add(p);
@@ -117,8 +121,9 @@ public class PlayerProfiles {
         } catch (FileNotFoundException e) {
             System.out.println("Error reading from file at " + PROFILE_PATH);
         }
-       load(in);
+        load(in);
     }
+
     /**
      * Read all profiles in File into the List.
      * @param in read in each token.
@@ -146,7 +151,7 @@ public class PlayerProfiles {
             int maxLevelCompleted = in.nextInt();
             newProfile = new PlayerProfile(username, maxLevelCompleted);
 
-        } catch(Exception e) {
+        } catch (Exception e) {
             System.out.println("Unable to Read file");
         }
         in.close();
@@ -168,7 +173,7 @@ public class PlayerProfiles {
                 }else {
                     writer.write(profiles.get(i).toString() + "\n");
                 }
-
+                
             }
 
         } catch (Exception e) {
@@ -177,8 +182,5 @@ public class PlayerProfiles {
         assert writer != null;
         writer.close();
     }
+
 }
-
-
-
-
